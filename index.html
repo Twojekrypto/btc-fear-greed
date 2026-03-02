@@ -252,6 +252,97 @@
             flex-shrink: 0;
         }
 
+        /* F&G Range Slider */
+        .fng-slider-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            width: 100%;
+            max-width: 420px;
+        }
+
+        .fng-slider-label {
+            font-size: 11px;
+            color: #6b7280;
+            font-weight: 500;
+            white-space: nowrap;
+        }
+
+        .fng-slider-value {
+            font-size: 12px;
+            font-weight: 600;
+            color: #e0e4f0;
+            min-width: 28px;
+            text-align: center;
+        }
+
+        .fng-slider-track-wrapper {
+            position: relative;
+            flex: 1;
+            height: 28px;
+            display: flex;
+            align-items: center;
+        }
+
+        .fng-slider-track {
+            position: absolute;
+            width: 100%;
+            height: 6px;
+            border-radius: 3px;
+            background: linear-gradient(to right, #00e676 0%, #66ff99 25%, #ffeb3b 50%, #ff9800 75%, #ff1744 100%);
+            opacity: 0.4;
+        }
+
+        .fng-slider-track-active {
+            position: absolute;
+            height: 6px;
+            border-radius: 3px;
+            background: linear-gradient(to right, #00e676 0%, #66ff99 25%, #ffeb3b 50%, #ff9800 75%, #ff1744 100%);
+            opacity: 1;
+        }
+
+        .fng-slider-track-wrapper input[type="range"] {
+            -webkit-appearance: none;
+            appearance: none;
+            position: absolute;
+            width: 100%;
+            height: 28px;
+            background: transparent;
+            pointer-events: none;
+            margin: 0;
+            z-index: 2;
+        }
+
+        .fng-slider-track-wrapper input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: #e0e4f0;
+            border: 2px solid #6366f1;
+            cursor: pointer;
+            pointer-events: all;
+            box-shadow: 0 0 6px rgba(99, 102, 241, 0.5);
+            transition: transform 0.15s ease, box-shadow 0.15s ease;
+        }
+
+        .fng-slider-track-wrapper input[type="range"]::-webkit-slider-thumb:hover {
+            transform: scale(1.2);
+            box-shadow: 0 0 10px rgba(99, 102, 241, 0.7);
+        }
+
+        .fng-slider-track-wrapper input[type="range"]::-moz-range-thumb {
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: #e0e4f0;
+            border: 2px solid #6366f1;
+            cursor: pointer;
+            pointer-events: all;
+            box-shadow: 0 0 6px rgba(99, 102, 241, 0.5);
+        }
+
         .chart-wrapper {
             position: relative;
             height: 480px;
@@ -403,6 +494,17 @@
                     <button class="reset-zoom-btn" id="resetZoom">✕ Reset</button>
                 </div>
                 <div class="legend" id="legend"></div>
+                <div class="fng-slider-container">
+                    <span class="fng-slider-label">F&G Range:</span>
+                    <span class="fng-slider-value" id="fngMinVal">0</span>
+                    <div class="fng-slider-track-wrapper">
+                        <div class="fng-slider-track"></div>
+                        <div class="fng-slider-track-active" id="fngTrackActive"></div>
+                        <input type="range" id="fngMin" min="0" max="100" value="0">
+                        <input type="range" id="fngMax" min="0" max="100" value="100">
+                    </div>
+                    <span class="fng-slider-value" id="fngMaxVal">100</span>
+                </div>
             </div>
         </div>
 
@@ -444,6 +546,8 @@
             let currentRange = 365;
             let customFrom = null;  // Date object or null
             let customTo = null;    // Date object or null
+            let fngRangeMin = 0;    // F&G slider min
+            let fngRangeMax = 100;  // F&G slider max
             const visibility = {};
             SENTIMENTS.forEach(s => visibility[s.key] = true);
 
@@ -544,9 +648,11 @@
                 return SENTIMENTS.find(s => value >= s.min && value <= s.max) || SENTIMENTS[0];
             }
 
-            // Get color for a value, respecting visibility toggles
+            // Get color for a value, respecting visibility toggles + range slider
             function getColorForValue(fngValue) {
                 if (fngValue == null) return DIM_COLOR;
+                // Check if value is within slider range
+                if (fngValue < fngRangeMin || fngValue > fngRangeMax) return DIM_COLOR;
                 const sentiment = getSentiment(fngValue);
                 if (visibility[sentiment.key]) {
                     return sentiment.color;
@@ -594,6 +700,8 @@
                         const d = filtered[i];
                         if (d.fngValue == null || !d.sentiment) continue;
                         if (!visibility[d.sentiment.key]) continue;
+                        // Respect slider range
+                        if (d.fngValue < fngRangeMin || d.fngValue > fngRangeMax) continue;
 
                         const x = xScale.getPixelForValue(d.date.getTime());
                         const y = yScale.getPixelForValue(d.price);
@@ -1017,12 +1125,64 @@
                 });
             }
 
+            // ── F&G Range Slider ──
+            function setupFngSlider() {
+                const minInput = document.getElementById('fngMin');
+                const maxInput = document.getElementById('fngMax');
+                const minLabel = document.getElementById('fngMinVal');
+                const maxLabel = document.getElementById('fngMaxVal');
+                const activeTrack = document.getElementById('fngTrackActive');
+
+                function updateSlider() {
+                    let minVal = parseInt(minInput.value);
+                    let maxVal = parseInt(maxInput.value);
+
+                    // Enforce min <= max
+                    if (minVal > maxVal) {
+                        if (this === minInput) {
+                            maxInput.value = minVal;
+                            maxVal = minVal;
+                        } else {
+                            minInput.value = maxVal;
+                            minVal = maxVal;
+                        }
+                    }
+
+                    fngRangeMin = minVal;
+                    fngRangeMax = maxVal;
+
+                    minLabel.textContent = minVal;
+                    maxLabel.textContent = maxVal;
+
+                    // Update active track position
+                    const left = minVal + '%';
+                    const width = (maxVal - minVal) + '%';
+                    activeTrack.style.left = left;
+                    activeTrack.style.width = width;
+
+                    // Color the min/max labels based on sentiment
+                    const minSentiment = getSentiment(minVal);
+                    const maxSentiment = getSentiment(maxVal);
+                    minLabel.style.color = minSentiment.color;
+                    maxLabel.style.color = maxSentiment.color;
+
+                    updateChart();
+                }
+
+                minInput.addEventListener('input', updateSlider);
+                maxInput.addEventListener('input', updateSlider);
+
+                // Initialize track
+                updateSlider.call(minInput);
+            }
+
             // ── Init ──
             async function init() {
                 setupTimeSelector();
                 setupDatePickers();
                 buildLegend();
                 setupDragSelection();
+                setupFngSlider();
 
                 try {
                     updateLoadingText('Loading Fear & Greed data...');
