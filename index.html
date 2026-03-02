@@ -605,7 +605,7 @@
                         const color = d.sentiment.color;
 
                         // Outer soft glow (bloom)
-                        ctx.globalCompositeOperation = 'screen';
+                        ctx.globalCompositeOperation = 'source-over';
                         const outerGrad = ctx.createRadialGradient(x, y, 0, x, y, outerRadius);
                         outerGrad.addColorStop(0, color + '55'); // 33% center
                         outerGrad.addColorStop(0.4, color + '30'); // 19% mid
@@ -616,7 +616,7 @@
                         ctx.fill();
 
                         // Inner bright core
-                        ctx.globalCompositeOperation = 'lighter';
+                        ctx.globalCompositeOperation = 'source-over';
                         const innerGrad = ctx.createRadialGradient(x, y, 0, x, y, radius);
                         innerGrad.addColorStop(0, color + 'cc'); // 80% center
                         innerGrad.addColorStop(0.4, color + '73'); // 45% mid
