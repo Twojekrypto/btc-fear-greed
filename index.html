@@ -429,14 +429,14 @@
 
             // ── Sentiment config ──
             const SENTIMENTS = [
-                { key: 'extFear', label: 'Ext Fear', color: '#10b981', min: 0, max: 24 },
-                { key: 'fear', label: 'Fear', color: '#22c55e', min: 25, max: 44 },
-                { key: 'neutral', label: 'Neutral', color: '#eab308', min: 45, max: 55 },
-                { key: 'greed', label: 'Greed', color: '#f97316', min: 56, max: 74 },
-                { key: 'extGreed', label: 'Ext Greed', color: '#ef4444', min: 75, max: 100 },
+                { key: 'extFear', label: 'Ext Fear', color: '#00e676', min: 0, max: 24 },
+                { key: 'fear', label: 'Fear', color: '#66ff99', min: 25, max: 44 },
+                { key: 'neutral', label: 'Neutral', color: '#ffeb3b', min: 45, max: 55 },
+                { key: 'greed', label: 'Greed', color: '#ff9800', min: 56, max: 74 },
+                { key: 'extGreed', label: 'Ext Greed', color: '#ff1744', min: 75, max: 100 },
             ];
 
-            const DIM_COLOR = 'rgba(255, 255, 255, 0.5)';
+            const DIM_COLOR = 'rgba(255, 255, 255, 0.12)';
 
             // ── State ──
             let chart = null;
@@ -570,6 +570,49 @@
                 return data.filter(d => d.date >= cutoff);
             }
 
+            // ── Sentiment cloud plugin ──
+            const sentimentCloudPlugin = {
+                id: 'sentimentCloud',
+                beforeDatasetsDraw(chart) {
+                    const { ctx, chartArea, scales } = chart;
+                    if (!chartArea) return;
+                    const filtered = filterByRange(mergedData, currentRange);
+                    if (filtered.length < 2) return;
+
+                    const xScale = scales.x;
+                    const { top, bottom, height } = chartArea;
+
+                    ctx.save();
+                    ctx.globalCompositeOperation = 'source-over';
+
+                    for (let i = 0; i < filtered.length; i++) {
+                        const d = filtered[i];
+                        if (d.fngValue == null || !d.sentiment) continue;
+                        if (!visibility[d.sentiment.key]) continue;
+
+                        const x = xScale.getPixelForValue(d.date.getTime());
+
+                        // Width of each bar: distance to next point or fixed
+                        let barWidth;
+                        if (i < filtered.length - 1) {
+                            const nextX = xScale.getPixelForValue(filtered[i + 1].date.getTime());
+                            barWidth = Math.max(nextX - x, 1);
+                        } else {
+                            barWidth = 2;
+                        }
+
+                        // Height proportional to F&G value (0-100)
+                        const barHeight = (d.fngValue / 100) * height;
+                        const barTop = bottom - barHeight;
+
+                        ctx.fillStyle = d.sentiment.color + '30'; // ~19% opacity
+                        ctx.fillRect(x, barTop, barWidth, barHeight);
+                    }
+
+                    ctx.restore();
+                },
+            };
+
             // ── Build dataset ──
             function buildDatasets() {
                 const filtered = filterByRange(mergedData, currentRange);
@@ -577,7 +620,7 @@
                 return [{
                     label: 'BTC Price',
                     data: filtered.map(d => ({ x: d.date, y: d.price })),
-                    borderWidth: 2,
+                    borderWidth: 2.5,
                     pointRadius: 0,
                     pointHoverRadius: 5,
                     pointHoverBorderWidth: 2,
@@ -678,6 +721,7 @@
                 };
 
                 chart = new Chart(ctx, {
+                    plugins: [sentimentCloudPlugin],
                     type: 'line',
                     data: { datasets: buildDatasets() },
                     options: {
