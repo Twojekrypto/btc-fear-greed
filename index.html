@@ -582,13 +582,13 @@
                     const xScale = scales.x;
                     const yScale = scales.yPrice;
 
-                    // Calculate dot radius based on data density
+                    // Calculate dot radius based on data density — bigger & more visible
                     const chartWidth = chartArea.right - chartArea.left;
                     const spacing = chartWidth / filtered.length;
-                    const radius = Math.max(Math.min(spacing * 1.8, 14), 4);
+                    const radius = Math.max(Math.min(spacing * 2.5, 20), 6);
+                    const outerRadius = radius * 1.6; // larger outer glow
 
                     ctx.save();
-                    ctx.globalCompositeOperation = 'lighter';
 
                     for (let i = 0; i < filtered.length; i++) {
                         const d = filtered[i];
@@ -602,15 +602,28 @@
                         if (x < chartArea.left || x > chartArea.right) continue;
                         if (y < chartArea.top || y > chartArea.bottom) continue;
 
-                        // Draw a soft glowing circle (cloud) at the data point
-                        const grad = ctx.createRadialGradient(x, y, 0, x, y, radius);
-                        grad.addColorStop(0, d.sentiment.color + '66'); // 40% center
-                        grad.addColorStop(0.5, d.sentiment.color + '33'); // 20% mid
-                        grad.addColorStop(1, d.sentiment.color + '00'); // transparent edge
+                        const color = d.sentiment.color;
 
+                        // Outer soft glow (bloom)
+                        ctx.globalCompositeOperation = 'screen';
+                        const outerGrad = ctx.createRadialGradient(x, y, 0, x, y, outerRadius);
+                        outerGrad.addColorStop(0, color + '55'); // 33% center
+                        outerGrad.addColorStop(0.4, color + '30'); // 19% mid
+                        outerGrad.addColorStop(1, color + '00'); // transparent
+                        ctx.beginPath();
+                        ctx.arc(x, y, outerRadius, 0, Math.PI * 2);
+                        ctx.fillStyle = outerGrad;
+                        ctx.fill();
+
+                        // Inner bright core
+                        ctx.globalCompositeOperation = 'lighter';
+                        const innerGrad = ctx.createRadialGradient(x, y, 0, x, y, radius);
+                        innerGrad.addColorStop(0, color + 'cc'); // 80% center
+                        innerGrad.addColorStop(0.4, color + '73'); // 45% mid
+                        innerGrad.addColorStop(1, color + '00'); // transparent
                         ctx.beginPath();
                         ctx.arc(x, y, radius, 0, Math.PI * 2);
-                        ctx.fillStyle = grad;
+                        ctx.fillStyle = innerGrad;
                         ctx.fill();
                     }
 
