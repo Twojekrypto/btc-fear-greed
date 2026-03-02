@@ -570,20 +570,25 @@
                 return data.filter(d => d.date >= cutoff);
             }
 
-            // ── Sentiment cloud plugin ──
+            // ── Sentiment cloud plugin (glowing dots on the price line) ──
             const sentimentCloudPlugin = {
                 id: 'sentimentCloud',
-                beforeDatasetsDraw(chart) {
+                afterDatasetsDraw(chart) {
                     const { ctx, chartArea, scales } = chart;
                     if (!chartArea) return;
                     const filtered = filterByRange(mergedData, currentRange);
                     if (filtered.length < 2) return;
 
                     const xScale = scales.x;
-                    const { top, bottom, height } = chartArea;
+                    const yScale = scales.yPrice;
+
+                    // Calculate dot radius based on data density
+                    const chartWidth = chartArea.right - chartArea.left;
+                    const spacing = chartWidth / filtered.length;
+                    const radius = Math.max(Math.min(spacing * 1.8, 14), 4);
 
                     ctx.save();
-                    ctx.globalCompositeOperation = 'source-over';
+                    ctx.globalCompositeOperation = 'lighter';
 
                     for (let i = 0; i < filtered.length; i++) {
                         const d = filtered[i];
@@ -591,22 +596,22 @@
                         if (!visibility[d.sentiment.key]) continue;
 
                         const x = xScale.getPixelForValue(d.date.getTime());
+                        const y = yScale.getPixelForValue(d.price);
 
-                        // Width of each bar: distance to next point or fixed
-                        let barWidth;
-                        if (i < filtered.length - 1) {
-                            const nextX = xScale.getPixelForValue(filtered[i + 1].date.getTime());
-                            barWidth = Math.max(nextX - x, 1);
-                        } else {
-                            barWidth = 2;
-                        }
+                        // Skip if outside chart area
+                        if (x < chartArea.left || x > chartArea.right) continue;
+                        if (y < chartArea.top || y > chartArea.bottom) continue;
 
-                        // Height proportional to F&G value (0-100)
-                        const barHeight = (d.fngValue / 100) * height;
-                        const barTop = bottom - barHeight;
+                        // Draw a soft glowing circle (cloud) at the data point
+                        const grad = ctx.createRadialGradient(x, y, 0, x, y, radius);
+                        grad.addColorStop(0, d.sentiment.color + '66'); // 40% center
+                        grad.addColorStop(0.5, d.sentiment.color + '33'); // 20% mid
+                        grad.addColorStop(1, d.sentiment.color + '00'); // transparent edge
 
-                        ctx.fillStyle = d.sentiment.color + '30'; // ~19% opacity
-                        ctx.fillRect(x, barTop, barWidth, barHeight);
+                        ctx.beginPath();
+                        ctx.arc(x, y, radius, 0, Math.PI * 2);
+                        ctx.fillStyle = grad;
+                        ctx.fill();
                     }
 
                     ctx.restore();
