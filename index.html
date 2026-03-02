@@ -607,19 +607,19 @@
                         // Outer soft glow (bloom)
                         ctx.globalCompositeOperation = 'source-over';
                         const outerGrad = ctx.createRadialGradient(x, y, 0, x, y, outerRadius);
-                        outerGrad.addColorStop(0, color + '55'); // 33% center
-                        outerGrad.addColorStop(0.4, color + '30'); // 19% mid
+                        outerGrad.addColorStop(0, color + '26'); // 15% center
+                        outerGrad.addColorStop(0.4, color + '1a'); // 10% mid
                         outerGrad.addColorStop(1, color + '00'); // transparent
                         ctx.beginPath();
                         ctx.arc(x, y, outerRadius, 0, Math.PI * 2);
                         ctx.fillStyle = outerGrad;
                         ctx.fill();
 
-                        // Inner bright core
+                        // Inner core
                         ctx.globalCompositeOperation = 'source-over';
                         const innerGrad = ctx.createRadialGradient(x, y, 0, x, y, radius);
-                        innerGrad.addColorStop(0, color + 'cc'); // 80% center
-                        innerGrad.addColorStop(0.4, color + '73'); // 45% mid
+                        innerGrad.addColorStop(0, color + '59'); // 35% center
+                        innerGrad.addColorStop(0.4, color + '2e'); // 18% mid
                         innerGrad.addColorStop(1, color + '00'); // transparent
                         ctx.beginPath();
                         ctx.arc(x, y, radius, 0, Math.PI * 2);
