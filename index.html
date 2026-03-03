@@ -856,6 +856,17 @@
                     <div class="legend-item"><span class="legend-color" style="background:#ff1744;"></span>Bearish
                         (0-30%)</div>
                 </div>
+                <div class="fng-slider-container">
+                    <span class="fng-slider-label">Win% Range:</span>
+                    <span class="fng-slider-value" id="btc-wp-wpMinVal">0</span>
+                    <div class="fng-slider-track-wrapper">
+                        <div class="fng-slider-track"></div>
+                        <div class="fng-slider-track-active" id="btc-wp-wpTrackActive"></div>
+                        <input type="range" id="btc-wp-wpMin" min="0" max="100" value="0">
+                        <input type="range" id="btc-wp-wpMax" min="0" max="100" value="100">
+                    </div>
+                    <span class="fng-slider-value" id="btc-wp-wpMaxVal">100</span>
+                </div>
             </div>
         </div>
         <div class="chart-wrapper" id="btc-wp-chartWrapper">
@@ -976,6 +987,17 @@
                         (30-50%)</div>
                     <div class="legend-item"><span class="legend-color" style="background:#ff1744;"></span>Bearish
                         (0-30%)</div>
+                </div>
+                <div class="fng-slider-container">
+                    <span class="fng-slider-label">Win% Range:</span>
+                    <span class="fng-slider-value" id="eth-wp-wpMinVal">0</span>
+                    <div class="fng-slider-track-wrapper">
+                        <div class="fng-slider-track"></div>
+                        <div class="fng-slider-track-active" id="eth-wp-wpTrackActive"></div>
+                        <input type="range" id="eth-wp-wpMin" min="0" max="100" value="0">
+                        <input type="range" id="eth-wp-wpMax" min="0" max="100" value="100">
+                    </div>
+                    <span class="fng-slider-value" id="eth-wp-wpMaxVal">100</span>
                 </div>
             </div>
         </div>
@@ -1329,6 +1351,8 @@
                 let currentRange = 365;
                 let customFrom = null;
                 let customTo = null;
+                let wpRangeMin = 0;
+                let wpRangeMax = 100;
 
                 function getWpColor(val) {
                     if (val == null) return '#6b7280';
@@ -1361,7 +1385,12 @@
 
                 function buildDatasets() {
                     const combined = mergedData.map((d, i) => ({ ...d, wp: wpData[i] }));
-                    const filtered = filterByRange(combined, currentRange);
+                    const filtered = filterByRange(combined, currentRange).map(d => {
+                        if (d.wp && (d.wp.value < wpRangeMin || d.wp.value > wpRangeMax)) {
+                            return { ...d, price: null, wp: null };
+                        }
+                        return d;
+                    });
                     return [
                         // Price line colored by WP
                         {
@@ -1374,7 +1403,7 @@
                             pointHoverBackgroundColor: '#fff',
                             yAxisID: 'yPrice',
                             tension: 0.3,
-                            spanGaps: true,
+                            spanGaps: false,
                             fill: false,
                             segment: {
                                 borderColor: function (ctx) {
@@ -1616,9 +1645,42 @@
                     });
                 }
 
+                // WP range slider
+                function setupWpSlider() {
+                    const minInput = el('wpMin');
+                    const maxInput = el('wpMax');
+                    const minLabel = el('wpMinVal');
+                    const maxLabel = el('wpMaxVal');
+                    const activeTrack = el('wpTrackActive');
+                    if (!minInput || !maxInput) return;
+
+                    function updateSlider() {
+                        let minVal = parseInt(minInput.value);
+                        let maxVal = parseInt(maxInput.value);
+                        if (minVal > maxVal) {
+                            if (this === minInput) { maxInput.value = minVal; maxVal = minVal; }
+                            else { minInput.value = maxVal; minVal = maxVal; }
+                        }
+                        wpRangeMin = minVal;
+                        wpRangeMax = maxVal;
+                        minLabel.textContent = minVal;
+                        maxLabel.textContent = maxVal;
+                        activeTrack.style.left = minVal + '%';
+                        activeTrack.style.width = (maxVal - minVal) + '%';
+                        minLabel.style.color = getWpColor(minVal);
+                        maxLabel.style.color = getWpColor(maxVal);
+                        updateChart();
+                    }
+
+                    minInput.addEventListener('input', updateSlider);
+                    maxInput.addEventListener('input', updateSlider);
+                    updateSlider.call(minInput);
+                }
+
                 async function init() {
                     setupTimeSelector();
                     setupDatePicker();
+                    setupWpSlider();
 
                     try {
                         const loadingEl = el('loadingText');
