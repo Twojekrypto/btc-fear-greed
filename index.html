@@ -1643,7 +1643,7 @@
                             scales: {
                                 x: {
                                     type: 'time',
-                                    time: { unit: getTimeUnit(), tooltipFormat: 'MMM d, yyyy' },
+                                    time: { unit: getTimeUnit(), tooltipFormat: 'MMM d, yyyy', displayFormats: { day: 'MMM d', week: 'MMM d', month: 'MMM yyyy', year: 'yyyy' } },
                                     grid: { color: 'rgba(255,255,255,0.04)' },
                                     ticks: { color: '#4b5268', font: { size: 11 }, maxTicksLimit: 12 },
                                 },
