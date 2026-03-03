@@ -1117,7 +1117,8 @@
             }
 
             // ── Fetch price from Binance ──
-            async function fetchPrice(symbol, loadingTextEl) {
+            async function fetchPrice(symbol, loadingTextEl, interval) {
+                interval = interval || '1d';
                 const allCandles = [];
                 const DAY_MS = 86400000;
                 const startTime = new Date('2018-01-01').getTime();
@@ -1132,7 +1133,7 @@
                     }
                     try {
                         const res = await fetch(
-                            `https://api.binance.com/api/v3/klines?symbol=${symbol}&interval=1d&limit=1000&startTime=${cursor}`
+                            `https://api.binance.com/api/v3/klines?symbol=${symbol}&interval=${interval}&limit=1000&startTime=${cursor}`
                         );
                         if (!res.ok) break;
                         const data = await res.json();
@@ -1383,16 +1384,13 @@
                     return data.filter(d => d.date >= cutoff);
                 }
 
+                const WP_DIM_COLOR = 'rgba(255,255,255,0.25)';
+
                 function buildDatasets() {
                     const combined = mergedData.map((d, i) => ({ ...d, wp: wpData[i] }));
-                    const filtered = filterByRange(combined, currentRange).map(d => {
-                        if (d.wp && (d.wp.value < wpRangeMin || d.wp.value > wpRangeMax)) {
-                            return { ...d, price: null, wp: null };
-                        }
-                        return d;
-                    });
+                    const filtered = filterByRange(combined, currentRange);
                     return [
-                        // Price line colored by WP
+                        // Price line colored by WP (dimmed when outside slider range)
                         {
                             label: 'Price',
                             data: filtered.map(d => ({ x: d.date, y: d.price })),
@@ -1403,18 +1401,19 @@
                             pointHoverBackgroundColor: '#fff',
                             yAxisID: 'yPrice',
                             tension: 0.3,
-                            spanGaps: false,
+                            spanGaps: true,
                             fill: false,
                             segment: {
                                 borderColor: function (ctx) {
                                     const d = filtered[ctx.p1DataIndex];
-                                    if (!d || !d.wp) return '#6b7280';
+                                    if (!d || !d.wp) return WP_DIM_COLOR;
+                                    if (d.wp.value < wpRangeMin || d.wp.value > wpRangeMax) return WP_DIM_COLOR;
                                     return getWpColor(d.wp.value);
                                 },
                             },
-                            borderColor: '#6366f1',
+                            borderColor: WP_DIM_COLOR,
                         },
-                        // Hidden WP line for right axis
+                        // Hidden WP line for right axis scaling
                         {
                             label: 'Win %',
                             data: filtered.map(d => ({ x: d.date, y: d.wp ? d.wp.value : null })),
@@ -1688,7 +1687,7 @@
 
                         const [fngMap, prices] = await Promise.all([
                             fngMapPromise,
-                            fetchPrice(symbol, loadingEl),
+                            fetchPrice(symbol, loadingEl, '1w'),
                         ]);
 
                         loadingEl.textContent = 'Computing Win Probability...';
