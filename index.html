@@ -1360,36 +1360,42 @@
                 }
 
                 function buildDatasets() {
-                    const filtered = filterByRange(mergedData, currentRange);
-                    const filteredWp = filterByRange(
-                        mergedData.map((d, i) => ({ date: d.date, wp: wpData[i] })),
-                        currentRange
-                    );
-                    return [{
-                        label: 'Win Probability',
-                        data: filteredWp.map(d => ({
-                            x: d.date,
-                            y: d.wp ? d.wp.value : null,
-                        })),
-                        borderWidth: 2.5,
-                        pointRadius: 0,
-                        pointHoverRadius: 5,
-                        pointHoverBorderWidth: 2,
-                        pointHoverBackgroundColor: '#fff',
-                        yAxisID: 'yWp',
-                        tension: 0.3,
-                        spanGaps: true,
-                        fill: false,
-                        segment: {
-                            borderColor: function (ctx) {
-                                const idx = ctx.p1DataIndex;
-                                const d = filteredWp[idx];
-                                if (!d || !d.wp) return '#6b7280';
-                                return getWpColor(d.wp.value);
+                    const combined = mergedData.map((d, i) => ({ ...d, wp: wpData[i] }));
+                    const filtered = filterByRange(combined, currentRange);
+                    return [
+                        // Price line colored by WP
+                        {
+                            label: 'Price',
+                            data: filtered.map(d => ({ x: d.date, y: d.price })),
+                            borderWidth: 2.5,
+                            pointRadius: 0,
+                            pointHoverRadius: 5,
+                            pointHoverBorderWidth: 2,
+                            pointHoverBackgroundColor: '#fff',
+                            yAxisID: 'yPrice',
+                            tension: 0.3,
+                            spanGaps: true,
+                            fill: false,
+                            segment: {
+                                borderColor: function (ctx) {
+                                    const d = filtered[ctx.p1DataIndex];
+                                    if (!d || !d.wp) return '#6b7280';
+                                    return getWpColor(d.wp.value);
+                                },
                             },
+                            borderColor: '#6366f1',
                         },
-                        borderColor: '#6366f1',
-                    }];
+                        // Hidden WP line for right axis
+                        {
+                            label: 'Win %',
+                            data: filtered.map(d => ({ x: d.date, y: d.wp ? d.wp.value : null })),
+                            borderWidth: 0,
+                            pointRadius: 0,
+                            yAxisID: 'yWp',
+                            spanGaps: true,
+                            fill: false,
+                            borderColor: 'transparent',
+                        }];
                 }
 
                 function getTimeUnit() {
@@ -1406,23 +1412,25 @@
                     return 'month';
                 }
 
-                // 50% reference line plugin
+                // 50% reference line on WP axis
                 const refLinePlugin = {
                     id: `refLine-${prefix}-wp`,
                     beforeDatasetsDraw(ch) {
                         const { ctx, chartArea, scales } = ch;
                         if (!chartArea || !scales.yWp) return;
                         const y50 = scales.yWp.getPixelForValue(50);
-                        ctx.save();
-                        ctx.strokeStyle = 'rgba(255,255,255,0.15)';
-                        ctx.lineWidth = 1;
-                        ctx.setLineDash([6, 4]);
-                        ctx.beginPath();
-                        ctx.moveTo(chartArea.left, y50);
-                        ctx.lineTo(chartArea.right, y50);
-                        ctx.stroke();
-                        ctx.setLineDash([]);
-                        ctx.restore();
+                        if (y50 >= chartArea.top && y50 <= chartArea.bottom) {
+                            ctx.save();
+                            ctx.strokeStyle = 'rgba(255,255,255,0.08)';
+                            ctx.lineWidth = 1;
+                            ctx.setLineDash([6, 4]);
+                            ctx.beginPath();
+                            ctx.moveTo(chartArea.left, y50);
+                            ctx.lineTo(chartArea.right, y50);
+                            ctx.stroke();
+                            ctx.setLineDash([]);
+                            ctx.restore();
+                        }
                     }
                 };
 
@@ -1447,34 +1455,39 @@
                         }
                         if (tooltip.opacity === 0) { tooltipEl.style.opacity = '0'; return; }
 
-                        const filteredWp = filterByRange(
-                            mergedData.map((d, i) => ({ date: d.date, wp: wpData[i] })),
-                            currentRange
-                        );
+                        const combined = mergedData.map((d, i) => ({ ...d, wp: wpData[i] }));
+                        const filtered = filterByRange(combined, currentRange);
                         let html = '';
                         if (tooltip.title?.length) {
                             html += `<div style="font-weight:600;margin-bottom:6px;color:#a5b4fc;">${tooltip.title[0]}</div>`;
                         }
-                        tooltip.dataPoints?.forEach(point => {
+                        // Use only first data point (price) to avoid duplicate
+                        const point = tooltip.dataPoints?.[0];
+                        if (point) {
                             const idx = point.dataIndex;
-                            const d = filteredWp[idx];
-                            if (d && d.wp) {
-                                const wp = d.wp;
-                                const color = getWpColor(wp.value);
-                                html += `<div style="display:flex;align-items:center;gap:6px;margin:4px 0;">
-                                    <span style="display:inline-block;width:8px;height:8px;border-radius:2px;background:${color};"></span>
-                                    <strong style="font-size:14px;color:${color};">${wp.value}%</strong>
-                                    <span style="font-size:10px;padding:1px 6px;border-radius:3px;background:${color}22;color:${color};font-weight:600;">${getWpLabel(wp.value)}</span>
-                                </div>`;
-                                html += `<div style="margin-top:6px;border-top:1px solid rgba(255,255,255,0.06);padding-top:6px;font-size:11px;">`;
-                                if (wp.rsi != null) html += `<div style="display:flex;justify-content:space-between;"><span style="color:#6b7280;">RSI(14)</span><span>${wp.rsi}</span></div>`;
-                                if (wp.macdHist != null) html += `<div style="display:flex;justify-content:space-between;"><span style="color:#6b7280;">MACD Hist</span><span>${wp.macdHist}</span></div>`;
-                                if (wp.stochK != null) html += `<div style="display:flex;justify-content:space-between;"><span style="color:#6b7280;">Stoch %K</span><span>${wp.stochK}</span></div>`;
-                                if (wp.wt1 != null) html += `<div style="display:flex;justify-content:space-between;"><span style="color:#6b7280;">WaveTrend</span><span>${wp.wt1}</span></div>`;
-                                if (wp.fng != null) html += `<div style="display:flex;justify-content:space-between;"><span style="color:#6b7280;">F&G Index</span><span>${wp.fng}</span></div>`;
-                                html += `</div>`;
+                            const d = filtered[idx];
+                            if (d) {
+                                const price = d.price;
+                                const sym = symbol === 'BTCUSDT' ? 'BTC' : 'ETH';
+                                html += `<div style="font-size:16px;font-weight:700;color:#e0e4f0;margin-bottom:4px;">$${price.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</div>`;
+                                if (d.wp) {
+                                    const wp = d.wp;
+                                    const color = getWpColor(wp.value);
+                                    html += `<div style="display:flex;align-items:center;gap:6px;margin:4px 0;">
+                                        <span style="display:inline-block;width:8px;height:8px;border-radius:2px;background:${color};"></span>
+                                        <strong style="font-size:13px;color:${color};">Win: ${wp.value}%</strong>
+                                        <span style="font-size:10px;padding:1px 6px;border-radius:3px;background:${color}22;color:${color};font-weight:600;">${getWpLabel(wp.value)}</span>
+                                    </div>`;
+                                    html += `<div style="margin-top:6px;border-top:1px solid rgba(255,255,255,0.06);padding-top:6px;font-size:11px;">`;
+                                    if (wp.rsi != null) html += `<div style="display:flex;justify-content:space-between;"><span style="color:#6b7280;">RSI(14)</span><span>${wp.rsi}</span></div>`;
+                                    if (wp.macdHist != null) html += `<div style="display:flex;justify-content:space-between;"><span style="color:#6b7280;">MACD Hist</span><span>${wp.macdHist}</span></div>`;
+                                    if (wp.stochK != null) html += `<div style="display:flex;justify-content:space-between;"><span style="color:#6b7280;">Stoch %K</span><span>${wp.stochK}</span></div>`;
+                                    if (wp.wt1 != null) html += `<div style="display:flex;justify-content:space-between;"><span style="color:#6b7280;">WaveTrend</span><span>${wp.wt1}</span></div>`;
+                                    if (wp.fng != null) html += `<div style="display:flex;justify-content:space-between;"><span style="color:#6b7280;">F&G Index</span><span>${wp.fng}</span></div>`;
+                                    html += `</div>`;
+                                }
                             }
-                        });
+                        }
                         tooltipEl.innerHTML = html;
                         tooltipEl.style.opacity = '1';
                         const { offsetLeft, offsetTop } = ch.canvas;
@@ -1507,15 +1520,24 @@
                                     grid: { color: 'rgba(255,255,255,0.04)' },
                                     ticks: { color: '#4b5268', font: { size: 11 }, maxTicksLimit: 12 },
                                 },
+                                yPrice: {
+                                    position: 'left',
+                                    grid: { color: 'rgba(255,255,255,0.04)' },
+                                    ticks: {
+                                        color: '#6b7280',
+                                        font: { size: 11 },
+                                        callback: v => '$' + v.toLocaleString(),
+                                    },
+                                },
                                 yWp: {
                                     position: 'right',
                                     min: 0,
                                     max: 100,
-                                    grid: { color: 'rgba(255,255,255,0.04)' },
+                                    grid: { drawOnChartArea: false },
                                     ticks: {
                                         color: '#4b5268',
                                         font: { size: 11 },
-                                        stepSize: 10,
+                                        stepSize: 20,
                                         callback: v => v + '%',
                                     },
                                 },
@@ -1533,20 +1555,19 @@
                 }
 
                 function showInfoRow() {
-                    const filtered = filterByRange(mergedData, currentRange);
-                    const filteredWp = filterByRange(
-                        mergedData.map((d, i) => ({ date: d.date, wp: wpData[i] })),
-                        currentRange
-                    );
-                    const last = filteredWp[filteredWp.length - 1];
+                    const combined = mergedData.map((d, i) => ({ ...d, wp: wpData[i] }));
+                    const filtered = filterByRange(combined, currentRange);
+                    const last = filtered[filtered.length - 1];
                     const infoRow = el('infoRow');
-                    if (!last || !last.wp) { infoRow.innerHTML = ''; return; }
+                    if (!last) { infoRow.innerHTML = ''; return; }
+                    const price = last.price;
                     const wp = last.wp;
-                    const color = getWpColor(wp.value);
-                    const label = getWpLabel(wp.value);
+                    const color = wp ? getWpColor(wp.value) : '#6b7280';
+                    const label = wp ? getWpLabel(wp.value) : '—';
+                    const wpVal = wp ? wp.value + '%' : '—';
                     infoRow.innerHTML = `
-                        <span class="current-price" style="color:${color};">${wp.value}%</span>
-                        <span class="sentiment-badge" style="background:${color}22;color:${color};">${label}</span>
+                        <span class="current-price">$${price.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
+                        <span class="sentiment-badge" style="background:${color}22;color:${color};">${wpVal} ${label}</span>
                     `;
                 }
 
