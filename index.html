@@ -953,15 +953,14 @@
             </div>
         </div>
         <div class="footer">
-            <span class="footer-text">Indicators: RSI(14) · MACD(12,26,9) · Stoch(14,3,3) · WaveTrend · F&G Index</span>
+            <span class="footer-text">Composite score based on multiple technical indicators & market sentiment</span>
         </div>
         <div class="prob-section">
             <div class="prob-title">📊 Historical Win Rate by Composite Score (BTC)
                 <span class="info-tip">?
                     <div class="info-tip-content">
-                        <strong>Jak czytać tabelę?</strong><br>
-                        Composite Score łączy 5 wskaźników: <strong>RSI, MACD, Stochastic, WaveTrend</strong> i
-                        <strong>Fear & Greed Index</strong>, obliczonych na świecach <strong>tygodniowych
+                        Composite Score łączy <strong>5 wskaźników technicznych</strong> i <strong>wskaźnik sentymentu
+                            rynkowego</strong>, obliczonych na świecach <strong>tygodniowych
                             (1W)</strong>.<br><br>
                         Kolumny pokazują jak często cena BTC rosła <strong>po danym czasie</strong> od momentu
                         kupna:<br>
@@ -1037,7 +1036,7 @@
                     </tr>
                 </tbody>
             </table>
-            <div class="prob-note">⚠️ Composite of RSI, MACD, Stochastic, WaveTrend & F&G. Past performance does not
+            <div class="prob-note">⚠️ Based on composite technical analysis. Past performance does not
                 guarantee future results.</div>
         </div>
     </div>
@@ -1107,9 +1106,8 @@
             <div class="prob-title">📊 Historical Win Rate by Composite Score (ETH)
                 <span class="info-tip">?
                     <div class="info-tip-content">
-                        <strong>Jak czytać tabelę?</strong><br>
-                        Composite Score łączy 5 wskaźników: <strong>RSI, MACD, Stochastic, WaveTrend</strong> i
-                        <strong>Fear & Greed Index</strong>, obliczonych na świecach <strong>tygodniowych
+                        Composite Score łączy <strong>5 wskaźników technicznych</strong> i <strong>wskaźnik sentymentu
+                            rynkowego</strong>, obliczonych na świecach <strong>tygodniowych
                             (1W)</strong>.<br><br>
                         Kolumny pokazują jak często cena ETH rosła <strong>po danym czasie</strong> od momentu
                         kupna:<br>
@@ -1614,13 +1612,6 @@
                                         <strong style="font-size:13px;color:${color};">Score: ${wp.value}</strong>
                                         <span style="font-size:10px;padding:1px 6px;border-radius:3px;background:${color}22;color:${color};font-weight:600;">${getWpLabel(wp.value)}</span>
                                     </div>`;
-                                    html += `<div style="margin-top:6px;border-top:1px solid rgba(255,255,255,0.06);padding-top:6px;font-size:11px;">`;
-                                    if (wp.rsi != null) html += `<div style="display:flex;justify-content:space-between;"><span style="color:#6b7280;">RSI(14)</span><span>${wp.rsi}</span></div>`;
-                                    if (wp.macdHist != null) html += `<div style="display:flex;justify-content:space-between;"><span style="color:#6b7280;">MACD Hist</span><span>${wp.macdHist}</span></div>`;
-                                    if (wp.stochK != null) html += `<div style="display:flex;justify-content:space-between;"><span style="color:#6b7280;">Stoch %K</span><span>${wp.stochK}</span></div>`;
-                                    if (wp.wt1 != null) html += `<div style="display:flex;justify-content:space-between;"><span style="color:#6b7280;">WaveTrend</span><span>${wp.wt1}</span></div>`;
-                                    if (wp.fng != null) html += `<div style="display:flex;justify-content:space-between;"><span style="color:#6b7280;">F&G Index</span><span>${wp.fng}</span></div>`;
-                                    html += `</div>`;
                                 }
                             }
                         }
