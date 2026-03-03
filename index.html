@@ -1385,6 +1385,35 @@
                 return { wt1, wt2 };
             }
 
+            // Bollinger Bands %B (period=20, stdDev=2)
+            function calcBollingerB(closes, period = 20, mult = 2) {
+                const result = new Array(closes.length).fill(null);
+                for (let i = period - 1; i < closes.length; i++) {
+                    const slice = closes.slice(i - period + 1, i + 1);
+                    const sma = slice.reduce((a, b) => a + b, 0) / period;
+                    const variance = slice.reduce((a, b) => a + (b - sma) ** 2, 0) / period;
+                    const std = Math.sqrt(variance);
+                    const upper = sma + mult * std;
+                    const lower = sma - mult * std;
+                    const bandwidth = upper - lower;
+                    result[i] = bandwidth > 0 ? (closes[i] - lower) / bandwidth : 0.5;
+                }
+                return result;
+            }
+
+            // 50/200 MA Cross signal (0-100 score)
+            function calcMACross(closes) {
+                const ma50 = calcSMA(closes, 50);
+                const ma200 = calcSMA(closes, 200);
+                return closes.map((c, i) => {
+                    if (ma50[i] == null || ma200[i] == null) return null;
+                    // Ratio of MA50 to MA200, normalized around 1.0
+                    const ratio = ma50[i] / ma200[i];
+                    // Convert to 0-100: ratio=0.9 → ~25, ratio=1.0 → 50, ratio=1.1 → ~75
+                    const score = 50 + (ratio - 1) * 500;
+                    return Math.max(0, Math.min(100, score));
+                });
+            }
             function calcWinProbability(data) {
                 if (data.length < 30) return data.map(() => null);
 
@@ -1396,6 +1425,8 @@
                 const macd = calcMACD(closes);
                 const stoch = calcStochastic(highs, lows, closes);
                 const wt = calcWaveTrend(highs, lows, closes);
+                const bbB = calcBollingerB(closes);
+                const maCross = calcMACross(closes);
 
                 // Normalize MACD histogram to 0-100
                 const validHist = macd.histogram.filter(v => v != null);
@@ -1415,33 +1446,36 @@
                     const stochVal = stoch.k[i];
                     const wtVal = wt.wt1[i];
                     const fngVal = d.fngValue;
+                    const bbVal = bbB[i];
+                    const maVal = maCross[i];
 
                     if (rsiVal == null && histVal == null && stochVal == null) return null;
 
                     // Normalize each to 0-100 "bullish score"
-                    const rsiScore = rsiVal != null ? (100 - rsiVal) : 50; // Inverted: low RSI = bullish
+                    const rsiScore = rsiVal != null ? (100 - rsiVal) : 50;
                     const macdScore = histVal != null ? ((histVal - histMin) / histRange) * 100 : 50;
-                    const stochScore = stochVal != null ? (100 - stochVal) : 50; // Inverted: low stoch = bullish
+                    const stochScore = stochVal != null ? (100 - stochVal) : 50;
                     const wtScore = wtVal != null ? ((wtVal - wtMin) / wtRange) * 100 : 50;
-                    const wtInverted = 100 - wtScore; // Inverted: low WT = bullish
-                    const fngScore = fngVal != null ? (100 - fngVal) : 50; // Inverted: low F&G = bullish
+                    const wtInverted = 100 - wtScore;
+                    const fngScore = fngVal != null ? (100 - fngVal) : 50;
+                    // Bollinger %B: low %B = oversold = bullish buy signal
+                    const bbScore = bbVal != null ? (100 - bbVal * 100) : 50;
+                    // MA Cross: already 0-100 where high = bullish, invert for contrarian
+                    const maScore = maVal != null ? maVal : 50;
 
-                    // Weighted average
+                    // Weighted average (7 indicators)
                     const composite = (
-                        fngScore * 0.25 +
-                        rsiScore * 0.20 +
-                        macdScore * 0.20 +
-                        stochScore * 0.15 +
-                        wtInverted * 0.20
+                        fngScore * 0.20 +
+                        rsiScore * 0.15 +
+                        macdScore * 0.15 +
+                        stochScore * 0.10 +
+                        wtInverted * 0.15 +
+                        bbScore * 0.10 +
+                        maScore * 0.15
                     );
 
                     return {
                         value: Math.max(0, Math.min(100, Math.round(composite))),
-                        rsi: rsiVal != null ? Math.round(rsiVal) : null,
-                        macdHist: histVal != null ? histVal.toFixed(1) : null,
-                        stochK: stochVal != null ? Math.round(stochVal) : null,
-                        wt1: wtVal != null ? Math.round(wtVal) : null,
-                        fng: fngVal,
                     };
                 });
             }
