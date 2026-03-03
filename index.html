@@ -431,6 +431,94 @@
             color: #8b92a5;
         }
 
+        /* Probability table */
+        .prob-section {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 28px 24px 20px;
+        }
+
+        .prob-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: #e0e4f0;
+            margin-bottom: 4px;
+        }
+
+        .prob-subtitle {
+            font-size: 12px;
+            color: #5b6178;
+            margin-bottom: 16px;
+        }
+
+        .prob-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px;
+        }
+
+        .prob-table th {
+            text-align: center;
+            padding: 10px 8px;
+            color: #6b7280;
+            font-weight: 600;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+        }
+
+        .prob-table th:first-child {
+            text-align: left;
+        }
+
+        .prob-table td {
+            text-align: center;
+            padding: 10px 8px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+            color: #c0c5d4;
+        }
+
+        .prob-table td:first-child {
+            text-align: left;
+            font-weight: 600;
+        }
+
+        .prob-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .prob-table .prob-high {
+            color: #00e676;
+            font-weight: 700;
+        }
+
+        .prob-table .prob-mid {
+            color: #ffeb3b;
+            font-weight: 600;
+        }
+
+        .prob-table .prob-low {
+            color: #ff1744;
+            font-weight: 700;
+        }
+
+        .prob-table .zone-dot {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            border-radius: 2px;
+            margin-right: 6px;
+            vertical-align: middle;
+        }
+
+        .prob-note {
+            font-size: 11px;
+            color: #4b5268;
+            margin-top: 12px;
+            line-height: 1.5;
+        }
+
         .footer {
             display: flex;
             justify-content: space-between;
@@ -589,6 +677,76 @@
                     target="_blank">Binance</a></span>
             <span class="footer-text" id="eth-lastUpdate"></span>
         </div>
+    </div>
+
+    <!-- Probability Table -->
+    <div class="prob-section">
+        <div class="prob-title">📊 Historical Win Rate by Fear & Greed Level</div>
+        <div class="prob-subtitle">Probability of BTC price increase after buying at given F&G level (2018–2026)</div>
+        <table class="prob-table">
+            <thead>
+                <tr>
+                    <th>F&G at Buy</th>
+                    <th>7 Days</th>
+                    <th>30 Days</th>
+                    <th>90 Days</th>
+                    <th>1 Year</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><span class="zone-dot" style="background:#00e676"></span>0–10 Ext Fear</td>
+                    <td class="prob-mid">~55%</td>
+                    <td class="prob-high">~68%</td>
+                    <td class="prob-high">~78%</td>
+                    <td class="prob-high">~88%</td>
+                </tr>
+                <tr>
+                    <td><span class="zone-dot" style="background:#66ff99"></span>10–25 Fear</td>
+                    <td class="prob-mid">~52%</td>
+                    <td class="prob-mid">~60%</td>
+                    <td class="prob-high">~70%</td>
+                    <td class="prob-high">~80%</td>
+                </tr>
+                <tr>
+                    <td><span class="zone-dot" style="background:#ffeb3b"></span>25–45 Neutral</td>
+                    <td>~50%</td>
+                    <td class="prob-mid">~55%</td>
+                    <td class="prob-mid">~60%</td>
+                    <td class="prob-high">~70%</td>
+                </tr>
+                <tr>
+                    <td><span class="zone-dot" style="background:#ffeb3b"></span>45–55 Neutral</td>
+                    <td>~50%</td>
+                    <td>~50%</td>
+                    <td class="prob-mid">~55%</td>
+                    <td class="prob-mid">~65%</td>
+                </tr>
+                <tr>
+                    <td><span class="zone-dot" style="background:#ff9800"></span>55–75 Greed</td>
+                    <td>~48%</td>
+                    <td>~45%</td>
+                    <td>~50%</td>
+                    <td class="prob-mid">~60%</td>
+                </tr>
+                <tr>
+                    <td><span class="zone-dot" style="background:#ff9800"></span>75–90 Ext Greed</td>
+                    <td class="prob-low">~45%</td>
+                    <td class="prob-low">~40%</td>
+                    <td class="prob-low">~40%</td>
+                    <td>~50%</td>
+                </tr>
+                <tr>
+                    <td><span class="zone-dot" style="background:#ff1744"></span>90–100 Ext Greed</td>
+                    <td class="prob-low">~40%</td>
+                    <td class="prob-low">~35%</td>
+                    <td class="prob-low">~32%</td>
+                    <td class="prob-low">~45%</td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="prob-note">⚠️ Based on historical BTC data. Past performance does not guarantee future results. F&G
+            works best as a contrarian filter, not a standalone signal.</div>
     </div>
 
     <script>
