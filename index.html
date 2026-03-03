@@ -1539,11 +1539,13 @@
                         const days = (to - from) / 86400000;
                         if (days <= 60) return 'day';
                         if (days <= 365) return 'week';
-                        return 'month';
+                        if (days <= 1095) return 'month';
+                        return 'year';
                     }
                     if (currentRange <= 90) return 'day';
                     if (currentRange <= 365) return 'week';
-                    return 'month';
+                    if (currentRange <= 1825) return 'month';
+                    return 'year';
                 }
 
                 // 50% reference line on WP axis
