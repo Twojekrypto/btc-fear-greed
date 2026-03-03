@@ -1542,6 +1542,7 @@
                         if (days <= 1095) return 'month';
                         return 'year';
                     }
+                    if (currentRange === 0) return 'year';
                     if (currentRange <= 90) return 'day';
                     if (currentRange <= 365) return 'week';
                     if (currentRange <= 1825) return 'month';
@@ -1942,10 +1943,13 @@
                         const to = customTo || new Date();
                         const days = (to - from) / 86400000;
                         if (days <= 90) return 'week';
-                        return 'month';
+                        if (days <= 1095) return 'month';
+                        return 'year';
                     }
+                    if (currentRange === 0) return 'year';
                     if (currentRange <= 90) return 'week';
-                    return 'month';
+                    if (currentRange <= 1825) return 'month';
+                    return 'year';
                 }
 
                 function createChart() {
