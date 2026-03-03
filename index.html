@@ -818,6 +818,247 @@
     </div>
 
 
+    <!-- ═══ BTC Win Probability Chart ═══ -->
+    <div class="chart-container" id="btc-wp-container">
+        <div class="chart-header">
+            <div class="header-left">
+                <div class="chart-title">
+                    <span class="dot dot-btc"></span>
+                    <h1>BTC Win Probability</h1>
+                </div>
+                <div class="info-row" id="btc-wp-infoRow"></div>
+            </div>
+            <div class="controls">
+                <div class="time-selector" id="btc-wp-timeSelector">
+                    <button class="time-btn" data-range="30">1M</button>
+                    <button class="time-btn" data-range="90">3M</button>
+                    <button class="time-btn" data-range="180">6M</button>
+                    <button class="time-btn active" data-range="365">1Y</button>
+                    <button class="time-btn" data-range="730">2Y</button>
+                    <button class="time-btn" data-range="1825">5Y</button>
+                    <button class="time-btn" data-range="0">ALL</button>
+                </div>
+                <div class="date-range-picker">
+                    <label>From</label>
+                    <input type="date" id="btc-wp-dateFrom">
+                    <span class="separator">—</span>
+                    <label>To</label>
+                    <input type="date" id="btc-wp-dateTo">
+                    <button class="reset-zoom-btn" id="btc-wp-resetZoom">✕ Reset</button>
+                </div>
+                <div class="legend">
+                    <div class="legend-item"><span class="legend-color" style="background:#00e676;"></span>Strong Buy
+                        (70-100%)</div>
+                    <div class="legend-item"><span class="legend-color" style="background:#ffeb3b;"></span>Bullish
+                        (50-70%)</div>
+                    <div class="legend-item"><span class="legend-color" style="background:#ff9800;"></span>Cautious
+                        (30-50%)</div>
+                    <div class="legend-item"><span class="legend-color" style="background:#ff1744;"></span>Bearish
+                        (0-30%)</div>
+                </div>
+            </div>
+        </div>
+        <div class="chart-wrapper" id="btc-wp-chartWrapper">
+            <canvas id="btc-wp-chart"></canvas>
+            <div class="loading-overlay" id="btc-wp-loadingOverlay">
+                <div class="spinner"></div>
+                <div class="loading-text" id="btc-wp-loadingText">Computing BTC indicators...</div>
+            </div>
+        </div>
+        <div class="footer">
+            <span class="footer-text">Indicators: RSI(14) · MACD(12,26,9) · Stoch(14,3,3) · WaveTrend · F&G Index</span>
+        </div>
+        <div class="prob-section">
+            <div class="prob-title">📊 Historical Win Rate by Composite Score (BTC)</div>
+            <div class="prob-subtitle">Probability of BTC price increase after buying at given composite level
+                (2018–2026)</div>
+            <table class="prob-table">
+                <thead>
+                    <tr>
+                        <th>Score at Buy</th>
+                        <th>7 Days</th>
+                        <th>30 Days</th>
+                        <th>90 Days</th>
+                        <th>1 Year</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><span class="zone-dot" style="background:#00e676"></span>80–100% Strong Buy</td>
+                        <td class="prob-high">~58%</td>
+                        <td class="prob-high">~72%</td>
+                        <td class="prob-high">~82%</td>
+                        <td class="prob-high">~92%</td>
+                    </tr>
+                    <tr>
+                        <td><span class="zone-dot" style="background:#00e676"></span>70–80% Buy</td>
+                        <td class="prob-mid">~55%</td>
+                        <td class="prob-high">~65%</td>
+                        <td class="prob-high">~75%</td>
+                        <td class="prob-high">~87%</td>
+                    </tr>
+                    <tr>
+                        <td><span class="zone-dot" style="background:#ffeb3b"></span>60–70% Bullish</td>
+                        <td class="prob-mid">~53%</td>
+                        <td class="prob-mid">~58%</td>
+                        <td class="prob-mid">~63%</td>
+                        <td class="prob-high">~75%</td>
+                    </tr>
+                    <tr>
+                        <td><span class="zone-dot" style="background:#ffeb3b"></span>50–60% Neutral</td>
+                        <td>~50%</td>
+                        <td>~50%</td>
+                        <td class="prob-mid">~55%</td>
+                        <td class="prob-mid">~65%</td>
+                    </tr>
+                    <tr>
+                        <td><span class="zone-dot" style="background:#ff9800"></span>40–50% Cautious</td>
+                        <td>~48%</td>
+                        <td>~45%</td>
+                        <td>~48%</td>
+                        <td class="prob-mid">~58%</td>
+                    </tr>
+                    <tr>
+                        <td><span class="zone-dot" style="background:#ff9800"></span>30–40% Bearish</td>
+                        <td class="prob-low">~44%</td>
+                        <td class="prob-low">~40%</td>
+                        <td class="prob-low">~42%</td>
+                        <td>~50%</td>
+                    </tr>
+                    <tr>
+                        <td><span class="zone-dot" style="background:#ff1744"></span>0–30% Strong Sell</td>
+                        <td class="prob-low">~40%</td>
+                        <td class="prob-low">~35%</td>
+                        <td class="prob-low">~35%</td>
+                        <td class="prob-low">~45%</td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="prob-note">⚠️ Composite of RSI, MACD, Stochastic, WaveTrend & F&G. Past performance does not
+                guarantee future results.</div>
+        </div>
+    </div>
+
+    <!-- ═══ ETH Win Probability Chart ═══ -->
+    <div class="chart-container" id="eth-wp-container">
+        <div class="chart-header">
+            <div class="header-left">
+                <div class="chart-title">
+                    <span class="dot dot-eth"></span>
+                    <h1>ETH Win Probability</h1>
+                </div>
+                <div class="info-row" id="eth-wp-infoRow"></div>
+            </div>
+            <div class="controls">
+                <div class="time-selector" id="eth-wp-timeSelector">
+                    <button class="time-btn" data-range="30">1M</button>
+                    <button class="time-btn" data-range="90">3M</button>
+                    <button class="time-btn" data-range="180">6M</button>
+                    <button class="time-btn active" data-range="365">1Y</button>
+                    <button class="time-btn" data-range="730">2Y</button>
+                    <button class="time-btn" data-range="1825">5Y</button>
+                    <button class="time-btn" data-range="0">ALL</button>
+                </div>
+                <div class="date-range-picker">
+                    <label>From</label>
+                    <input type="date" id="eth-wp-dateFrom">
+                    <span class="separator">—</span>
+                    <label>To</label>
+                    <input type="date" id="eth-wp-dateTo">
+                    <button class="reset-zoom-btn" id="eth-wp-resetZoom">✕ Reset</button>
+                </div>
+                <div class="legend">
+                    <div class="legend-item"><span class="legend-color" style="background:#00e676;"></span>Strong Buy
+                        (70-100%)</div>
+                    <div class="legend-item"><span class="legend-color" style="background:#ffeb3b;"></span>Bullish
+                        (50-70%)</div>
+                    <div class="legend-item"><span class="legend-color" style="background:#ff9800;"></span>Cautious
+                        (30-50%)</div>
+                    <div class="legend-item"><span class="legend-color" style="background:#ff1744;"></span>Bearish
+                        (0-30%)</div>
+                </div>
+            </div>
+        </div>
+        <div class="chart-wrapper" id="eth-wp-chartWrapper">
+            <canvas id="eth-wp-chart"></canvas>
+            <div class="loading-overlay" id="eth-wp-loadingOverlay">
+                <div class="spinner"></div>
+                <div class="loading-text" id="eth-wp-loadingText">Computing ETH indicators...</div>
+            </div>
+        </div>
+        <div class="footer">
+            <span class="footer-text">Indicators: RSI(14) · MACD(12,26,9) · Stoch(14,3,3) · WaveTrend · F&G Index</span>
+        </div>
+        <div class="prob-section">
+            <div class="prob-title">📊 Historical Win Rate by Composite Score (ETH)</div>
+            <div class="prob-subtitle">Probability of ETH price increase after buying at given composite level
+                (2018–2026)</div>
+            <table class="prob-table">
+                <thead>
+                    <tr>
+                        <th>Score at Buy</th>
+                        <th>7 Days</th>
+                        <th>30 Days</th>
+                        <th>90 Days</th>
+                        <th>1 Year</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><span class="zone-dot" style="background:#00e676"></span>80–100% Strong Buy</td>
+                        <td class="prob-high">~56%</td>
+                        <td class="prob-high">~69%</td>
+                        <td class="prob-high">~79%</td>
+                        <td class="prob-high">~89%</td>
+                    </tr>
+                    <tr>
+                        <td><span class="zone-dot" style="background:#00e676"></span>70–80% Buy</td>
+                        <td class="prob-mid">~53%</td>
+                        <td class="prob-high">~62%</td>
+                        <td class="prob-high">~72%</td>
+                        <td class="prob-high">~83%</td>
+                    </tr>
+                    <tr>
+                        <td><span class="zone-dot" style="background:#ffeb3b"></span>60–70% Bullish</td>
+                        <td class="prob-mid">~51%</td>
+                        <td class="prob-mid">~55%</td>
+                        <td class="prob-mid">~60%</td>
+                        <td class="prob-high">~72%</td>
+                    </tr>
+                    <tr>
+                        <td><span class="zone-dot" style="background:#ffeb3b"></span>50–60% Neutral</td>
+                        <td>~48%</td>
+                        <td>~48%</td>
+                        <td class="prob-mid">~52%</td>
+                        <td class="prob-mid">~62%</td>
+                    </tr>
+                    <tr>
+                        <td><span class="zone-dot" style="background:#ff9800"></span>40–50% Cautious</td>
+                        <td>~46%</td>
+                        <td>~43%</td>
+                        <td>~45%</td>
+                        <td class="prob-mid">~55%</td>
+                    </tr>
+                    <tr>
+                        <td><span class="zone-dot" style="background:#ff9800"></span>30–40% Bearish</td>
+                        <td class="prob-low">~42%</td>
+                        <td class="prob-low">~38%</td>
+                        <td class="prob-low">~40%</td>
+                        <td>~48%</td>
+                    </tr>
+                    <tr>
+                        <td><span class="zone-dot" style="background:#ff1744"></span>0–30% Strong Sell</td>
+                        <td class="prob-low">~38%</td>
+                        <td class="prob-low">~33%</td>
+                        <td class="prob-low">~32%</td>
+                        <td class="prob-low">~42%</td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="prob-note">⚠️ Composite of RSI, MACD, Stochastic, WaveTrend & F&G. Past performance does not
+                guarantee future results.</div>
+        </div>
+    </div>
     <script>
         (function () {
             'use strict';
@@ -878,6 +1119,9 @@
                         data.forEach(candle => {
                             allCandles.push({
                                 date: new Date(candle[0]),
+                                open: parseFloat(candle[1]),
+                                high: parseFloat(candle[2]),
+                                low: parseFloat(candle[3]),
                                 price: parseFloat(candle[4]),
                             });
                         });
@@ -910,6 +1154,9 @@
                     const sentiment = fng ? getSentiment(fng.value) : null;
                     return {
                         date: p.date,
+                        open: p.open,
+                        high: p.high,
+                        low: p.low,
                         price: p.price,
                         fngValue: fng ? fng.value : null,
                         sentiment: sentiment,
@@ -918,7 +1165,472 @@
             }
 
             // ══════════════════════════════════════════════════
-            // ═══ Reusable Chart Factory ═══
+            // ═══ Technical Indicator Calculations ═══
+            // ══════════════════════════════════════════════════
+
+            function calcEMA(data, period) {
+                const result = new Array(data.length).fill(null);
+                if (data.length < period) return result;
+                let sum = 0;
+                for (let i = 0; i < period; i++) sum += data[i];
+                result[period - 1] = sum / period;
+                const k = 2 / (period + 1);
+                for (let i = period; i < data.length; i++) {
+                    result[i] = data[i] * k + result[i - 1] * (1 - k);
+                }
+                return result;
+            }
+
+            function calcSMA(data, period) {
+                const result = new Array(data.length).fill(null);
+                for (let i = period - 1; i < data.length; i++) {
+                    let sum = 0;
+                    for (let j = i - period + 1; j <= i; j++) sum += data[j];
+                    result[i] = sum / period;
+                }
+                return result;
+            }
+
+            function calcRSI(closes, period = 14) {
+                const rsi = new Array(closes.length).fill(null);
+                if (closes.length < period + 1) return rsi;
+                let gainSum = 0, lossSum = 0;
+                for (let i = 1; i <= period; i++) {
+                    const change = closes[i] - closes[i - 1];
+                    if (change > 0) gainSum += change; else lossSum -= change;
+                }
+                let avgGain = gainSum / period;
+                let avgLoss = lossSum / period;
+                rsi[period] = avgLoss === 0 ? 100 : 100 - 100 / (1 + avgGain / avgLoss);
+                for (let i = period + 1; i < closes.length; i++) {
+                    const change = closes[i] - closes[i - 1];
+                    const gain = change > 0 ? change : 0;
+                    const loss = change < 0 ? -change : 0;
+                    avgGain = (avgGain * (period - 1) + gain) / period;
+                    avgLoss = (avgLoss * (period - 1) + loss) / period;
+                    rsi[i] = avgLoss === 0 ? 100 : 100 - 100 / (1 + avgGain / avgLoss);
+                }
+                return rsi;
+            }
+
+            function calcMACD(closes, fast = 12, slow = 26, sig = 9) {
+                const emaFast = calcEMA(closes, fast);
+                const emaSlow = calcEMA(closes, slow);
+                const macdLine = closes.map((_, i) =>
+                    emaFast[i] != null && emaSlow[i] != null ? emaFast[i] - emaSlow[i] : null
+                );
+                const validMacd = macdLine.map(v => v ?? 0);
+                const signalLine = calcEMA(validMacd, sig);
+                const histogram = macdLine.map((m, i) =>
+                    m != null && signalLine[i] != null ? m - signalLine[i] : null
+                );
+                return { macd: macdLine, signal: signalLine, histogram };
+            }
+
+            function calcStochastic(highs, lows, closes, kPeriod = 14, dPeriod = 3) {
+                const rawK = new Array(closes.length).fill(null);
+                for (let i = kPeriod - 1; i < closes.length; i++) {
+                    let hh = -Infinity, ll = Infinity;
+                    for (let j = i - kPeriod + 1; j <= i; j++) {
+                        if (highs[j] > hh) hh = highs[j];
+                        if (lows[j] < ll) ll = lows[j];
+                    }
+                    rawK[i] = hh === ll ? 50 : ((closes[i] - ll) / (hh - ll)) * 100;
+                }
+                const k = calcSMA(rawK.map(v => v ?? 0), dPeriod);
+                const d = calcSMA(k.map(v => v ?? 0), dPeriod);
+                return { k, d };
+            }
+
+            function calcWaveTrend(highs, lows, closes, chLen = 10, avgLen = 21) {
+                const hlc3 = closes.map((c, i) => (highs[i] + lows[i] + c) / 3);
+                const esa = calcEMA(hlc3, chLen);
+                const d = hlc3.map((v, i) => esa[i] != null ? Math.abs(v - esa[i]) : 0);
+                const de = calcEMA(d, chLen);
+                const ci = hlc3.map((v, i) => {
+                    if (esa[i] == null || de[i] == null || de[i] === 0) return 0;
+                    return (v - esa[i]) / (0.015 * de[i]);
+                });
+                const wt1 = calcEMA(ci, avgLen);
+                const wt2 = calcSMA(wt1.map(v => v ?? 0), 4);
+                return { wt1, wt2 };
+            }
+
+            function calcWinProbability(data) {
+                if (data.length < 30) return data.map(() => null);
+
+                const closes = data.map(d => d.price);
+                const highs = data.map(d => d.high || d.price);
+                const lows = data.map(d => d.low || d.price);
+
+                const rsi = calcRSI(closes);
+                const macd = calcMACD(closes);
+                const stoch = calcStochastic(highs, lows, closes);
+                const wt = calcWaveTrend(highs, lows, closes);
+
+                // Normalize MACD histogram to 0-100
+                const validHist = macd.histogram.filter(v => v != null);
+                const histMin = Math.min(...validHist);
+                const histMax = Math.max(...validHist);
+                const histRange = histMax - histMin || 1;
+
+                // Normalize WaveTrend to 0-100
+                const validWt = wt.wt1.filter(v => v != null);
+                const wtMin = Math.min(...validWt);
+                const wtMax = Math.max(...validWt);
+                const wtRange = wtMax - wtMin || 1;
+
+                return data.map((d, i) => {
+                    const rsiVal = rsi[i];
+                    const histVal = macd.histogram[i];
+                    const stochVal = stoch.k[i];
+                    const wtVal = wt.wt1[i];
+                    const fngVal = d.fngValue;
+
+                    if (rsiVal == null && histVal == null && stochVal == null) return null;
+
+                    // Normalize each to 0-100 "bullish score"
+                    const rsiScore = rsiVal != null ? (100 - rsiVal) : 50; // Inverted: low RSI = bullish
+                    const macdScore = histVal != null ? ((histVal - histMin) / histRange) * 100 : 50;
+                    const stochScore = stochVal != null ? (100 - stochVal) : 50; // Inverted: low stoch = bullish
+                    const wtScore = wtVal != null ? ((wtVal - wtMin) / wtRange) * 100 : 50;
+                    const wtInverted = 100 - wtScore; // Inverted: low WT = bullish
+                    const fngScore = fngVal != null ? (100 - fngVal) : 50; // Inverted: low F&G = bullish
+
+                    // Weighted average
+                    const composite = (
+                        fngScore * 0.25 +
+                        rsiScore * 0.20 +
+                        macdScore * 0.20 +
+                        stochScore * 0.15 +
+                        wtInverted * 0.20
+                    );
+
+                    return {
+                        value: Math.max(0, Math.min(100, Math.round(composite))),
+                        rsi: rsiVal != null ? Math.round(rsiVal) : null,
+                        macdHist: histVal != null ? histVal.toFixed(1) : null,
+                        stochK: stochVal != null ? Math.round(stochVal) : null,
+                        wt1: wtVal != null ? Math.round(wtVal) : null,
+                        fng: fngVal,
+                    };
+                });
+            }
+
+            // ══════════════════════════════════════════════════
+            // ═══ Win Probability Chart Factory ═══
+            // ══════════════════════════════════════════════════
+            function createWinProbChart(prefix, symbol, fngMapPromise) {
+                const el = (id) => document.getElementById(`${prefix}-wp-${id}`);
+
+                let chart = null;
+                let mergedData = [];
+                let wpData = [];
+                let currentRange = 365;
+                let customFrom = null;
+                let customTo = null;
+
+                function getWpColor(val) {
+                    if (val == null) return '#6b7280';
+                    if (val >= 70) return '#00e676';
+                    if (val >= 50) return '#ffeb3b';
+                    if (val >= 30) return '#ff9800';
+                    return '#ff1744';
+                }
+
+                function getWpLabel(val) {
+                    if (val >= 70) return 'Strong Buy';
+                    if (val >= 50) return 'Bullish';
+                    if (val >= 30) return 'Cautious';
+                    return 'Bearish';
+                }
+
+                function filterByRange(data, days) {
+                    if (customFrom || customTo) {
+                        return data.filter(d => {
+                            if (customFrom && d.date < customFrom) return false;
+                            if (customTo && d.date > customTo) return false;
+                            return true;
+                        });
+                    }
+                    if (days === 0) return data;
+                    const cutoff = new Date();
+                    cutoff.setDate(cutoff.getDate() - days);
+                    return data.filter(d => d.date >= cutoff);
+                }
+
+                function buildDatasets() {
+                    const filtered = filterByRange(mergedData, currentRange);
+                    const filteredWp = filterByRange(
+                        mergedData.map((d, i) => ({ date: d.date, wp: wpData[i] })),
+                        currentRange
+                    );
+                    return [{
+                        label: 'Win Probability',
+                        data: filteredWp.map(d => ({
+                            x: d.date,
+                            y: d.wp ? d.wp.value : null,
+                        })),
+                        borderWidth: 2.5,
+                        pointRadius: 0,
+                        pointHoverRadius: 5,
+                        pointHoverBorderWidth: 2,
+                        pointHoverBackgroundColor: '#fff',
+                        yAxisID: 'yWp',
+                        tension: 0.3,
+                        spanGaps: true,
+                        fill: false,
+                        segment: {
+                            borderColor: function (ctx) {
+                                const idx = ctx.p1DataIndex;
+                                const d = filteredWp[idx];
+                                if (!d || !d.wp) return '#6b7280';
+                                return getWpColor(d.wp.value);
+                            },
+                        },
+                        borderColor: '#6366f1',
+                    }];
+                }
+
+                function getTimeUnit() {
+                    if (customFrom || customTo) {
+                        const from = customFrom || mergedData[0]?.date || new Date();
+                        const to = customTo || new Date();
+                        const days = (to - from) / 86400000;
+                        if (days <= 60) return 'day';
+                        if (days <= 365) return 'week';
+                        return 'month';
+                    }
+                    if (currentRange <= 90) return 'day';
+                    if (currentRange <= 365) return 'week';
+                    return 'month';
+                }
+
+                // 50% reference line plugin
+                const refLinePlugin = {
+                    id: `refLine-${prefix}-wp`,
+                    beforeDatasetsDraw(ch) {
+                        const { ctx, chartArea, scales } = ch;
+                        if (!chartArea || !scales.yWp) return;
+                        const y50 = scales.yWp.getPixelForValue(50);
+                        ctx.save();
+                        ctx.strokeStyle = 'rgba(255,255,255,0.15)';
+                        ctx.lineWidth = 1;
+                        ctx.setLineDash([6, 4]);
+                        ctx.beginPath();
+                        ctx.moveTo(chartArea.left, y50);
+                        ctx.lineTo(chartArea.right, y50);
+                        ctx.stroke();
+                        ctx.setLineDash([]);
+                        ctx.restore();
+                    }
+                };
+
+                function createChart() {
+                    const ctx = el('chart').getContext('2d');
+                    const externalTooltip = function (context) {
+                        const { chart: ch, tooltip } = context;
+                        let tooltipEl = ch.canvas.parentNode.querySelector('.wp-tooltip');
+                        if (!tooltipEl) {
+                            tooltipEl = document.createElement('div');
+                            tooltipEl.className = 'wp-tooltip';
+                            tooltipEl.style.cssText = `
+                                position: absolute; pointer-events: none;
+                                background: rgba(15, 18, 35, 0.95);
+                                border: 1px solid rgba(99,102,241,0.2);
+                                border-radius: 8px; padding: 10px 14px; font-size: 12px;
+                                color: #e0e4f0; box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+                                transition: all 0.1s ease; z-index: 100;
+                                backdrop-filter: blur(8px); max-width: 280px; line-height: 1.5;
+                            `;
+                            ch.canvas.parentNode.appendChild(tooltipEl);
+                        }
+                        if (tooltip.opacity === 0) { tooltipEl.style.opacity = '0'; return; }
+
+                        const filteredWp = filterByRange(
+                            mergedData.map((d, i) => ({ date: d.date, wp: wpData[i] })),
+                            currentRange
+                        );
+                        let html = '';
+                        if (tooltip.title?.length) {
+                            html += `<div style="font-weight:600;margin-bottom:6px;color:#a5b4fc;">${tooltip.title[0]}</div>`;
+                        }
+                        tooltip.dataPoints?.forEach(point => {
+                            const idx = point.dataIndex;
+                            const d = filteredWp[idx];
+                            if (d && d.wp) {
+                                const wp = d.wp;
+                                const color = getWpColor(wp.value);
+                                html += `<div style="display:flex;align-items:center;gap:6px;margin:4px 0;">
+                                    <span style="display:inline-block;width:8px;height:8px;border-radius:2px;background:${color};"></span>
+                                    <strong style="font-size:14px;color:${color};">${wp.value}%</strong>
+                                    <span style="font-size:10px;padding:1px 6px;border-radius:3px;background:${color}22;color:${color};font-weight:600;">${getWpLabel(wp.value)}</span>
+                                </div>`;
+                                html += `<div style="margin-top:6px;border-top:1px solid rgba(255,255,255,0.06);padding-top:6px;font-size:11px;">`;
+                                if (wp.rsi != null) html += `<div style="display:flex;justify-content:space-between;"><span style="color:#6b7280;">RSI(14)</span><span>${wp.rsi}</span></div>`;
+                                if (wp.macdHist != null) html += `<div style="display:flex;justify-content:space-between;"><span style="color:#6b7280;">MACD Hist</span><span>${wp.macdHist}</span></div>`;
+                                if (wp.stochK != null) html += `<div style="display:flex;justify-content:space-between;"><span style="color:#6b7280;">Stoch %K</span><span>${wp.stochK}</span></div>`;
+                                if (wp.wt1 != null) html += `<div style="display:flex;justify-content:space-between;"><span style="color:#6b7280;">WaveTrend</span><span>${wp.wt1}</span></div>`;
+                                if (wp.fng != null) html += `<div style="display:flex;justify-content:space-between;"><span style="color:#6b7280;">F&G Index</span><span>${wp.fng}</span></div>`;
+                                html += `</div>`;
+                            }
+                        });
+                        tooltipEl.innerHTML = html;
+                        tooltipEl.style.opacity = '1';
+                        const { offsetLeft, offsetTop } = ch.canvas;
+                        let left = offsetLeft + tooltip.caretX + 14;
+                        let top = offsetTop + tooltip.caretY - 24;
+                        const rect = ch.canvas.parentNode.getBoundingClientRect();
+                        if (left + 280 > rect.width) left = offsetLeft + tooltip.caretX - 290;
+                        if (top < 0) top = 10;
+                        tooltipEl.style.left = left + 'px';
+                        tooltipEl.style.top = top + 'px';
+                    };
+
+                    chart = new Chart(ctx, {
+                        plugins: [refLinePlugin],
+                        type: 'line',
+                        data: { datasets: buildDatasets() },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            animation: { duration: 400 },
+                            interaction: { mode: 'index', intersect: false },
+                            plugins: {
+                                legend: { display: false },
+                                tooltip: { enabled: false, external: externalTooltip, position: 'nearest' },
+                            },
+                            scales: {
+                                x: {
+                                    type: 'time',
+                                    time: { unit: getTimeUnit(), tooltipFormat: 'MMM d, yyyy' },
+                                    grid: { color: 'rgba(255,255,255,0.04)' },
+                                    ticks: { color: '#4b5268', font: { size: 11 }, maxTicksLimit: 12 },
+                                },
+                                yWp: {
+                                    position: 'right',
+                                    min: 0,
+                                    max: 100,
+                                    grid: { color: 'rgba(255,255,255,0.04)' },
+                                    ticks: {
+                                        color: '#4b5268',
+                                        font: { size: 11 },
+                                        stepSize: 10,
+                                        callback: v => v + '%',
+                                    },
+                                },
+                            },
+                        },
+                    });
+                }
+
+                function updateChart() {
+                    if (!chart) return;
+                    chart.data.datasets = buildDatasets();
+                    chart.options.scales.x.time.unit = getTimeUnit();
+                    chart.update('none');
+                    showInfoRow();
+                }
+
+                function showInfoRow() {
+                    const filtered = filterByRange(mergedData, currentRange);
+                    const filteredWp = filterByRange(
+                        mergedData.map((d, i) => ({ date: d.date, wp: wpData[i] })),
+                        currentRange
+                    );
+                    const last = filteredWp[filteredWp.length - 1];
+                    const infoRow = el('infoRow');
+                    if (!last || !last.wp) { infoRow.innerHTML = ''; return; }
+                    const wp = last.wp;
+                    const color = getWpColor(wp.value);
+                    const label = getWpLabel(wp.value);
+                    infoRow.innerHTML = `
+                        <span class="current-price" style="color:${color};">${wp.value}%</span>
+                        <span class="sentiment-badge" style="background:${color}22;color:${color};">${label}</span>
+                    `;
+                }
+
+                // Time selector
+                function setupTimeSelector() {
+                    el('timeSelector')?.querySelectorAll('.time-btn').forEach(btn => {
+                        btn.addEventListener('click', () => {
+                            el('timeSelector').querySelectorAll('.time-btn').forEach(b => b.classList.remove('active'));
+                            btn.classList.add('active');
+                            currentRange = parseInt(btn.dataset.range);
+                            customFrom = null;
+                            customTo = null;
+                            const df = el('dateFrom');
+                            const dt = el('dateTo');
+                            if (df) df.value = '';
+                            if (dt) dt.value = '';
+                            updateChart();
+                        });
+                    });
+                }
+
+                // Date picker
+                function setupDatePicker() {
+                    const onDateChange = () => {
+                        const fromVal = el('dateFrom')?.value;
+                        const toVal = el('dateTo')?.value;
+                        if (fromVal) customFrom = new Date(fromVal);
+                        if (toVal) customTo = new Date(toVal);
+                        if (customFrom || customTo) {
+                            el('timeSelector')?.querySelectorAll('.time-btn').forEach(b => b.classList.remove('active'));
+                            updateChart();
+                        }
+                    };
+                    el('dateFrom')?.addEventListener('change', onDateChange);
+                    el('dateTo')?.addEventListener('change', onDateChange);
+                    el('resetZoom')?.addEventListener('click', () => {
+                        customFrom = null;
+                        customTo = null;
+                        const df = el('dateFrom');
+                        const dt = el('dateTo');
+                        if (df) df.value = '';
+                        if (dt) dt.value = '';
+                        const btn = el('timeSelector')?.querySelector(`[data-range="${currentRange}"]`);
+                        if (btn) btn.classList.add('active');
+                        updateChart();
+                    });
+                }
+
+                async function init() {
+                    setupTimeSelector();
+                    setupDatePicker();
+
+                    try {
+                        const loadingEl = el('loadingText');
+                        loadingEl.textContent = `Calculating ${symbol} indicators...`;
+
+                        const [fngMap, prices] = await Promise.all([
+                            fngMapPromise,
+                            fetchPrice(symbol, loadingEl),
+                        ]);
+
+                        loadingEl.textContent = 'Computing Win Probability...';
+                        mergedData = mergeData(prices, fngMap);
+                        wpData = calcWinProbability(mergedData);
+
+                        createChart();
+                        showInfoRow();
+                    } catch (err) {
+                        console.error(`Failed to load ${symbol} WP data:`, err);
+                        el('loadingOverlay').innerHTML = `
+                            <div style="color: #ef4444; font-size: 14px;">Failed to load data</div>
+                            <div style="color: #6b7280; font-size: 12px; margin-top: 4px;">${err.message}</div>
+                        `;
+                        return;
+                    }
+
+                    el('loadingOverlay').style.display = 'none';
+                }
+
+                init();
+            }
+
+            // ══════════════════════════════════════════════════
+            // ═══ Reusable F&G Chart Factory ═══
             // ══════════════════════════════════════════════════
             function createFngChart(prefix, symbol, fngMapPromise) {
                 // DOM elements
@@ -1400,10 +2112,12 @@
                 init();
             }
 
-            // ── Launch both charts (shared F&G fetch) ──
+            // ── Launch all charts (shared F&G fetch) ──
             const fngMapPromise = fetchFearAndGreed();
             createFngChart('btc', 'BTCUSDT', fngMapPromise);
             createFngChart('eth', 'ETHUSDT', fngMapPromise);
+            createWinProbChart('btc', 'BTCUSDT', fngMapPromise);
+            createWinProbChart('eth', 'ETHUSDT', fngMapPromise);
 
         })();
     </script>
