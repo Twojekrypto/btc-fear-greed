@@ -443,6 +443,64 @@
             font-weight: 700;
             color: #e0e4f0;
             margin-bottom: 4px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .info-tip {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: rgba(99, 102, 241, 0.2);
+            color: #a5b4fc;
+            font-size: 11px;
+            font-weight: 700;
+            cursor: help;
+            flex-shrink: 0;
+        }
+
+        .info-tip-content {
+            display: none;
+            position: absolute;
+            bottom: calc(100% + 10px);
+            left: 50%;
+            transform: translateX(-50%);
+            width: 320px;
+            background: rgba(15, 18, 35, 0.97);
+            border: 1px solid rgba(99, 102, 241, 0.25);
+            border-radius: 10px;
+            padding: 14px 16px;
+            font-size: 12px;
+            font-weight: 400;
+            line-height: 1.6;
+            color: #c0c5d8;
+            box-shadow: 0 12px 32px rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(12px);
+            z-index: 200;
+            pointer-events: none;
+        }
+
+        .info-tip-content::after {
+            content: '';
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            border: 6px solid transparent;
+            border-top-color: rgba(99, 102, 241, 0.25);
+        }
+
+        .info-tip:hover .info-tip-content {
+            display: block;
+        }
+
+        .info-tip-content strong {
+            color: #e0e4f0;
         }
 
         .prob-subtitle {
@@ -620,7 +678,16 @@
             <span class="footer-text" id="btc-lastUpdate"></span>
         </div>
         <div class="prob-section">
-            <div class="prob-title">📊 Historical Win Rate by Fear & Greed Level (BTC)</div>
+            <div class="prob-title">📊 Historical Win Rate by Fear & Greed Level (BTC)
+                <span class="info-tip">?
+                    <div class="info-tip-content">
+                        <strong>Jak czytać tabelę?</strong><br>
+                        Kolumny (7D, 30D, 90D, 1Y) pokazują jak często cena BTC rosła <strong>po X dniach</strong> od
+                        momentu kupna przy danym poziomie Fear & Greed.<br><br>
+                        Np. ~65% przy 30D oznacza, że w 65% przypadków cena była wyższa po 30 dniach.
+                    </div>
+                </span>
+            </div>
             <div class="prob-subtitle">Probability of BTC price increase after buying at given F&G level (2018–2026)
             </div>
             <table class="prob-table">
@@ -747,7 +814,16 @@
             <span class="footer-text" id="eth-lastUpdate"></span>
         </div>
         <div class="prob-section">
-            <div class="prob-title">📊 Historical Win Rate by Fear & Greed Level (ETH)</div>
+            <div class="prob-title">📊 Historical Win Rate by Fear & Greed Level (ETH)
+                <span class="info-tip">?
+                    <div class="info-tip-content">
+                        <strong>Jak czytać tabelę?</strong><br>
+                        Kolumny (7D, 30D, 90D, 1Y) pokazują jak często cena ETH rosła <strong>po X dniach</strong> od
+                        momentu kupna przy danym poziomie Fear & Greed.<br><br>
+                        Np. ~65% przy 30D oznacza, że w 65% przypadków cena była wyższa po 30 dniach.
+                    </div>
+                </span>
+            </div>
             <div class="prob-subtitle">Probability of ETH price increase after buying at given F&G level (2018–2026)
             </div>
             <table class="prob-table">
@@ -880,7 +956,23 @@
             <span class="footer-text">Indicators: RSI(14) · MACD(12,26,9) · Stoch(14,3,3) · WaveTrend · F&G Index</span>
         </div>
         <div class="prob-section">
-            <div class="prob-title">📊 Historical Win Rate by Composite Score (BTC)</div>
+            <div class="prob-title">📊 Historical Win Rate by Composite Score (BTC)
+                <span class="info-tip">?
+                    <div class="info-tip-content">
+                        <strong>Jak czytać tabelę?</strong><br>
+                        Composite Score łączy 5 wskaźników: <strong>RSI, MACD, Stochastic, WaveTrend</strong> i
+                        <strong>Fear & Greed Index</strong>, obliczonych na świecach <strong>tygodniowych
+                            (1W)</strong>.<br><br>
+                        Kolumny pokazują jak często cena BTC rosła <strong>po danym czasie</strong> od momentu
+                        kupna:<br>
+                        • <strong>7D</strong> = po 7 dniach<br>
+                        • <strong>30D</strong> = po 30 dniach<br>
+                        • <strong>90D</strong> = po 3 miesiącach<br>
+                        • <strong>1Y</strong> = po 1 roku<br><br>
+                        Im wyższy score (np. 80-100%), tym historycznie większe szanse na wzrost ceny.
+                    </div>
+                </span>
+            </div>
             <div class="prob-subtitle">Probability of BTC price increase after buying at given composite level
                 (2018–2026)</div>
             <table class="prob-table">
@@ -1012,7 +1104,23 @@
             <span class="footer-text">Indicators: RSI(14) · MACD(12,26,9) · Stoch(14,3,3) · WaveTrend · F&G Index</span>
         </div>
         <div class="prob-section">
-            <div class="prob-title">📊 Historical Win Rate by Composite Score (ETH)</div>
+            <div class="prob-title">📊 Historical Win Rate by Composite Score (ETH)
+                <span class="info-tip">?
+                    <div class="info-tip-content">
+                        <strong>Jak czytać tabelę?</strong><br>
+                        Composite Score łączy 5 wskaźników: <strong>RSI, MACD, Stochastic, WaveTrend</strong> i
+                        <strong>Fear & Greed Index</strong>, obliczonych na świecach <strong>tygodniowych
+                            (1W)</strong>.<br><br>
+                        Kolumny pokazują jak często cena ETH rosła <strong>po danym czasie</strong> od momentu
+                        kupna:<br>
+                        • <strong>7D</strong> = po 7 dniach<br>
+                        • <strong>30D</strong> = po 30 dniach<br>
+                        • <strong>90D</strong> = po 3 miesiącach<br>
+                        • <strong>1Y</strong> = po 1 roku<br><br>
+                        Im wyższy score (np. 80-100%), tym historycznie większe szanse na wzrost ceny.
+                    </div>
+                </span>
+            </div>
             <div class="prob-subtitle">Probability of ETH price increase after buying at given composite level
                 (2018–2026)</div>
             <table class="prob-table">
