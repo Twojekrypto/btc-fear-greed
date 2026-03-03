@@ -1611,7 +1611,7 @@
                                     const color = getWpColor(wp.value);
                                     html += `<div style="display:flex;align-items:center;gap:6px;margin:4px 0;">
                                         <span style="display:inline-block;width:8px;height:8px;border-radius:2px;background:${color};"></span>
-                                        <strong style="font-size:13px;color:${color};">Win: ${wp.value}%</strong>
+                                        <strong style="font-size:13px;color:${color};">Score: ${wp.value}</strong>
                                         <span style="font-size:10px;padding:1px 6px;border-radius:3px;background:${color}22;color:${color};font-weight:600;">${getWpLabel(wp.value)}</span>
                                     </div>`;
                                     html += `<div style="margin-top:6px;border-top:1px solid rgba(255,255,255,0.06);padding-top:6px;font-size:11px;">`;
@@ -1700,10 +1700,10 @@
                     const wp = last.wp;
                     const color = wp ? getWpColor(wp.value) : '#6b7280';
                     const label = wp ? getWpLabel(wp.value) : '—';
-                    const wpVal = wp ? wp.value + '%' : '—';
+                    const wpVal = wp ? 'Score ' + wp.value : '—';
                     infoRow.innerHTML = `
                         <span class="current-price">$${price.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
-                        <span class="sentiment-badge" style="background:${color}22;color:${color};">${wpVal} ${label}</span>
+                        <span class="sentiment-badge" style="background:${color}22;color:${color};">${wpVal} · ${label}</span>
                     `;
                 }
 
