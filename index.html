@@ -417,9 +417,7 @@
         .snapshot-strip {
             width: 100%;
             max-width: 1400px;
-            position: sticky;
-            top: 16px;
-            z-index: 14;
+            position: relative;
             padding: 12px 14px;
             border-radius: 24px;
             border: 1px solid rgba(166, 185, 225, 0.10);
@@ -2504,7 +2502,7 @@
                             <strong>How to read this table</strong><br>
                             Rows split the official Alternative.me values into custom 10-point buckets for a finer
                             backtest view. Columns show how often BTC closed higher after each forward horizon from the
-                            signal date.<br><br>
+                            signal date, measured as future close versus signal-date close.<br><br>
                             The source feed remains the official Alternative.me series; only the backtest grouping is
                             more granular.
                         </div>
@@ -2621,7 +2619,7 @@
                             This is the same Alternative.me sentiment feed, but paired with ETH history. Read it as
                             market-wide risk appetite, not as an official ETH-native index.<br><br>
                             Rows are split into custom 10-point buckets for a finer backtest view while the source feed
-                            itself stays unchanged.
+                            itself stays unchanged. A win means the future close finished above the signal-date close.
                         </div>
                     </span>
                 </div>
@@ -2741,7 +2739,7 @@
                             calculated once it has enough warm-up data, and the final average reweights only the signals
                             that are actually available.<br><br>
                             The table groups the weekly score into 10-point buckets (`0-9` through `90-100`) and shows
-                            forward returns measured on weekly candles: 1W, 4W, 13W, and 52W.
+                            how often the future weekly close is above the signal-date close at 1W, 4W, 13W, and 52W.
                         </div>
                     </span>
                 </div>
@@ -2870,7 +2868,8 @@
                             The score is calculated on weekly candles and no longer normalizes against the full future
                             sample. That keeps the historical backtest free from look-ahead bias.<br><br>
                             The table groups the weekly score into 10-point buckets (`0-9` through `90-100`). The
-                            1W / 4W / 13W / 52W horizons refer to the following weekly closes.
+                            1W / 4W / 13W / 52W horizons refer to the following weekly closes versus the signal-date
+                            close.
                         </div>
                     </span>
                 </div>
@@ -3512,7 +3511,7 @@
                     `;
                 }).join('');
 
-                statusEl.textContent = `${contextText} ${stats.usableSignals} signals across ${stats.candleCount} candles. Row n = bucket matches; cell n = observations available for that exact horizon.`;
+                statusEl.textContent = `${contextText} ${stats.usableSignals} signals across ${stats.candleCount} candles. Rates show how often the future close finished above the signal-date close. Row n = bucket matches; cell n = observations available for that exact horizon.`;
             }
 
             // ── Fetch Fear & Greed (shared between charts) ──

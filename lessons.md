@@ -134,3 +134,8 @@
 - **Kontekst:** User wanted backtests in 10-point steps instead of broader 25-ish point zones.
 - **Błąd:** Jeśli copy nadal mówi `zone` albo `official zone`, user może uznać, że to nadal oficjalna metodologia, a nie tylko sposób grupowania tabeli.
 - **Reguła:** Przy drobniejszym backtest bucketingu używaj w UI słowa `bucket`, pokazuj szerokość bucketu w nagłówku kolumny i dopowiadaj, że źródłowy feed pozostaje oficjalny.
+
+### 2026-04-17 — Global snapshot strips should not be sticky by default
+- **Kontekst:** Na długiej stronie analytics `Live Market Snapshot` zaczął przyklejać się do góry przy scrollu.
+- **Błąd:** Sticky summary na takiej stronie zabiera uwagę głównym chartom i wygląda bardziej jak przeszkoda niż premium pomoc.
+- **Reguła:** Globalne paski snapshotów trzymaj w normalnym flow strony; sticky zostaw tylko dla naprawdę krytycznej nawigacji albo jeśli user wyraźnie tego chce.

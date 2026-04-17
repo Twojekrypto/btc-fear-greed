@@ -118,3 +118,8 @@
 - **Context:** The user wanted finer backtest rows than the broad official F&G / composite display zones.
 - **Takeaway:** Tables can use 10-point buckets for better resolution, as long as the UI clearly says the source feed is unchanged and only the analytical grouping is custom.
 - **Rule:** When using finer backtest buckets, say `bucket` instead of `zone`, label the first column with the bucket width, and keep the official-zone caveat in the helper copy.
+
+### 2026-04-17 — Global snapshot bars should not stay sticky over long dashboards
+- **Context:** The live market snapshot sat near the top of a long analytics page and kept following the user while scrolling.
+- **Takeaway:** On a chart-heavy premium dashboard, a sticky summary strip starts competing with the actual charts and wastes vertical attention.
+- **Rule:** Keep global snapshot surfaces static in the page flow unless the user explicitly asks for persistent sticky navigation.
