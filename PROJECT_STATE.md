@@ -122,6 +122,7 @@
 34. ✅ Switched F&G and composite backtest tables from broad zones to 10-point buckets for finer historical resolution
 35. ✅ Added in-table sorting for every backtest column across BTC/ETH F&G and composite views
 36. ✅ Added `Returns` tabs showing average forward return for every bucket and horizon across all charts
+37. ✅ Switched composite `Backtest` and `Returns` tables to exact `7D / 30D / 90D / 1Y` outcomes using daily closes while keeping the score itself weekly
 
 ---
 

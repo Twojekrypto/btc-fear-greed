@@ -133,3 +133,8 @@
 - **Context:** A bucket can win often but still have a weak average payoff, or win less often but deliver much larger upside when it works.
 - **Takeaway:** Pairing hit rate with average forward return gives a more honest view of what a setup is worth.
 - **Rule:** Whenever you show historical hit rate for a setup bucket, consider adding a neighboring average-return view for the same horizons, with clear wording that it reflects payoff size rather than win frequency.
+
+### 2026-04-17 — Weekly signals can still be evaluated on exact calendar horizons
+- **Context:** The composite model is built from weekly candles, but users naturally compare it to daily-horizon analytics like `7D / 30D / 90D / 1Y`.
+- **Takeaway:** Keep the signal cadence and the evaluation cadence conceptually separate: a weekly score can stay weekly while its public backtest measures exact calendar outcomes with daily closes.
+- **Rule:** When a model is generated on weekly bars but the UX needs day-based horizons, keep the weekly signal unchanged and compute forward outcomes from the first daily close on or after the requested calendar date.

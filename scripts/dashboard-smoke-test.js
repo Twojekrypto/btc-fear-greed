@@ -289,7 +289,7 @@ async function main() {
     const btcFngAfterSort = getElement('btc-fng-probBody').innerHTML;
 
     const btcWpBeforeSort = getElement('btc-wp-probBody').innerHTML;
-    const btcWpSortButton = getElement('btc-wp-sort-w13');
+    const btcWpSortButton = getElement('btc-wp-sort-d90');
     btcWpSortButton.listeners.get('click')?.();
     await flushAsync(2);
     const btcWpAfterSort = getElement('btc-wp-probBody').innerHTML;
@@ -301,7 +301,7 @@ async function main() {
     const btcFngReturnAfterSort = getElement('btc-fng-returnBody').innerHTML;
 
     const btcWpReturnBeforeSort = getElement('btc-wp-returnBody').innerHTML;
-    const btcWpReturnSortButton = getElement('btc-wp-return-sort-w13');
+    const btcWpReturnSortButton = getElement('btc-wp-return-sort-d90');
     btcWpReturnSortButton.listeners.get('click')?.();
     await flushAsync(2);
     const btcWpReturnAfterSort = getElement('btc-wp-returnBody').innerHTML;

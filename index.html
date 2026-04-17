@@ -2895,33 +2895,34 @@
                             The score blends weekly momentum, trend, mean reversion, and F&amp;G. Each component is only
                             calculated once it has enough warm-up data, and the final average reweights only the signals
                             that are actually available.<br><br>
-                            The table groups the weekly score into 10-point buckets (`0-9` through `90-100`) and shows
-                            how often the future weekly close is above the signal-date close at 1W, 4W, 13W, and 52W.
+                            The table groups the weekly score into 10-point buckets (`0-9` through `90-100`). The
+                            signal itself is weekly, but the outcomes use the first daily close on or after exact
+                            calendar horizons of 7D, 30D, 90D, and 1Y from the weekly close.
                         </div>
                     </span>
                 </div>
-                <div class="prob-subtitle">Weekly backtest grouped into 10-point score buckets. Values below are
-                    recomputed from fetched history after load.</div>
+                <div class="prob-subtitle">Weekly score buckets with exact calendar-horizon outcomes from daily Binance
+                    closes.</div>
                 <div class="prob-table-shell">
                     <table class="prob-table">
                         <thead>
                             <tr>
                                 <th><button class="prob-sort-btn" id="btc-wp-sort-bucket" data-sort-key="bucket" type="button">Score Bucket</button></th>
-                                <th><button class="prob-sort-btn" id="btc-wp-sort-w1" data-sort-key="w1" type="button">1W</button></th>
-                                <th><button class="prob-sort-btn" id="btc-wp-sort-w4" data-sort-key="w4" type="button">4W</button></th>
-                                <th><button class="prob-sort-btn" id="btc-wp-sort-w13" data-sort-key="w13" type="button">13W</button></th>
-                                <th><button class="prob-sort-btn" id="btc-wp-sort-w52" data-sort-key="w52" type="button">52W</button></th>
+                                <th><button class="prob-sort-btn" id="btc-wp-sort-d7" data-sort-key="d7" type="button">7 Days</button></th>
+                                <th><button class="prob-sort-btn" id="btc-wp-sort-d30" data-sort-key="d30" type="button">30 Days</button></th>
+                                <th><button class="prob-sort-btn" id="btc-wp-sort-d90" data-sort-key="d90" type="button">90 Days</button></th>
+                                <th><button class="prob-sort-btn" id="btc-wp-sort-d365" data-sort-key="d365" type="button">1 Year</button></th>
                             </tr>
                         </thead>
                         <tbody id="btc-wp-probBody">
                             <tr>
-                                <td colspan="5" class="prob-empty">Calculating weekly BTC score backtest...</td>
+                                <td colspan="5" class="prob-empty">Calculating BTC score backtest...</td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
                 <div class="prob-status" id="btc-wp-probStatus">Weekly score uses only the indicators available at each
-                    timestamp and reports per-horizon sample counts for each 10-point bucket.</div>
+                    timestamp and measures exact 7D / 30D / 90D / 1Y outcomes from daily closes.</div>
                 <div class="prob-note">⚠️ This remains a heuristic composite score. Past performance does not
                     guarantee future results.</div>
             </div>
@@ -2932,24 +2933,24 @@
                     <span class="info-tip">?
                         <div class="info-tip-content">
                             The weekly composite score is grouped into the same 10-point buckets as the backtest table.
-                            Each cell shows the average percentage move from the signal-date close to the future weekly
-                            close at 1W, 4W, 13W, and 52W.<br><br>
+                            Each cell shows the average percentage move from the weekly signal close to the first daily
+                            close on or after exact calendar horizons of 7D, 30D, 90D, and 1Y.<br><br>
                             This complements hit rate by showing the typical payoff, not just how often the trade was
                             directionally correct.
                         </div>
                     </span>
                 </div>
-                <div class="prob-subtitle">Weekly average forward returns grouped into 10-point score buckets from the
-                    fetched BTC history.</div>
+                <div class="prob-subtitle">Weekly score buckets with exact calendar-horizon average returns from daily
+                    Binance closes.</div>
                 <div class="prob-table-shell">
                     <table class="prob-table">
                         <thead>
                             <tr>
                                 <th><button class="prob-sort-btn" id="btc-wp-return-sort-bucket" data-sort-key="bucket" type="button">Score Bucket</button></th>
-                                <th><button class="prob-sort-btn" id="btc-wp-return-sort-w1" data-sort-key="w1" type="button">1W</button></th>
-                                <th><button class="prob-sort-btn" id="btc-wp-return-sort-w4" data-sort-key="w4" type="button">4W</button></th>
-                                <th><button class="prob-sort-btn" id="btc-wp-return-sort-w13" data-sort-key="w13" type="button">13W</button></th>
-                                <th><button class="prob-sort-btn" id="btc-wp-return-sort-w52" data-sort-key="w52" type="button">52W</button></th>
+                                <th><button class="prob-sort-btn" id="btc-wp-return-sort-d7" data-sort-key="d7" type="button">7 Days</button></th>
+                                <th><button class="prob-sort-btn" id="btc-wp-return-sort-d30" data-sort-key="d30" type="button">30 Days</button></th>
+                                <th><button class="prob-sort-btn" id="btc-wp-return-sort-d90" data-sort-key="d90" type="button">90 Days</button></th>
+                                <th><button class="prob-sort-btn" id="btc-wp-return-sort-d365" data-sort-key="d365" type="button">1 Year</button></th>
                             </tr>
                         </thead>
                         <tbody id="btc-wp-returnBody">
@@ -2959,8 +2960,8 @@
                         </tbody>
                     </table>
                 </div>
-                <div class="prob-status" id="btc-wp-returnStatus">Preparing average BTC return view for the weekly
-                    composite score.</div>
+                <div class="prob-status" id="btc-wp-returnStatus">Preparing exact-calendar BTC return view for the
+                    weekly composite score.</div>
                 <div class="prob-note">⚠️ Average return shows payoff shape, but it can be skewed by a few outsized
                     cycles. Use it together with hit rate and sample depth.</div>
             </div>
@@ -3065,33 +3066,31 @@
                             The score is calculated on weekly candles and no longer normalizes against the full future
                             sample. That keeps the historical backtest free from look-ahead bias.<br><br>
                             The table groups the weekly score into 10-point buckets (`0-9` through `90-100`). The
-                            1W / 4W / 13W / 52W horizons refer to the following weekly closes versus the signal-date
-                            close.
+                            signal itself is weekly, but the outcomes use the first daily close on or after exact
+                            calendar horizons of 7D, 30D, 90D, and 1Y from the weekly close.
                         </div>
                     </span>
                 </div>
-                <div class="prob-subtitle">Weekly backtest grouped into 10-point ETH score buckets. Values update from
-                    the fetched history.</div>
+                <div class="prob-subtitle">Weekly ETH score buckets with exact calendar-horizon outcomes from daily
+                    Binance closes.</div>
                 <div class="prob-table-shell">
                     <table class="prob-table">
                         <thead>
                             <tr>
                                 <th><button class="prob-sort-btn" id="eth-wp-sort-bucket" data-sort-key="bucket" type="button">Score Bucket</button></th>
-                                <th><button class="prob-sort-btn" id="eth-wp-sort-w1" data-sort-key="w1" type="button">1W</button></th>
-                                <th><button class="prob-sort-btn" id="eth-wp-sort-w4" data-sort-key="w4" type="button">4W</button></th>
-                                <th><button class="prob-sort-btn" id="eth-wp-sort-w13" data-sort-key="w13" type="button">13W</button></th>
-                                <th><button class="prob-sort-btn" id="eth-wp-sort-w52" data-sort-key="w52" type="button">52W</button></th>
+                                <th><button class="prob-sort-btn" id="eth-wp-sort-d7" data-sort-key="d7" type="button">7 Days</button></th>
+                                <th><button class="prob-sort-btn" id="eth-wp-sort-d30" data-sort-key="d30" type="button">30 Days</button></th>
+                                <th><button class="prob-sort-btn" id="eth-wp-sort-d90" data-sort-key="d90" type="button">90 Days</button></th>
+                                <th><button class="prob-sort-btn" id="eth-wp-sort-d365" data-sort-key="d365" type="button">1 Year</button></th>
                             </tr>
                         </thead>
                         <tbody id="eth-wp-probBody">
-                            <tr>
-                                <td colspan="5" class="prob-empty">Calculating weekly ETH score backtest...</td>
-                            </tr>
+                            <tr><td colspan="5" class="prob-empty">Calculating ETH score backtest...</td></tr>
                         </tbody>
                     </table>
                 </div>
                 <div class="prob-status" id="eth-wp-probStatus">ETH score shares the same market-wide sentiment input as
-                    BTC and reports per-horizon sample counts for each 10-point bucket.</div>
+                    BTC and measures exact 7D / 30D / 90D / 1Y outcomes from daily closes.</div>
                 <div class="prob-note">⚠️ Composite score, not guaranteed edge. Past performance does not guarantee future
                     results.</div>
             </div>
@@ -3102,24 +3101,24 @@
                     <span class="info-tip">?
                         <div class="info-tip-content">
                             The weekly ETH composite is grouped into the same 10-point buckets as the hit-rate table.
-                            Each cell shows the average percentage move from the signal-date close to the future weekly
-                            close for that horizon.<br><br>
+                            Each cell shows the average percentage move from the weekly signal close to the first daily
+                            close on or after exact calendar horizons of 7D, 30D, 90D, and 1Y.<br><br>
                             It helps estimate the typical payoff profile of each score range, not just directional hit
                             frequency.
                         </div>
                     </span>
                 </div>
-                <div class="prob-subtitle">Weekly average forward returns grouped into 10-point ETH score buckets from
-                    the fetched history.</div>
+                <div class="prob-subtitle">Weekly ETH score buckets with exact calendar-horizon average returns from
+                    daily Binance closes.</div>
                 <div class="prob-table-shell">
                     <table class="prob-table">
                         <thead>
                             <tr>
                                 <th><button class="prob-sort-btn" id="eth-wp-return-sort-bucket" data-sort-key="bucket" type="button">Score Bucket</button></th>
-                                <th><button class="prob-sort-btn" id="eth-wp-return-sort-w1" data-sort-key="w1" type="button">1W</button></th>
-                                <th><button class="prob-sort-btn" id="eth-wp-return-sort-w4" data-sort-key="w4" type="button">4W</button></th>
-                                <th><button class="prob-sort-btn" id="eth-wp-return-sort-w13" data-sort-key="w13" type="button">13W</button></th>
-                                <th><button class="prob-sort-btn" id="eth-wp-return-sort-w52" data-sort-key="w52" type="button">52W</button></th>
+                                <th><button class="prob-sort-btn" id="eth-wp-return-sort-d7" data-sort-key="d7" type="button">7 Days</button></th>
+                                <th><button class="prob-sort-btn" id="eth-wp-return-sort-d30" data-sort-key="d30" type="button">30 Days</button></th>
+                                <th><button class="prob-sort-btn" id="eth-wp-return-sort-d90" data-sort-key="d90" type="button">90 Days</button></th>
+                                <th><button class="prob-sort-btn" id="eth-wp-return-sort-d365" data-sort-key="d365" type="button">1 Year</button></th>
                             </tr>
                         </thead>
                         <tbody id="eth-wp-returnBody">
@@ -3129,8 +3128,8 @@
                         </tbody>
                     </table>
                 </div>
-                <div class="prob-status" id="eth-wp-returnStatus">Preparing average ETH return view for the weekly
-                    composite score.</div>
+                <div class="prob-status" id="eth-wp-returnStatus">Preparing exact-calendar ETH return view for the
+                    weekly composite score.</div>
                 <div class="prob-note">⚠️ Average return is helpful for payoff context, but it is still shaped by the
                     same market-wide sentiment overlay used by the ETH composite.</div>
             </div>
@@ -3175,6 +3174,15 @@
                 { key: 'w13', label: '13W', offset: 13 },
                 { key: 'w52', label: '52W', offset: 52 },
             ];
+
+            const COMPOSITE_OUTCOME_HORIZONS = [
+                { key: 'd7', label: '7D', offset: 7 },
+                { key: 'd30', label: '30D', offset: 30 },
+                { key: 'd90', label: '90D', offset: 90 },
+                { key: 'd365', label: '1Y', offset: 365 },
+            ];
+
+            const WEEKLY_SIGNAL_CLOSE_DAY_OFFSET = 6;
 
             const WP_ZONES = [
                 { key: 'strongBuy', label: '70-100 Strong Buy', color: '#00e676', min: 70, max: 100 },
@@ -3642,6 +3650,44 @@
                 };
             }
 
+            function startOfUtcDay(input) {
+                const date = input instanceof Date ? input : new Date(input);
+                return new Date(Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate()));
+            }
+
+            function addUtcDays(input, days) {
+                const date = startOfUtcDay(input);
+                date.setUTCDate(date.getUTCDate() + days);
+                return date;
+            }
+
+            function findFirstPointOnOrAfter(series, targetTime) {
+                if (!Array.isArray(series) || !series.length) return null;
+                let low = 0;
+                let high = series.length - 1;
+                let result = null;
+
+                while (low <= high) {
+                    const mid = Math.floor((low + high) / 2);
+                    const point = series[mid];
+                    const pointTime = point?.date instanceof Date ? point.date.getTime() : NaN;
+
+                    if (!Number.isFinite(pointTime)) {
+                        low = mid + 1;
+                        continue;
+                    }
+
+                    if (pointTime >= targetTime) {
+                        result = point;
+                        high = mid - 1;
+                    } else {
+                        low = mid + 1;
+                    }
+                }
+
+                return result;
+            }
+
             function buildCalibrationBuckets(series, horizons) {
                 const buckets = Array.from({ length: 10 }, (_, index) => {
                     const start = index * 10;
@@ -3758,6 +3804,122 @@
                         const future = series[index + horizon.offset];
                         if (!future) return;
                         if (!Number.isFinite(point.price) || !Number.isFinite(future.price) || point.price <= 0) return;
+
+                        row.counts[horizon.key] += 1;
+                        row.returnSums[horizon.key] += (future.price / point.price) - 1;
+                    });
+                });
+
+                return {
+                    rows: rows.map(row => ({
+                        ...row,
+                        avgReturns: Object.fromEntries(
+                            horizons.map(horizon => [
+                                horizon.key,
+                                row.counts[horizon.key] ? row.returnSums[horizon.key] / row.counts[horizon.key] : null,
+                            ])
+                        ),
+                    })),
+                    usableSignals,
+                    candleCount: series.length,
+                };
+            }
+
+            function computeCalendarForwardStats(series, zones, valueAccessor, dailySeries, horizons, options = {}) {
+                const signalDayOffsetDays = options.signalDayOffsetDays || 0;
+                const rowMap = new Map();
+                const rows = zones.map(zone => {
+                    const row = {
+                        ...zone,
+                        matches: 0,
+                        wins: Object.fromEntries(horizons.map(h => [h.key, 0])),
+                        counts: Object.fromEntries(horizons.map(h => [h.key, 0])),
+                    };
+                    rowMap.set(zone.key, row);
+                    return row;
+                });
+
+                let usableSignals = 0;
+
+                series.forEach((point, index) => {
+                    const value = valueAccessor(point, index);
+                    if (value == null || !Number.isFinite(value)) return;
+                    if (!(point?.date instanceof Date) || !Number.isFinite(point.price)) return;
+
+                    const zone = getZoneForValue(value, zones);
+                    if (!zone) return;
+
+                    const row = rowMap.get(zone.key);
+                    if (!row) return;
+
+                    row.matches += 1;
+                    usableSignals += 1;
+
+                    const signalDay = addUtcDays(point.date, signalDayOffsetDays);
+
+                    horizons.forEach(horizon => {
+                        const targetDay = addUtcDays(signalDay, horizon.offset);
+                        const future = findFirstPointOnOrAfter(dailySeries, targetDay.getTime());
+                        if (!future || !Number.isFinite(future.price)) return;
+
+                        row.counts[horizon.key] += 1;
+                        if (future.price > point.price) {
+                            row.wins[horizon.key] += 1;
+                        }
+                    });
+                });
+
+                return {
+                    rows: rows.map(row => ({
+                        ...row,
+                        rates: Object.fromEntries(
+                            horizons.map(horizon => [
+                                horizon.key,
+                                row.counts[horizon.key] ? row.wins[horizon.key] / row.counts[horizon.key] : null,
+                            ])
+                        ),
+                    })),
+                    usableSignals,
+                    candleCount: series.length,
+                };
+            }
+
+            function computeCalendarForwardReturns(series, zones, valueAccessor, dailySeries, horizons, options = {}) {
+                const signalDayOffsetDays = options.signalDayOffsetDays || 0;
+                const rowMap = new Map();
+                const rows = zones.map(zone => {
+                    const row = {
+                        ...zone,
+                        matches: 0,
+                        returnSums: Object.fromEntries(horizons.map(h => [h.key, 0])),
+                        counts: Object.fromEntries(horizons.map(h => [h.key, 0])),
+                    };
+                    rowMap.set(zone.key, row);
+                    return row;
+                });
+
+                let usableSignals = 0;
+
+                series.forEach((point, index) => {
+                    const value = valueAccessor(point, index);
+                    if (value == null || !Number.isFinite(value)) return;
+                    if (!(point?.date instanceof Date) || !Number.isFinite(point.price) || point.price <= 0) return;
+
+                    const zone = getZoneForValue(value, zones);
+                    if (!zone) return;
+
+                    const row = rowMap.get(zone.key);
+                    if (!row) return;
+
+                    row.matches += 1;
+                    usableSignals += 1;
+
+                    const signalDay = addUtcDays(point.date, signalDayOffsetDays);
+
+                    horizons.forEach(horizon => {
+                        const targetDay = addUtcDays(signalDay, horizon.offset);
+                        const future = findFirstPointOnOrAfter(dailySeries, targetDay.getTime());
+                        if (!future || !Number.isFinite(future.price)) return;
 
                         row.counts[horizon.key] += 1;
                         row.returnSums[horizon.key] += (future.price / point.price) - 1;
@@ -4354,6 +4516,7 @@
 
                 let chart = null;
                 let mergedData = [];
+                let dailyPriceData = [];
                 let wpData = [];
                 let currentRange = 365;
                 let customFrom = null;
@@ -4394,19 +4557,21 @@
 
                 function renderBacktestTable() {
                     const combined = mergedData.map((d, i) => ({ ...d, wp: wpData[i] }));
-                    const stats = computeForwardStats(
+                    const stats = computeCalendarForwardStats(
                         combined,
                         SCORE_BACKTEST_BUCKETS,
                         point => point.wp?.value ?? null,
-                        WEEKLY_HORIZONS
+                        dailyPriceData,
+                        COMPOSITE_OUTCOME_HORIZONS,
+                        { signalDayOffsetDays: WEEKLY_SIGNAL_CLOSE_DAY_OFFSET }
                     );
 
                     renderProbabilityTable(
                         `${prefix}-wp-probBody`,
                         `${prefix}-wp-probStatus`,
                         stats,
-                        WEEKLY_HORIZONS,
-                        `${symbol === 'BTCUSDT' ? 'BTC' : 'ETH'} weekly backtest with minimum 70% model coverage.`,
+                        COMPOSITE_OUTCOME_HORIZONS,
+                        `${symbol === 'BTCUSDT' ? 'BTC' : 'ETH'} weekly-signal backtest with exact 7D / 30D / 90D / 1Y outcomes and minimum 70% model coverage.`,
                         `${prefix}-wp`
                     );
 
@@ -4415,19 +4580,21 @@
 
                 function renderReturnsTable() {
                     const combined = mergedData.map((d, i) => ({ ...d, wp: wpData[i] }));
-                    const stats = computeForwardReturns(
+                    const stats = computeCalendarForwardReturns(
                         combined,
                         SCORE_BACKTEST_BUCKETS,
                         point => point.wp?.value ?? null,
-                        WEEKLY_HORIZONS
+                        dailyPriceData,
+                        COMPOSITE_OUTCOME_HORIZONS,
+                        { signalDayOffsetDays: WEEKLY_SIGNAL_CLOSE_DAY_OFFSET }
                     );
 
                     renderReturnTable(
                         `${prefix}-wp-returnBody`,
                         `${prefix}-wp-returnStatus`,
                         stats,
-                        WEEKLY_HORIZONS,
-                        `${symbol === 'BTCUSDT' ? 'BTC' : 'ETH'} weekly return profile with minimum 70% model coverage.`,
+                        COMPOSITE_OUTCOME_HORIZONS,
+                        `${symbol === 'BTCUSDT' ? 'BTC' : 'ETH'} weekly-signal return profile with exact 7D / 30D / 90D / 1Y outcomes and minimum 70% model coverage.`,
                         `${prefix}-wp-return`
                     );
                 }
@@ -5015,8 +5182,8 @@
 
                 async function init() {
                     setupWpSlider();
-                    setupProbabilityTableSorting(`${prefix}-wp`, WEEKLY_HORIZONS, renderBacktestTable);
-                    setupProbabilityTableSorting(`${prefix}-wp-return`, WEEKLY_HORIZONS, renderReturnsTable);
+                    setupProbabilityTableSorting(`${prefix}-wp`, COMPOSITE_OUTCOME_HORIZONS, renderBacktestTable);
+                    setupProbabilityTableSorting(`${prefix}-wp-return`, COMPOSITE_OUTCOME_HORIZONS, renderReturnsTable);
                     setupSectionTabs(`${prefix}-wp`, (panelName) => {
                         if (panelName === 'chart' && chart) {
                             requestAnimationFrame(() => {
@@ -5037,13 +5204,15 @@
                         const loadingEl = el('loadingText');
                         loadingEl.textContent = `Calculating ${symbol} indicators...`;
 
-                        const [fngMap, prices] = await Promise.all([
+                        const [fngMap, weeklyPrices, dailyPrices] = await Promise.all([
                             fngMapPromise,
                             fetchPrice(symbol, loadingEl, '1w'),
+                            fetchPrice(symbol, null, '1d'),
                         ]);
 
                         loadingEl.textContent = 'Computing composite score...';
-                        mergedData = mergeData(prices, fngMap);
+                        mergedData = mergeData(weeklyPrices, fngMap);
+                        dailyPriceData = dailyPrices;
                         wpData = calcWinProbability(mergedData);
                         setDefaultNavigatorWindow(false);
 

@@ -149,3 +149,8 @@
 - **Kontekst:** Sama skuteczność kierunkowa nie mówi jeszcze, jak duży był przeciętny payoff po wejściu w danym bucketcie.
 - **Błąd:** User może przecenić bucket z wysokim hit rate, jeśli średni zwrot był mały, albo przeoczyć bucket z niższą skutecznością, ale lepszym payoff profile.
 - **Reguła:** Obok historical hit rate pokazuj także average forward return dla tych samych bucketów i horyzontów, jasno odróżniając częstotliwość sukcesu od średniej wielkości ruchu.
+
+### 2026-04-17 — Weekly composite can keep weekly signals while exposing exact day-based outcomes
+- **Kontekst:** User wanted composite tables to read like the rest of the dashboard (`7D / 30D / 90D / 1Y`) instead of weekly shorthand (`1W / 4W / 13W / 52W`).
+- **Błąd:** Pokazywanie tylko tygodniowych horizon labels obniża spójność UX i sugeruje, że composite nie da się ocenić na dokładnych kalendarzowych okresach.
+- **Reguła:** Jeśli model powstaje na weekly bars, ale UX wymaga day-based analytics, zostaw weekly signal bez zmian i licz outcomes z first daily close on or after target calendar date.
