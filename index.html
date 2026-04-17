@@ -1,18 +1,34 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pl">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Crypto Price vs. Fear And Greed</title>
+    <title>BTC Fear &amp; Greed Lab</title>
     <meta name="description"
-        content="Interactive charts showing BTC and ETH prices colored by the Crypto Fear and Greed Index sentiment.">
+        content="Dashboard porównujący oficjalny Crypto Fear & Greed Index z ceną BTC/ETH oraz autorskim weekly composite score.">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
     <script
         src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns@3.0.0/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
     <style>
+        :root {
+            --bg-0: #07111f;
+            --bg-1: #0a0e1a;
+            --bg-2: #0f172a;
+            --panel-stroke: rgba(148, 163, 184, 0.12);
+            --panel-fill: rgba(15, 23, 42, 0.78);
+            --text-main: #e0e4f0;
+            --text-muted: #91a0bc;
+            --text-soft: #5f6b86;
+            --accent: #7c8cff;
+            --accent-soft: rgba(124, 140, 255, 0.14);
+            --success: #00e676;
+            --warning: #ff9800;
+            --danger: #ff1744;
+        }
+
         *,
         *::before,
         *::after {
@@ -23,8 +39,11 @@
 
         body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            background: #0a0e1a;
-            color: #e0e4f0;
+            background:
+                radial-gradient(circle at top left, rgba(124, 140, 255, 0.18), transparent 28%),
+                radial-gradient(circle at top right, rgba(16, 185, 129, 0.10), transparent 24%),
+                linear-gradient(180deg, var(--bg-0) 0%, var(--bg-1) 38%, #060913 100%);
+            color: var(--text-main);
             min-height: 100vh;
             display: flex;
             flex-direction: column;
@@ -33,6 +52,132 @@
             padding: 20px;
             overflow-x: hidden;
             max-width: 100vw;
+        }
+
+        .hero-panel {
+            width: 100%;
+            max-width: 1400px;
+            padding: 30px 32px;
+            border-radius: 24px;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid var(--panel-stroke);
+            background:
+                radial-gradient(circle at 0% 0%, rgba(249, 115, 22, 0.18), transparent 24%),
+                radial-gradient(circle at 100% 0%, rgba(124, 140, 255, 0.22), transparent 28%),
+                linear-gradient(145deg, rgba(7, 17, 31, 0.95) 0%, rgba(10, 18, 34, 0.92) 54%, rgba(13, 20, 32, 0.96) 100%);
+            box-shadow:
+                inset 0 1px 0 rgba(255, 255, 255, 0.04),
+                0 28px 80px rgba(0, 0, 0, 0.45);
+        }
+
+        .hero-panel::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background:
+                linear-gradient(120deg, rgba(255, 255, 255, 0.05), transparent 28%),
+                linear-gradient(180deg, transparent 0%, rgba(124, 140, 255, 0.06) 100%);
+            pointer-events: none;
+        }
+
+        .hero-grid {
+            position: relative;
+            z-index: 1;
+            display: grid;
+            grid-template-columns: minmax(0, 1.3fr) minmax(320px, 0.9fr);
+            gap: 28px;
+            align-items: start;
+        }
+
+        .hero-copy {
+            max-width: 760px;
+        }
+
+        .eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 7px 12px;
+            border-radius: 999px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            background: rgba(255, 255, 255, 0.04);
+            color: #b9c4dd;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
+            margin-bottom: 16px;
+        }
+
+        .hero-copy h1 {
+            font-size: clamp(30px, 5vw, 52px);
+            line-height: 0.96;
+            letter-spacing: -0.05em;
+            max-width: 12ch;
+            margin-bottom: 14px;
+        }
+
+        .hero-copy p {
+            max-width: 64ch;
+            color: var(--text-muted);
+            font-size: 15px;
+            line-height: 1.65;
+        }
+
+        .hero-kpis {
+            display: grid;
+            gap: 12px;
+        }
+
+        .hero-card {
+            padding: 18px 18px 16px;
+            border-radius: 18px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            background: rgba(4, 10, 21, 0.54);
+            backdrop-filter: blur(10px);
+        }
+
+        .hero-card .hero-label {
+            display: block;
+            color: #8fa0c3;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+        }
+
+        .hero-card strong {
+            display: block;
+            font-size: 18px;
+            letter-spacing: -0.03em;
+            margin-bottom: 6px;
+        }
+
+        .hero-card p {
+            color: var(--text-muted);
+            font-size: 13px;
+            line-height: 1.55;
+        }
+
+        .methodology-strip {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 18px;
+        }
+
+        .method-pill {
+            padding: 10px 12px;
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            color: #b4c0d8;
+            font-size: 12px;
+            line-height: 1.4;
         }
 
         .chart-container {
@@ -108,6 +253,13 @@
             font-weight: 600;
             color: #e0e4f0;
             letter-spacing: -0.02em;
+        }
+
+        .chart-subtitle {
+            font-size: 12px;
+            line-height: 1.55;
+            color: var(--text-soft);
+            max-width: 62ch;
         }
 
         .header-left {
@@ -261,6 +413,14 @@
             height: 10px;
             border-radius: 3px;
             flex-shrink: 0;
+        }
+
+        .legend-color {
+            width: 10px;
+            height: 10px;
+            border-radius: 999px;
+            flex-shrink: 0;
+            display: inline-block;
         }
 
         /* F&G Range Slider */
@@ -544,6 +704,17 @@
             font-weight: 600;
         }
 
+        .prob-table .prob-label {
+            display: inline-flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+
+        .prob-table .prob-value {
+            font-variant-numeric: tabular-nums;
+        }
+
         .prob-table tr:last-child td {
             border-bottom: none;
         }
@@ -579,6 +750,30 @@
             line-height: 1.5;
         }
 
+        .prob-status {
+            margin-top: 14px;
+            padding-top: 12px;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            color: #62708d;
+            font-size: 11px;
+            line-height: 1.6;
+        }
+
+        .prob-sample {
+            display: block;
+            margin-top: 3px;
+            color: #5a6784;
+            font-size: 10px;
+            font-weight: 500;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+        }
+
+        .prob-empty {
+            color: #71809c;
+            font-style: italic;
+        }
+
         .footer {
             display: flex;
             justify-content: space-between;
@@ -602,6 +797,39 @@
             body {
                 padding: 10px 6px;
                 gap: 14px;
+            }
+
+            .hero-panel {
+                padding: 22px 16px 18px;
+                border-radius: 18px;
+            }
+
+            .hero-grid {
+                grid-template-columns: 1fr;
+                gap: 16px;
+            }
+
+            .hero-copy h1 {
+                max-width: 11ch;
+            }
+
+            .hero-copy p {
+                font-size: 14px;
+            }
+
+            .hero-card {
+                padding: 16px 14px;
+                border-radius: 14px;
+            }
+
+            .methodology-strip {
+                gap: 8px;
+                margin-top: 14px;
+            }
+
+            .method-pill {
+                padding: 9px 10px;
+                font-size: 11px;
             }
 
             .chart-container {
@@ -742,6 +970,10 @@
                 font-size: 10px;
             }
 
+            .prob-status {
+                font-size: 10px;
+            }
+
             /* Info tip tooltip - position below on mobile */
             .info-tip-content {
                 width: 260px;
@@ -810,6 +1042,45 @@
 </head>
 
 <body>
+    <div class="hero-panel">
+        <div class="hero-grid">
+            <div class="hero-copy">
+                <span class="eyebrow">BTC Fear & Greed Lab</span>
+                <h1>Official sentiment, cleaner score, real backtests.</h1>
+                <p>
+                    Dashboard rozdziela oficjalny Fear &amp; Greed od autorskiego score. Alternative.me zostaje źródłem
+                    sentymentu rynkowego, a lokalny composite jest liczony bez future leak, bez sztucznego wypełniania
+                    braków zerami i z tabelami backtestowymi liczonymi z pobranej historii zamiast z ręcznych
+                    przybliżeń.
+                </p>
+            </div>
+            <div class="hero-kpis">
+                <div class="hero-card">
+                    <span class="hero-label">Official F&amp;G Feed</span>
+                    <strong>Alternative.me API</strong>
+                    <p>Progi są wyrównane do oficjalnych stref 0-24 / 25-44 / 45-54 / 55-74 / 75-100.</p>
+                </div>
+                <div class="hero-card">
+                    <span class="hero-label">Custom Composite</span>
+                    <strong>Weekly heuristic score</strong>
+                    <p>Łączy momentum, trend, mean reversion i sentyment, ale pozostaje scorem pomocniczym, a nie
+                        dosłowną prognozą prawdopodobieństwa.</p>
+                </div>
+                <div class="hero-card">
+                    <span class="hero-label">Backtest Tables</span>
+                    <strong>Computed live from history</strong>
+                    <p>Tabele są wyliczane po załadowaniu danych. ETH używa tego samego market-wide F&amp;G, bo feed
+                        Alternative.me nadal jest BTC-centric.</p>
+                </div>
+            </div>
+        </div>
+        <div class="methodology-strip">
+            <span class="method-pill">Official F&amp;G is displayed as a BTC-led market sentiment input.</span>
+            <span class="method-pill">Composite score now reweights only the indicators that are actually available.</span>
+            <span class="method-pill">Historical tables are recalculated from fetched data instead of hardcoded estimates.</span>
+        </div>
+    </div>
+
     <!-- ═══ BTC Chart ═══ -->
     <div class="chart-container" id="btc-container">
         <div class="chart-header">
@@ -818,6 +1089,8 @@
                     <span class="dot dot-btc"></span>
                     <h1>BTC Price vs. Crypto Fear And Greed</h1>
                 </div>
+                <p class="chart-subtitle">Official Alternative.me sentiment painted over daily BTC price. Thresholds
+                    below match the source methodology.</p>
                 <div class="info-row" id="btc-infoRow"></div>
             </div>
             <div class="controls">
@@ -871,77 +1144,34 @@
                 <span class="info-tip">?
                     <div class="info-tip-content">
                         <strong>Jak czytać tabelę?</strong><br>
-                        Kolumny (7D, 30D, 90D, 1Y) pokazują jak często cena BTC rosła <strong>po X dniach</strong> od
-                        momentu kupna przy danym poziomie Fear & Greed.<br><br>
-                        Np. ~65% przy 30D oznacza, że w 65% przypadków cena była wyższa po 30 dniach.
+                        Wiersze odpowiadają oficjalnym strefom Alternative.me. Kolumny pokazują, jak często cena BTC
+                        była wyżej po danym horyzoncie od dnia sygnału.<br><br>
+                        Tabela liczy się dynamicznie po załadowaniu danych i nie używa już ręcznie wpisanych wartości.
                     </div>
                 </span>
             </div>
-            <div class="prob-subtitle">Probability of BTC price increase after buying at given F&G level (2018–2026)
-            </div>
+            <div class="prob-subtitle">Daily backtest recomputed from Binance closes grouped by official F&amp;G
+                zones.</div>
             <table class="prob-table">
                 <thead>
                     <tr>
-                        <th>F&G at Buy</th>
+                        <th>Official F&amp;G Zone</th>
                         <th>7 Days</th>
                         <th>30 Days</th>
                         <th>90 Days</th>
                         <th>1 Year</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody id="btc-fng-probBody">
                     <tr>
-                        <td><span class="zone-dot" style="background:#00e676"></span>0–10 Ext Fear</td>
-                        <td class="prob-mid">~55%</td>
-                        <td class="prob-high">~68%</td>
-                        <td class="prob-high">~78%</td>
-                        <td class="prob-high">~88%</td>
-                    </tr>
-                    <tr>
-                        <td><span class="zone-dot" style="background:#66ff99"></span>10–25 Fear</td>
-                        <td class="prob-mid">~52%</td>
-                        <td class="prob-mid">~60%</td>
-                        <td class="prob-high">~70%</td>
-                        <td class="prob-high">~80%</td>
-                    </tr>
-                    <tr>
-                        <td><span class="zone-dot" style="background:#ffeb3b"></span>25–45 Neutral</td>
-                        <td>~50%</td>
-                        <td class="prob-mid">~55%</td>
-                        <td class="prob-mid">~60%</td>
-                        <td class="prob-high">~70%</td>
-                    </tr>
-                    <tr>
-                        <td><span class="zone-dot" style="background:#ffeb3b"></span>45–55 Neutral</td>
-                        <td>~50%</td>
-                        <td>~50%</td>
-                        <td class="prob-mid">~55%</td>
-                        <td class="prob-mid">~65%</td>
-                    </tr>
-                    <tr>
-                        <td><span class="zone-dot" style="background:#ff9800"></span>55–75 Greed</td>
-                        <td>~48%</td>
-                        <td>~45%</td>
-                        <td>~50%</td>
-                        <td class="prob-mid">~60%</td>
-                    </tr>
-                    <tr>
-                        <td><span class="zone-dot" style="background:#ff9800"></span>75–90 Ext Greed</td>
-                        <td class="prob-low">~45%</td>
-                        <td class="prob-low">~40%</td>
-                        <td class="prob-low">~40%</td>
-                        <td>~50%</td>
-                    </tr>
-                    <tr>
-                        <td><span class="zone-dot" style="background:#ff1744"></span>90–100 Ext Greed</td>
-                        <td class="prob-low">~40%</td>
-                        <td class="prob-low">~35%</td>
-                        <td class="prob-low">~32%</td>
-                        <td class="prob-low">~45%</td>
+                        <td colspan="5" class="prob-empty">Calculating historical BTC win rates...</td>
                     </tr>
                 </tbody>
             </table>
-            <div class="prob-note">⚠️ Based on historical BTC data. Past performance does not guarantee future results.
+            <div class="prob-status" id="btc-fng-probStatus">Using official Alternative.me zones and daily Binance
+                closes.</div>
+            <div class="prob-note">⚠️ Alternative.me describes the feed as bitcoin-focused market sentiment, so the
+                table tracks BTC directly against that source.
             </div>
         </div>
     </div>
@@ -954,6 +1184,8 @@
                     <span class="dot dot-eth"></span>
                     <h1>ETH Price vs. Crypto Fear And Greed</h1>
                 </div>
+                <p class="chart-subtitle">ETH price overlaid with the same market-wide Fear &amp; Greed feed. Useful as
+                    context, but still not an ETH-native official index.</p>
                 <div class="info-row" id="eth-infoRow"></div>
             </div>
             <div class="controls">
@@ -1007,77 +1239,34 @@
                 <span class="info-tip">?
                     <div class="info-tip-content">
                         <strong>Jak czytać tabelę?</strong><br>
-                        Kolumny (7D, 30D, 90D, 1Y) pokazują jak często cena ETH rosła <strong>po X dniach</strong> od
-                        momentu kupna przy danym poziomie Fear & Greed.<br><br>
-                        Np. ~65% przy 30D oznacza, że w 65% przypadków cena była wyższa po 30 dniach.
+                        To ten sam feed sentymentu z Alternative.me, ale zestawiony z historią ETH. Odczytuj go jako
+                        market-wide risk appetite, nie jako oficjalny indeks ETH.<br><br>
+                        Tabela liczy się automatycznie z historii pobranej po załadowaniu strony.
                     </div>
                 </span>
             </div>
-            <div class="prob-subtitle">Probability of ETH price increase after buying at given F&G level (2018–2026)
-            </div>
+            <div class="prob-subtitle">Daily backtest: ETH returns grouped by the official BTC-centric F&amp;G
+                zones.</div>
             <table class="prob-table">
                 <thead>
                     <tr>
-                        <th>F&G at Buy</th>
+                        <th>Official F&amp;G Zone</th>
                         <th>7 Days</th>
                         <th>30 Days</th>
                         <th>90 Days</th>
                         <th>1 Year</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody id="eth-fng-probBody">
                     <tr>
-                        <td><span class="zone-dot" style="background:#00e676"></span>0–10 Ext Fear</td>
-                        <td class="prob-mid">~54%</td>
-                        <td class="prob-high">~65%</td>
-                        <td class="prob-high">~75%</td>
-                        <td class="prob-high">~85%</td>
-                    </tr>
-                    <tr>
-                        <td><span class="zone-dot" style="background:#66ff99"></span>10–25 Fear</td>
-                        <td class="prob-mid">~51%</td>
-                        <td class="prob-mid">~58%</td>
-                        <td class="prob-high">~68%</td>
-                        <td class="prob-high">~78%</td>
-                    </tr>
-                    <tr>
-                        <td><span class="zone-dot" style="background:#ffeb3b"></span>25–45 Neutral</td>
-                        <td>~49%</td>
-                        <td class="prob-mid">~53%</td>
-                        <td class="prob-mid">~58%</td>
-                        <td class="prob-high">~67%</td>
-                    </tr>
-                    <tr>
-                        <td><span class="zone-dot" style="background:#ffeb3b"></span>45–55 Neutral</td>
-                        <td>~48%</td>
-                        <td>~48%</td>
-                        <td class="prob-mid">~52%</td>
-                        <td class="prob-mid">~62%</td>
-                    </tr>
-                    <tr>
-                        <td><span class="zone-dot" style="background:#ff9800"></span>55–75 Greed</td>
-                        <td>~46%</td>
-                        <td>~43%</td>
-                        <td>~47%</td>
-                        <td class="prob-mid">~57%</td>
-                    </tr>
-                    <tr>
-                        <td><span class="zone-dot" style="background:#ff9800"></span>75–90 Ext Greed</td>
-                        <td class="prob-low">~43%</td>
-                        <td class="prob-low">~38%</td>
-                        <td class="prob-low">~37%</td>
-                        <td>~48%</td>
-                    </tr>
-                    <tr>
-                        <td><span class="zone-dot" style="background:#ff1744"></span>90–100 Ext Greed</td>
-                        <td class="prob-low">~38%</td>
-                        <td class="prob-low">~33%</td>
-                        <td class="prob-low">~30%</td>
-                        <td class="prob-low">~42%</td>
+                        <td colspan="5" class="prob-empty">Calculating historical ETH win rates...</td>
                     </tr>
                 </tbody>
             </table>
-            <div class="prob-note">⚠️ Based on historical ETH data. Past performance does not guarantee future results.
+            <div class="prob-status" id="eth-fng-probStatus">Alternative.me still documents the official index as
+                bitcoin-focused market sentiment.</div>
+            <div class="prob-note">⚠️ For ETH this is a context overlay, not a source-native ETH fear &amp; greed
+                benchmark.
             </div>
         </div>
     </div>
@@ -1091,6 +1280,8 @@
                     <span class="dot dot-btc"></span>
                     <h1>BTC Win Probability</h1>
                 </div>
+                <p class="chart-subtitle">Autorski weekly composite score. It is a ranking heuristic for setup quality,
+                    not a literal calibrated probability.</p>
                 <div class="info-row" id="btc-wp-infoRow"></div>
             </div>
             <div class="controls">
@@ -1142,90 +1333,41 @@
             </div>
         </div>
         <div class="footer">
-            <span class="footer-text">Composite score based on multiple technical indicators & market sentiment</span>
+            <span class="footer-text">Weekly composite with dynamic weights, no future-looking normalization and no
+                zero-filled warm-up values</span>
         </div>
         <div class="prob-section">
             <div class="prob-title">📊 Historical Win Rate by Composite Score (BTC)
                 <span class="info-tip">?
                     <div class="info-tip-content">
-                        Composite Score łączy <strong>5 wskaźników technicznych</strong> i <strong>wskaźnik sentymentu
-                            rynkowego</strong>, obliczonych na świecach <strong>tygodniowych
-                            (1W)</strong>.<br><br>
-                        Kolumny pokazują jak często cena BTC rosła <strong>po danym czasie</strong> od momentu
-                        kupna:<br>
-                        • <strong>7D</strong> = po 7 dniach<br>
-                        • <strong>30D</strong> = po 30 dniach<br>
-                        • <strong>90D</strong> = po 3 miesiącach<br>
-                        • <strong>1Y</strong> = po 1 roku<br><br>
-                        Im wyższy score (np. 80-100%), tym historycznie większe szanse na wzrost ceny.
+                        Score łączy weekly momentum, trend, mean reversion i F&amp;G. Każdy składnik jest liczony tylko
+                        wtedy, gdy ma wystarczający warm-up, a końcowa średnia przelicza wagi wyłącznie dla dostępnych
+                        sygnałów.<br><br>
+                        Tabela pokazuje forward returns liczone na świecach tygodniowych: 1W, 4W, 13W i 52W.
                     </div>
                 </span>
             </div>
-            <div class="prob-subtitle">Probability of BTC price increase after buying at given composite level
-                (2018–2026)</div>
+            <div class="prob-subtitle">Weekly backtest grouped by score zone. Values below are recomputed from fetched
+                history after load.</div>
             <table class="prob-table">
                 <thead>
                     <tr>
                         <th>Score at Buy</th>
-                        <th>7 Days</th>
-                        <th>30 Days</th>
-                        <th>90 Days</th>
-                        <th>1 Year</th>
+                        <th>1W</th>
+                        <th>4W</th>
+                        <th>13W</th>
+                        <th>52W</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody id="btc-wp-probBody">
                     <tr>
-                        <td><span class="zone-dot" style="background:#00e676"></span>80–100% Strong Buy</td>
-                        <td class="prob-high">~58%</td>
-                        <td class="prob-high">~72%</td>
-                        <td class="prob-high">~82%</td>
-                        <td class="prob-high">~92%</td>
-                    </tr>
-                    <tr>
-                        <td><span class="zone-dot" style="background:#00e676"></span>70–80% Buy</td>
-                        <td class="prob-mid">~55%</td>
-                        <td class="prob-high">~65%</td>
-                        <td class="prob-high">~75%</td>
-                        <td class="prob-high">~87%</td>
-                    </tr>
-                    <tr>
-                        <td><span class="zone-dot" style="background:#ffeb3b"></span>60–70% Bullish</td>
-                        <td class="prob-mid">~53%</td>
-                        <td class="prob-mid">~58%</td>
-                        <td class="prob-mid">~63%</td>
-                        <td class="prob-high">~75%</td>
-                    </tr>
-                    <tr>
-                        <td><span class="zone-dot" style="background:#ffeb3b"></span>50–60% Neutral</td>
-                        <td>~50%</td>
-                        <td>~50%</td>
-                        <td class="prob-mid">~55%</td>
-                        <td class="prob-mid">~65%</td>
-                    </tr>
-                    <tr>
-                        <td><span class="zone-dot" style="background:#ff9800"></span>40–50% Cautious</td>
-                        <td>~48%</td>
-                        <td>~45%</td>
-                        <td>~48%</td>
-                        <td class="prob-mid">~58%</td>
-                    </tr>
-                    <tr>
-                        <td><span class="zone-dot" style="background:#ff9800"></span>30–40% Bearish</td>
-                        <td class="prob-low">~44%</td>
-                        <td class="prob-low">~40%</td>
-                        <td class="prob-low">~42%</td>
-                        <td>~50%</td>
-                    </tr>
-                    <tr>
-                        <td><span class="zone-dot" style="background:#ff1744"></span>0–30% Strong Sell</td>
-                        <td class="prob-low">~40%</td>
-                        <td class="prob-low">~35%</td>
-                        <td class="prob-low">~35%</td>
-                        <td class="prob-low">~45%</td>
+                        <td colspan="5" class="prob-empty">Calculating weekly BTC score backtest...</td>
                     </tr>
                 </tbody>
             </table>
-            <div class="prob-note">⚠️ Based on composite technical analysis. Past performance does not
+            <div class="prob-status" id="btc-wp-probStatus">Weekly score uses only the indicators available at each
+                timestamp.</div>
+            <div class="prob-note">⚠️ This remains a heuristic composite score. Past performance does not
                 guarantee future results.</div>
         </div>
     </div>
@@ -1238,6 +1380,8 @@
                     <span class="dot dot-eth"></span>
                     <h1>ETH Win Probability</h1>
                 </div>
+                <p class="chart-subtitle">The same weekly composite logic applied to ETH. Sentiment input still comes
+                    from the market-wide Alternative.me feed.</p>
                 <div class="info-row" id="eth-wp-infoRow"></div>
             </div>
             <div class="controls">
@@ -1289,91 +1433,41 @@
             </div>
         </div>
         <div class="footer">
-            <span class="footer-text">Indicators: RSI(14) · MACD(12,26,9) · Stoch(14,3,3) · WaveTrend · F&G Index</span>
+            <span class="footer-text">Weekly composite with dynamic weights, bounded transforms and market-wide
+                sentiment overlay</span>
         </div>
         <div class="prob-section">
             <div class="prob-title">📊 Historical Win Rate by Composite Score (ETH)
                 <span class="info-tip">?
                     <div class="info-tip-content">
-                        Composite Score łączy <strong>5 wskaźników technicznych</strong> i <strong>wskaźnik sentymentu
-                            rynkowego</strong>, obliczonych na świecach <strong>tygodniowych
-                            (1W)</strong>.<br><br>
-                        Kolumny pokazują jak często cena ETH rosła <strong>po danym czasie</strong> od momentu
-                        kupna:<br>
-                        • <strong>7D</strong> = po 7 dniach<br>
-                        • <strong>30D</strong> = po 30 dniach<br>
-                        • <strong>90D</strong> = po 3 miesiącach<br>
-                        • <strong>1Y</strong> = po 1 roku<br><br>
-                        Im wyższy score (np. 80-100%), tym historycznie większe szanse na wzrost ceny.
+                        Score jest liczony na świecach tygodniowych i nie używa już normalizacji po całej przyszłej
+                        próbce. Dzięki temu historyczny backtest nie patrzy naprzód.<br><br>
+                        Horyzonty 1W / 4W / 13W / 52W odnoszą się do kolejnych tygodniowych zamknięć.
                     </div>
                 </span>
             </div>
-            <div class="prob-subtitle">Probability of ETH price increase after buying at given composite level
-                (2018–2026)</div>
+            <div class="prob-subtitle">Weekly backtest grouped by ETH score zone. Values update from the fetched
+                history.</div>
             <table class="prob-table">
                 <thead>
                     <tr>
                         <th>Score at Buy</th>
-                        <th>7 Days</th>
-                        <th>30 Days</th>
-                        <th>90 Days</th>
-                        <th>1 Year</th>
+                        <th>1W</th>
+                        <th>4W</th>
+                        <th>13W</th>
+                        <th>52W</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody id="eth-wp-probBody">
                     <tr>
-                        <td><span class="zone-dot" style="background:#00e676"></span>80–100% Strong Buy</td>
-                        <td class="prob-high">~56%</td>
-                        <td class="prob-high">~69%</td>
-                        <td class="prob-high">~79%</td>
-                        <td class="prob-high">~89%</td>
-                    </tr>
-                    <tr>
-                        <td><span class="zone-dot" style="background:#00e676"></span>70–80% Buy</td>
-                        <td class="prob-mid">~53%</td>
-                        <td class="prob-high">~62%</td>
-                        <td class="prob-high">~72%</td>
-                        <td class="prob-high">~83%</td>
-                    </tr>
-                    <tr>
-                        <td><span class="zone-dot" style="background:#ffeb3b"></span>60–70% Bullish</td>
-                        <td class="prob-mid">~51%</td>
-                        <td class="prob-mid">~55%</td>
-                        <td class="prob-mid">~60%</td>
-                        <td class="prob-high">~72%</td>
-                    </tr>
-                    <tr>
-                        <td><span class="zone-dot" style="background:#ffeb3b"></span>50–60% Neutral</td>
-                        <td>~48%</td>
-                        <td>~48%</td>
-                        <td class="prob-mid">~52%</td>
-                        <td class="prob-mid">~62%</td>
-                    </tr>
-                    <tr>
-                        <td><span class="zone-dot" style="background:#ff9800"></span>40–50% Cautious</td>
-                        <td>~46%</td>
-                        <td>~43%</td>
-                        <td>~45%</td>
-                        <td class="prob-mid">~55%</td>
-                    </tr>
-                    <tr>
-                        <td><span class="zone-dot" style="background:#ff9800"></span>30–40% Bearish</td>
-                        <td class="prob-low">~42%</td>
-                        <td class="prob-low">~38%</td>
-                        <td class="prob-low">~40%</td>
-                        <td>~48%</td>
-                    </tr>
-                    <tr>
-                        <td><span class="zone-dot" style="background:#ff1744"></span>0–30% Strong Sell</td>
-                        <td class="prob-low">~38%</td>
-                        <td class="prob-low">~33%</td>
-                        <td class="prob-low">~32%</td>
-                        <td class="prob-low">~42%</td>
+                        <td colspan="5" class="prob-empty">Calculating weekly ETH score backtest...</td>
                     </tr>
                 </tbody>
             </table>
-            <div class="prob-note">⚠️ Composite of RSI, MACD, Stochastic, WaveTrend & F&G. Past performance does not
-                guarantee future results.</div>
+            <div class="prob-status" id="eth-wp-probStatus">ETH score shares the same market-wide sentiment input as
+                BTC.</div>
+            <div class="prob-note">⚠️ Composite score, not guaranteed edge. Past performance does not guarantee future
+                results.</div>
         </div>
     </div>
     <script>
@@ -1382,17 +1476,159 @@
 
             // ── Shared sentiment config ──
             const SENTIMENTS = [
-                { key: 'extFear', label: 'Ext Fear', color: '#00e676', min: 0, max: 24 },
-                { key: 'fear', label: 'Fear', color: '#66ff99', min: 25, max: 44 },
-                { key: 'neutral', label: 'Neutral', color: '#ffeb3b', min: 45, max: 55 },
-                { key: 'greed', label: 'Greed', color: '#ff9800', min: 56, max: 74 },
-                { key: 'extGreed', label: 'Ext Greed', color: '#ff1744', min: 75, max: 100 },
+                { key: 'extFear', label: 'Ext Fear', fullLabel: '0-24 Extreme Fear', color: '#00e676', min: 0, max: 24 },
+                { key: 'fear', label: 'Fear', fullLabel: '25-44 Fear', color: '#66ff99', min: 25, max: 44 },
+                { key: 'neutral', label: 'Neutral', fullLabel: '45-54 Neutral', color: '#ffeb3b', min: 45, max: 54 },
+                { key: 'greed', label: 'Greed', fullLabel: '55-74 Greed', color: '#ff9800', min: 55, max: 74 },
+                { key: 'extGreed', label: 'Ext Greed', fullLabel: '75-100 Extreme Greed', color: '#ff1744', min: 75, max: 100 },
             ];
+
+            const DAILY_HORIZONS = [
+                { key: 'd7', label: '7D', offset: 7 },
+                { key: 'd30', label: '30D', offset: 30 },
+                { key: 'd90', label: '90D', offset: 90 },
+                { key: 'd365', label: '1Y', offset: 365 },
+            ];
+
+            const WEEKLY_HORIZONS = [
+                { key: 'w1', label: '1W', offset: 1 },
+                { key: 'w4', label: '4W', offset: 4 },
+                { key: 'w13', label: '13W', offset: 13 },
+                { key: 'w52', label: '52W', offset: 52 },
+            ];
+
+            const WP_ZONES = [
+                { key: 'strongBuy', label: '70-100 Strong Buy', color: '#00e676', min: 70, max: 100 },
+                { key: 'bullish', label: '50-69 Bullish', color: '#ffeb3b', min: 50, max: 69 },
+                { key: 'cautious', label: '30-49 Cautious', color: '#ff9800', min: 30, max: 49 },
+                { key: 'bearish', label: '0-29 Bearish', color: '#ff1744', min: 0, max: 29 },
+            ];
+
+            const WP_WEIGHTS = {
+                fng: 0.20,
+                rsi: 0.15,
+                macd: 0.15,
+                stoch: 0.10,
+                wt: 0.15,
+                bb: 0.10,
+                ma: 0.15,
+            };
 
             const DIM_COLOR = '#ffffff';
 
             function getSentiment(value) {
                 return SENTIMENTS.find(s => value >= s.min && value <= s.max) || SENTIMENTS[0];
+            }
+
+            function clamp(value, min, max) {
+                return Math.min(max, Math.max(min, value));
+            }
+
+            function getZoneForValue(value, zones) {
+                return zones.find(zone => value >= zone.min && value <= zone.max) || null;
+            }
+
+            function centeredScore(value, scale, invert = false) {
+                if (value == null || !Number.isFinite(value)) return null;
+                const safeScale = scale || 1;
+                const base = clamp(50 + Math.tanh(value / safeScale) * 50, 0, 100);
+                return invert ? 100 - base : base;
+            }
+
+            function linearScore(value, invert = false) {
+                if (value == null || !Number.isFinite(value)) return null;
+                const base = clamp(value, 0, 100);
+                return invert ? 100 - base : base;
+            }
+
+            function getProbabilityClass(rate) {
+                if (rate == null) return '';
+                if (rate >= 0.65) return 'prob-high';
+                if (rate >= 0.55) return 'prob-mid';
+                if (rate <= 0.45) return 'prob-low';
+                return '';
+            }
+
+            function formatProbability(rate) {
+                return rate == null ? '—' : `${Math.round(rate * 100)}%`;
+            }
+
+            function computeForwardStats(series, zones, valueAccessor, horizons) {
+                const rows = zones.map(zone => ({
+                    ...zone,
+                    matches: 0,
+                    wins: Object.fromEntries(horizons.map(h => [h.key, 0])),
+                    counts: Object.fromEntries(horizons.map(h => [h.key, 0])),
+                }));
+
+                let usableSignals = 0;
+
+                series.forEach((point, index) => {
+                    const value = valueAccessor(point, index);
+                    if (value == null || !Number.isFinite(value)) return;
+                    const zone = getZoneForValue(value, zones);
+                    if (!zone) return;
+
+                    const row = rows.find(item => item.key === zone.key);
+                    if (!row) return;
+
+                    row.matches += 1;
+                    usableSignals += 1;
+
+                    horizons.forEach(horizon => {
+                        const future = series[index + horizon.offset];
+                        if (!future) return;
+                        if (!Number.isFinite(point.price) || !Number.isFinite(future.price)) return;
+
+                        row.counts[horizon.key] += 1;
+                        if (future.price > point.price) {
+                            row.wins[horizon.key] += 1;
+                        }
+                    });
+                });
+
+                return {
+                    rows: rows.map(row => ({
+                        ...row,
+                        rates: Object.fromEntries(
+                            horizons.map(horizon => [
+                                horizon.key,
+                                row.counts[horizon.key] ? row.wins[horizon.key] / row.counts[horizon.key] : null,
+                            ])
+                        ),
+                    })),
+                    usableSignals,
+                    candleCount: series.length,
+                };
+            }
+
+            function renderProbabilityTable(bodyId, statusId, stats, horizons, contextText) {
+                const bodyEl = document.getElementById(bodyId);
+                const statusEl = document.getElementById(statusId);
+                if (!bodyEl || !statusEl) return;
+
+                bodyEl.innerHTML = stats.rows.map(row => {
+                    const cells = horizons.map(horizon => {
+                        const rate = row.rates[horizon.key];
+                        const cellClass = getProbabilityClass(rate);
+                        return `<td class="${cellClass}"><span class="prob-value">${formatProbability(rate)}</span></td>`;
+                    }).join('');
+
+                    return `
+                        <tr>
+                            <td>
+                                <span class="prob-label">
+                                    <span class="zone-dot" style="background:${row.color}"></span>
+                                    ${row.fullLabel || row.label}
+                                </span>
+                                <span class="prob-sample">n=${row.matches}</span>
+                            </td>
+                            ${cells}
+                        </tr>
+                    `;
+                }).join('');
+
+                statusEl.textContent = `${contextText} ${stats.usableSignals} signals across ${stats.candleCount} candles. n = bucket matches; each horizon excludes the latest rows without forward data.`;
             }
 
             // ── Fetch Fear & Greed (shared between charts) ──
@@ -1415,7 +1651,6 @@
             async function fetchPrice(symbol, loadingTextEl, interval) {
                 interval = interval || '1d';
                 const allCandles = [];
-                const DAY_MS = 86400000;
                 const startTime = new Date('2018-01-01').getTime();
                 const now = Date.now();
 
@@ -1445,7 +1680,7 @@
                         });
 
                         const lastTs = data[data.length - 1][0];
-                        cursor = lastTs + DAY_MS;
+                        cursor = lastTs + 1;
 
                         if (cursor < now) {
                             await new Promise(r => setTimeout(r, 200));
@@ -1488,14 +1723,30 @@
 
             function calcEMA(data, period) {
                 const result = new Array(data.length).fill(null);
-                if (data.length < period) return result;
-                let sum = 0;
-                for (let i = 0; i < period; i++) sum += data[i];
-                result[period - 1] = sum / period;
                 const k = 2 / (period + 1);
-                for (let i = period; i < data.length; i++) {
-                    result[i] = data[i] * k + result[i - 1] * (1 - k);
+
+                let windowSum = 0;
+                let windowCount = 0;
+                let ema = null;
+
+                for (let i = 0; i < data.length; i++) {
+                    const value = data[i];
+                    if (value == null || !Number.isFinite(value)) continue;
+
+                    if (windowCount < period) {
+                        windowSum += value;
+                        windowCount += 1;
+                        if (windowCount === period) {
+                            ema = windowSum / period;
+                            result[i] = ema;
+                        }
+                        continue;
+                    }
+
+                    ema = value * k + ema * (1 - k);
+                    result[i] = ema;
                 }
+
                 return result;
             }
 
@@ -1503,7 +1754,15 @@
                 const result = new Array(data.length).fill(null);
                 for (let i = period - 1; i < data.length; i++) {
                     let sum = 0;
-                    for (let j = i - period + 1; j <= i; j++) sum += data[j];
+                    let valid = true;
+                    for (let j = i - period + 1; j <= i; j++) {
+                        if (data[j] == null || !Number.isFinite(data[j])) {
+                            valid = false;
+                            break;
+                        }
+                        sum += data[j];
+                    }
+                    if (!valid) continue;
                     result[i] = sum / period;
                 }
                 return result;
@@ -1519,14 +1778,14 @@
                 }
                 let avgGain = gainSum / period;
                 let avgLoss = lossSum / period;
-                rsi[period] = avgLoss === 0 ? 100 : 100 - 100 / (1 + avgGain / avgLoss);
+                rsi[period] = avgLoss === 0 && avgGain === 0 ? 50 : avgLoss === 0 ? 100 : 100 - 100 / (1 + avgGain / avgLoss);
                 for (let i = period + 1; i < closes.length; i++) {
                     const change = closes[i] - closes[i - 1];
                     const gain = change > 0 ? change : 0;
                     const loss = change < 0 ? -change : 0;
                     avgGain = (avgGain * (period - 1) + gain) / period;
                     avgLoss = (avgLoss * (period - 1) + loss) / period;
-                    rsi[i] = avgLoss === 0 ? 100 : 100 - 100 / (1 + avgGain / avgLoss);
+                    rsi[i] = avgLoss === 0 && avgGain === 0 ? 50 : avgLoss === 0 ? 100 : 100 - 100 / (1 + avgGain / avgLoss);
                 }
                 return rsi;
             }
@@ -1537,8 +1796,7 @@
                 const macdLine = closes.map((_, i) =>
                     emaFast[i] != null && emaSlow[i] != null ? emaFast[i] - emaSlow[i] : null
                 );
-                const validMacd = macdLine.map(v => v ?? 0);
-                const signalLine = calcEMA(validMacd, sig);
+                const signalLine = calcEMA(macdLine, sig);
                 const histogram = macdLine.map((m, i) =>
                     m != null && signalLine[i] != null ? m - signalLine[i] : null
                 );
@@ -1555,22 +1813,22 @@
                     }
                     rawK[i] = hh === ll ? 50 : ((closes[i] - ll) / (hh - ll)) * 100;
                 }
-                const k = calcSMA(rawK.map(v => v ?? 0), dPeriod);
-                const d = calcSMA(k.map(v => v ?? 0), dPeriod);
+                const k = calcSMA(rawK, dPeriod);
+                const d = calcSMA(k, dPeriod);
                 return { k, d };
             }
 
             function calcWaveTrend(highs, lows, closes, chLen = 10, avgLen = 21) {
                 const hlc3 = closes.map((c, i) => (highs[i] + lows[i] + c) / 3);
                 const esa = calcEMA(hlc3, chLen);
-                const d = hlc3.map((v, i) => esa[i] != null ? Math.abs(v - esa[i]) : 0);
+                const d = hlc3.map((v, i) => esa[i] != null ? Math.abs(v - esa[i]) : null);
                 const de = calcEMA(d, chLen);
                 const ci = hlc3.map((v, i) => {
-                    if (esa[i] == null || de[i] == null || de[i] === 0) return 0;
+                    if (esa[i] == null || de[i] == null || de[i] === 0) return null;
                     return (v - esa[i]) / (0.015 * de[i]);
                 });
                 const wt1 = calcEMA(ci, avgLen);
-                const wt2 = calcSMA(wt1.map(v => v ?? 0), 4);
+                const wt2 = calcSMA(wt1, 4);
                 return { wt1, wt2 };
             }
 
@@ -1590,19 +1848,16 @@
                 return result;
             }
 
-            // 50/200 MA Cross signal (0-100 score)
+            // 50/200 MA Cross signal as signed delta around zero
             function calcMACross(closes) {
                 const ma50 = calcSMA(closes, 50);
                 const ma200 = calcSMA(closes, 200);
-                return closes.map((c, i) => {
-                    if (ma50[i] == null || ma200[i] == null) return null;
-                    // Ratio of MA50 to MA200, normalized around 1.0
-                    const ratio = ma50[i] / ma200[i];
-                    // Convert to 0-100: ratio=0.9 → ~25, ratio=1.0 → 50, ratio=1.1 → ~75
-                    const score = 50 + (ratio - 1) * 500;
-                    return Math.max(0, Math.min(100, score));
+                return closes.map((_, i) => {
+                    if (ma50[i] == null || ma200[i] == null || ma200[i] === 0) return null;
+                    return ma50[i] / ma200[i] - 1;
                 });
             }
+
             function calcWinProbability(data) {
                 if (data.length < 30) return data.map(() => null);
 
@@ -1617,18 +1872,6 @@
                 const bbB = calcBollingerB(closes);
                 const maCross = calcMACross(closes);
 
-                // Normalize MACD histogram to 0-100
-                const validHist = macd.histogram.filter(v => v != null);
-                const histMin = Math.min(...validHist);
-                const histMax = Math.max(...validHist);
-                const histRange = histMax - histMin || 1;
-
-                // Normalize WaveTrend to 0-100
-                const validWt = wt.wt1.filter(v => v != null);
-                const wtMin = Math.min(...validWt);
-                const wtMax = Math.max(...validWt);
-                const wtRange = wtMax - wtMin || 1;
-
                 return data.map((d, i) => {
                     const rsiVal = rsi[i];
                     const histVal = macd.histogram[i];
@@ -1638,33 +1881,29 @@
                     const bbVal = bbB[i];
                     const maVal = maCross[i];
 
-                    if (rsiVal == null && histVal == null && stochVal == null) return null;
+                    const histPct = histVal != null && d.price ? (histVal / d.price) * 100 : null;
 
-                    // Normalize each to 0-100 "bullish score"
-                    const rsiScore = rsiVal != null ? (100 - rsiVal) : 50;
-                    const macdScore = histVal != null ? ((histVal - histMin) / histRange) * 100 : 50;
-                    const stochScore = stochVal != null ? (100 - stochVal) : 50;
-                    const wtScore = wtVal != null ? ((wtVal - wtMin) / wtRange) * 100 : 50;
-                    const wtInverted = 100 - wtScore;
-                    const fngScore = fngVal != null ? (100 - fngVal) : 50;
-                    // Bollinger %B: low %B = oversold = bullish buy signal
-                    const bbScore = bbVal != null ? (100 - bbVal * 100) : 50;
-                    // MA Cross: already 0-100 where high = bullish, invert for contrarian
-                    const maScore = maVal != null ? maVal : 50;
+                    const components = [
+                        { key: 'fng', weight: WP_WEIGHTS.fng, score: linearScore(fngVal, true) },
+                        { key: 'rsi', weight: WP_WEIGHTS.rsi, score: linearScore(rsiVal, true) },
+                        { key: 'macd', weight: WP_WEIGHTS.macd, score: centeredScore(histPct, 0.8) },
+                        { key: 'stoch', weight: WP_WEIGHTS.stoch, score: linearScore(stochVal, true) },
+                        { key: 'wt', weight: WP_WEIGHTS.wt, score: centeredScore(wtVal, 35, true) },
+                        { key: 'bb', weight: WP_WEIGHTS.bb, score: bbVal != null ? clamp((1 - clamp(bbVal, 0, 1)) * 100, 0, 100) : null },
+                        { key: 'ma', weight: WP_WEIGHTS.ma, score: centeredScore(maVal, 0.05) },
+                    ].filter(component => component.score != null && Number.isFinite(component.score));
 
-                    // Weighted average (7 indicators)
-                    const composite = (
-                        fngScore * 0.20 +
-                        rsiScore * 0.15 +
-                        macdScore * 0.15 +
-                        stochScore * 0.10 +
-                        wtInverted * 0.15 +
-                        bbScore * 0.10 +
-                        maScore * 0.15
-                    );
+                    const totalWeight = components.reduce((sum, component) => sum + component.weight, 0);
+                    if (totalWeight < 0.70) return null;
+
+                    const composite = components.reduce(
+                        (sum, component) => sum + component.score * component.weight,
+                        0
+                    ) / totalWeight;
 
                     return {
-                        value: Math.max(0, Math.min(100, Math.round(composite))),
+                        value: clamp(Math.round(composite), 0, 100),
+                        coverage: Math.round(totalWeight * 100),
                     };
                 });
             }
@@ -1685,18 +1924,13 @@
                 let wpRangeMax = 100;
 
                 function getWpColor(val) {
-                    if (val == null) return '#6b7280';
-                    if (val >= 70) return '#00e676';
-                    if (val >= 50) return '#ffeb3b';
-                    if (val >= 30) return '#ff9800';
-                    return '#ff1744';
+                    const zone = getZoneForValue(val, WP_ZONES);
+                    return zone ? zone.color : '#6b7280';
                 }
 
                 function getWpLabel(val) {
-                    if (val >= 70) return 'Strong Buy';
-                    if (val >= 50) return 'Bullish';
-                    if (val >= 30) return 'Cautious';
-                    return 'Bearish';
+                    const zone = getZoneForValue(val, WP_ZONES);
+                    return zone ? zone.label.split(' ').slice(1).join(' ') : '—';
                 }
 
                 function filterByRange(data, days) {
@@ -1714,6 +1948,24 @@
                 }
 
                 const WP_DIM_COLOR = 'rgba(255,255,255,0.25)';
+
+                function renderBacktestTable() {
+                    const combined = mergedData.map((d, i) => ({ ...d, wp: wpData[i] }));
+                    const stats = computeForwardStats(
+                        combined,
+                        WP_ZONES,
+                        point => point.wp?.value ?? null,
+                        WEEKLY_HORIZONS
+                    );
+
+                    renderProbabilityTable(
+                        `${prefix}-wp-probBody`,
+                        `${prefix}-wp-probStatus`,
+                        stats,
+                        WEEKLY_HORIZONS,
+                        `${symbol === 'BTCUSDT' ? 'BTC' : 'ETH'} weekly backtest with minimum 70% model coverage.`
+                    );
+                }
 
                 function buildDatasets() {
                     const combined = mergedData.map((d, i) => ({ ...d, wp: wpData[i] }));
@@ -1838,6 +2090,7 @@
                                         <strong style="font-size:13px;color:${color};">Score: ${wp.value}</strong>
                                         <span style="font-size:10px;padding:1px 6px;border-radius:3px;background:${color}22;color:${color};font-weight:600;">${getWpLabel(wp.value)}</span>
                                     </div>`;
+                                    html += `<div style="font-size:11px;color:#8b92a5;">Coverage: ${wp.coverage}% of model weights</div>`;
                                 }
                             }
                         }
@@ -1918,9 +2171,10 @@
                     const color = wp ? getWpColor(wp.value) : '#6b7280';
                     const label = wp ? getWpLabel(wp.value) : '—';
                     const wpVal = wp ? 'Score ' + wp.value : '—';
+                    const coverage = wp ? ` · ${wp.coverage}% coverage` : '';
                     infoRow.innerHTML = `
                         <span class="current-price">$${price.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
-                        <span class="sentiment-badge" style="background:${color}22;color:${color};">${wpVal} · ${label}</span>
+                        <span class="sentiment-badge" style="background:${color}22;color:${color};">${wpVal} · ${label}${coverage}</span>
                     `;
                 }
 
@@ -2019,6 +2273,7 @@
                         mergedData = mergeData(prices, fngMap);
                         wpData = calcWinProbability(mergedData);
 
+                        renderBacktestTable();
                         createChart();
                         showInfoRow();
                     } catch (err) {
@@ -2053,6 +2308,23 @@
                 let fngRangeMax = 100;
                 const visibility = {};
                 SENTIMENTS.forEach(s => visibility[s.key] = true);
+
+                function renderBacktestTable() {
+                    const stats = computeForwardStats(
+                        mergedData,
+                        SENTIMENTS,
+                        point => point.fngValue,
+                        DAILY_HORIZONS
+                    );
+
+                    renderProbabilityTable(
+                        `${prefix}-fng-probBody`,
+                        `${prefix}-fng-probStatus`,
+                        stats,
+                        DAILY_HORIZONS,
+                        `${symbol === 'BTCUSDT' ? 'BTC' : 'ETH'} daily backtest.`
+                    );
+                }
 
                 function getColorForValue(fngValue) {
                     if (fngValue == null) return DIM_COLOR;
@@ -2504,6 +2776,7 @@
                         loadingEl.textContent = 'Merging datasets...';
                         mergedData = mergeData(prices, fngMap);
 
+                        renderBacktestTable();
                         createChart();
                         showInfoRow();
                     } catch (err) {
