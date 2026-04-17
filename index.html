@@ -2498,23 +2498,25 @@
         </div>
         <div class="section-panel" data-panel-group="btc" data-panel="backtest">
             <div class="prob-section">
-                <div class="prob-title">📊 Historical Win Rate by Fear & Greed Level (BTC)
+                <div class="prob-title">📊 Historical Win Rate by Fear & Greed Bucket (BTC)
                     <span class="info-tip">?
                         <div class="info-tip-content">
                             <strong>How to read this table</strong><br>
-                            Rows match the official Alternative.me zones. Columns show how often BTC closed higher after
-                            each forward horizon from the signal date.<br><br>
-                            The table is computed dynamically after load and no longer relies on manually entered values.
+                            Rows split the official Alternative.me values into custom 10-point buckets for a finer
+                            backtest view. Columns show how often BTC closed higher after each forward horizon from the
+                            signal date.<br><br>
+                            The source feed remains the official Alternative.me series; only the backtest grouping is
+                            more granular.
                         </div>
                     </span>
                 </div>
-                <div class="prob-subtitle">Daily backtest recomputed from Binance closes grouped by official F&amp;G
-                    zones.</div>
+                <div class="prob-subtitle">Daily backtest recomputed from Binance closes grouped into 10-point Fear &amp;
+                    Greed buckets.</div>
                 <div class="prob-table-shell">
                     <table class="prob-table">
                         <thead>
                             <tr>
-                                <th>Official F&amp;G Zone</th>
+                                <th>F&amp;G Bucket (10 pts)</th>
                                 <th>7 Days</th>
                                 <th>30 Days</th>
                                 <th>90 Days</th>
@@ -2528,8 +2530,8 @@
                         </tbody>
                     </table>
                 </div>
-                <div class="prob-status" id="btc-fng-probStatus">Using official Alternative.me zones and daily Binance
-                    closes.</div>
+                <div class="prob-status" id="btc-fng-probStatus">Using the official Alternative.me feed, segmented into
+                    custom 10-point buckets for the backtest view.</div>
                 <div class="prob-note">⚠️ Alternative.me describes the feed as bitcoin-focused market sentiment, so the
                     table tracks BTC directly against that source.
                 </div>
@@ -2612,23 +2614,24 @@
         </div>
         <div class="section-panel" data-panel-group="eth" data-panel="backtest">
             <div class="prob-section">
-                <div class="prob-title">📊 Historical Win Rate by Fear & Greed Level (ETH)
+                <div class="prob-title">📊 Historical Win Rate by Fear & Greed Bucket (ETH)
                     <span class="info-tip">?
                         <div class="info-tip-content">
                             <strong>How to read this table</strong><br>
                             This is the same Alternative.me sentiment feed, but paired with ETH history. Read it as
                             market-wide risk appetite, not as an official ETH-native index.<br><br>
-                            The table is computed automatically from the fetched history after load.
+                            Rows are split into custom 10-point buckets for a finer backtest view while the source feed
+                            itself stays unchanged.
                         </div>
                     </span>
                 </div>
-                <div class="prob-subtitle">Daily backtest: ETH returns grouped by the official BTC-centric F&amp;G
-                    zones.</div>
+                <div class="prob-subtitle">Daily backtest: ETH returns grouped into 10-point buckets from the same
+                    BTC-centric F&amp;G feed.</div>
                 <div class="prob-table-shell">
                     <table class="prob-table">
                         <thead>
                             <tr>
-                                <th>Official F&amp;G Zone</th>
+                                <th>F&amp;G Bucket (10 pts)</th>
                                 <th>7 Days</th>
                                 <th>30 Days</th>
                                 <th>90 Days</th>
@@ -2642,8 +2645,8 @@
                         </tbody>
                     </table>
                 </div>
-                <div class="prob-status" id="eth-fng-probStatus">Alternative.me still documents the official index as
-                    bitcoin-focused market sentiment.</div>
+                <div class="prob-status" id="eth-fng-probStatus">Alternative.me still documents the source index as
+                    bitcoin-focused market sentiment; the 10-point buckets are just a finer backtest lens.</div>
                 <div class="prob-note">⚠️ For ETH this is a context overlay, not a source-native ETH fear &amp; greed
                     benchmark.
                 </div>
@@ -2731,23 +2734,24 @@
         </div>
         <div class="section-panel" data-panel-group="btc-wp" data-panel="backtest">
             <div class="prob-section">
-                <div class="prob-title">📊 Historical Hit Rate by Composite Score (BTC)
+                <div class="prob-title">📊 Historical Hit Rate by Composite Score Bucket (BTC)
                     <span class="info-tip">?
                         <div class="info-tip-content">
                             The score blends weekly momentum, trend, mean reversion, and F&amp;G. Each component is only
                             calculated once it has enough warm-up data, and the final average reweights only the signals
                             that are actually available.<br><br>
-                            The table shows forward returns measured on weekly candles: 1W, 4W, 13W, and 52W.
+                            The table groups the weekly score into 10-point buckets (`0-9` through `90-100`) and shows
+                            forward returns measured on weekly candles: 1W, 4W, 13W, and 52W.
                         </div>
                     </span>
                 </div>
-                <div class="prob-subtitle">Weekly backtest grouped by score zone. Values below are recomputed from fetched
-                    history after load.</div>
+                <div class="prob-subtitle">Weekly backtest grouped into 10-point score buckets. Values below are
+                    recomputed from fetched history after load.</div>
                 <div class="prob-table-shell">
                     <table class="prob-table">
                         <thead>
                             <tr>
-                                <th>Score at Buy</th>
+                                <th>Score Bucket</th>
                                 <th>1W</th>
                                 <th>4W</th>
                                 <th>13W</th>
@@ -2762,7 +2766,7 @@
                     </table>
                 </div>
                 <div class="prob-status" id="btc-wp-probStatus">Weekly score uses only the indicators available at each
-                    timestamp and reports per-horizon sample counts.</div>
+                    timestamp and reports per-horizon sample counts for each 10-point bucket.</div>
                 <div class="prob-note">⚠️ This remains a heuristic composite score. Past performance does not
                     guarantee future results.</div>
             </div>
@@ -2860,22 +2864,23 @@
         </div>
         <div class="section-panel" data-panel-group="eth-wp" data-panel="backtest">
             <div class="prob-section">
-                <div class="prob-title">📊 Historical Hit Rate by Composite Score (ETH)
+                <div class="prob-title">📊 Historical Hit Rate by Composite Score Bucket (ETH)
                     <span class="info-tip">?
                         <div class="info-tip-content">
                             The score is calculated on weekly candles and no longer normalizes against the full future
                             sample. That keeps the historical backtest free from look-ahead bias.<br><br>
-                            The 1W / 4W / 13W / 52W horizons refer to the following weekly closes.
+                            The table groups the weekly score into 10-point buckets (`0-9` through `90-100`). The
+                            1W / 4W / 13W / 52W horizons refer to the following weekly closes.
                         </div>
                     </span>
                 </div>
-                <div class="prob-subtitle">Weekly backtest grouped by ETH score zone. Values update from the fetched
-                    history.</div>
+                <div class="prob-subtitle">Weekly backtest grouped into 10-point ETH score buckets. Values update from
+                    the fetched history.</div>
                 <div class="prob-table-shell">
                     <table class="prob-table">
                         <thead>
                             <tr>
-                                <th>Score at Buy</th>
+                                <th>Score Bucket</th>
                                 <th>1W</th>
                                 <th>4W</th>
                                 <th>13W</th>
@@ -2890,7 +2895,7 @@
                     </table>
                 </div>
                 <div class="prob-status" id="eth-wp-probStatus">ETH score shares the same market-wide sentiment input as
-                    BTC and reports per-horizon sample counts.</div>
+                    BTC and reports per-horizon sample counts for each 10-point bucket.</div>
                 <div class="prob-note">⚠️ Composite score, not guaranteed edge. Past performance does not guarantee future
                     results.</div>
             </div>
@@ -2942,6 +2947,32 @@
                 { key: 'cautious', label: '30-49 Cautious', color: '#ff9800', min: 30, max: 49 },
                 { key: 'bearish', label: '0-29 Bearish', color: '#ff1744', min: 0, max: 29 },
             ];
+
+            function getBucketColor(value, zones) {
+                return getZoneForValue(value, zones)?.color
+                    || getZoneForValue(Math.floor(value), zones)?.color
+                    || getZoneForValue(Math.ceil(value), zones)?.color
+                    || '#8b92a5';
+            }
+
+            function buildTenPointBuckets(prefix, zones) {
+                return Array.from({ length: 10 }, (_, index) => {
+                    const min = index * 10;
+                    const max = index === 9 ? 100 : min + 9;
+                    const center = index === 9 ? 95 : (min + max) / 2;
+                    return {
+                        key: `${prefix}-${min}`,
+                        label: `${min}-${max}`,
+                        fullLabel: `${min}-${max}`,
+                        color: getBucketColor(center, zones),
+                        min,
+                        max,
+                    };
+                });
+            }
+
+            const FNG_BACKTEST_BUCKETS = buildTenPointBuckets('fng-bucket', SENTIMENTS);
+            const SCORE_BACKTEST_BUCKETS = buildTenPointBuckets('score-bucket', WP_ZONES);
 
             const WP_WEIGHTS = {
                 fng: 0.20,
@@ -3896,7 +3927,7 @@
                     const combined = mergedData.map((d, i) => ({ ...d, wp: wpData[i] }));
                     const stats = computeForwardStats(
                         combined,
-                        WP_ZONES,
+                        SCORE_BACKTEST_BUCKETS,
                         point => point.wp?.value ?? null,
                         WEEKLY_HORIZONS
                     );
@@ -4571,7 +4602,7 @@
                 function renderBacktestTable() {
                     const stats = computeForwardStats(
                         mergedData,
-                        SENTIMENTS,
+                        FNG_BACKTEST_BUCKETS,
                         point => point.fngValue,
                         DAILY_HORIZONS
                     );

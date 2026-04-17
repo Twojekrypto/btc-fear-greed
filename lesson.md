@@ -7,7 +7,7 @@
 ### 2026-04-17 — Official F&G thresholds must match the source
 - **Kontekst:** Dashboard używa oficjalnego feedu Alternative.me.
 - **Wniosek:** Strefy trzeba mapować dokładnie do metodologii źródła: `0-24`, `25-44`, `45-54`, `55-74`, `75-100`.
-- **Reguła:** Nie rozbijaj tych progów na własne zakresy w tabelach ani tooltipach bez wyraźnego oznaczenia, że to autorska interpretacja.
+- **Reguła:** Zachowuj te progi dla samego feedu i legend chartu; jeśli backtest ma używać drobniejszych bucketów, oznacz je wprost jako custom segmentation derived from the official series.
 
 ### 2026-04-17 — Composite score cannot normalize on future history
 - **Kontekst:** Weekly composite score używał MACD i WaveTrend.
@@ -113,3 +113,8 @@
 - **Context:** Even well-aligned cards can make the chart feel secondary when too many status blocks stack above it.
 - **Takeaway:** Three strong quality signals above the chart read better than five smaller cards competing with the visual.
 - **Rule:** Keep the status strip above a premium chart to the minimum viable set, and prefer three compact quality cards over broader diagnostic grids unless the user explicitly asks for more detail.
+
+### 2026-04-17 — Backtest granularity can diverge from chart zones if the label is explicit
+- **Context:** The user wanted finer backtest rows than the broad official F&G / composite display zones.
+- **Takeaway:** Tables can use 10-point buckets for better resolution, as long as the UI clearly says the source feed is unchanged and only the analytical grouping is custom.
+- **Rule:** When using finer backtest buckets, say `bucket` instead of `zone`, label the first column with the bucket width, and keep the official-zone caveat in the helper copy.

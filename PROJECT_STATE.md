@@ -13,10 +13,9 @@
 - Left Y-axis: price ($), right Y-axis: F&G value
 - Sentiment legend toggles (click to show/hide levels)
 - **F&G Range Slider** (0-100) — filters data, non-matching price dims to white
-- Time selector: 1M, 3M, 6M, 1Y, 2Y, 5Y, ALL
-- Custom date range picker (From/To)
-- Click-and-drag zoom with reset button
-- Historical Win Rate statistics tables are computed dynamically from fetched history (7D, 30D, 90D, 1Y)
+- Mini brush navigator under each chart with draggable window and `All history` reset
+- Default chart view opens on full history
+- Historical Win Rate statistics tables are computed dynamically from fetched history (7D, 30D, 90D, 1Y) using 10-point F&G buckets
 - F&G zones aligned to source methodology: `0-24`, `25-44`, `45-54`, `55-74`, `75-100`
 - ETH chart uses the same market-wide / BTC-centric Alternative.me feed as a sentiment overlay, not as an ETH-native official index
 
@@ -30,7 +29,7 @@
 - Left Y-axis: price ($), right Y-axis: Composite Score (0-100)
 - **Score Range Slider** (0-100) — dims non-matching data in white
 - Display format: `Score 71 · Strong Buy · 100% coverage`
-- Historical Win Rate statistics tables are computed dynamically from weekly history (1W, 4W, 13W, 52W)
+- Historical Win Rate statistics tables are computed dynamically from weekly history (1W, 4W, 13W, 52W) using 10-point score buckets
 - Historical tables show row-level and per-horizon sample sizes (`n`) for transparency
 - Composite score reweights only the indicators available at a given timestamp
 - Minimum model coverage threshold: `70%` of total weights before a weekly score is considered valid
@@ -67,7 +66,7 @@
 
 ## 🏗️ Architecture
 
-- **Single file**: `index.html` (~2809 lines)
+- **Single file**: `index.html` (~5175 lines)
 - **APIs**: Binance (klines), Alternative.me (F&G)
 - **Libraries**: Chart.js 4.4.4, chartjs-adapter-date-fns 3.0.0
 - **Factory pattern**: `createFngChart(prefix, symbol, fngMapPromise)` and `createWinProbChart(prefix, symbol, fngMapPromise)`
@@ -116,6 +115,7 @@
 31. ✅ Set charts to open on full history by default and added hover range hints to legend states
 32. ✅ Slimmed composite legend chips so ranges appear on hover instead of taking permanent toolbar space
 33. ✅ Reduced the top-of-chart quality strip to 3 compact cards for a lighter premium chart header
+34. ✅ Switched F&G and composite backtest tables from broad zones to 10-point buckets for finer historical resolution
 
 ---
 

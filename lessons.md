@@ -28,7 +28,7 @@
 ### 2026-04-17 — Official F&G thresholds must match the source
 - **Kontekst:** Dashboard używa oficjalnego feedu Alternative.me.
 - **Błąd:** Własne progi w tabelach i opisach rozjeżdżały się z metodologią źródła.
-- **Reguła:** Dla oficjalnego F&G trzymaj progi `0-24`, `25-44`, `45-54`, `55-74`, `75-100`, a każdą inną segmentację oznaczaj jako autorską.
+- **Reguła:** Dla oficjalnego F&G trzymaj progi `0-24`, `25-44`, `45-54`, `55-74`, `75-100`; jeśli backtest używa innej segmentacji, oznacz ją wprost jako custom bucketing derived from the official feed.
 
 ### 2026-04-17 — Composite score cannot normalize on future history
 - **Kontekst:** Weekly composite score używał MACD i WaveTrend.
@@ -129,3 +129,8 @@
 - **Kontekst:** Nawet dobrze wyrównane karty jakości mogą przytłoczyć chart, jeśli jest ich zbyt dużo i wszystkie siedzą nad wykresem.
 - **Błąd:** Rozbudowany status strip odbiera wykresowi rolę głównego elementu i psuje spokojny rytm premium dashboardu.
 - **Reguła:** W premium chart headerze ogranicz top-of-chart quality strip do trzech najważniejszych kart, a resztę informacji przenoś do tooltipów, footerów albo dalszych sekcji.
+
+### 2026-04-17 — Finer backtest buckets need explicit naming in the UI
+- **Kontekst:** User wanted backtests in 10-point steps instead of broader 25-ish point zones.
+- **Błąd:** Jeśli copy nadal mówi `zone` albo `official zone`, user może uznać, że to nadal oficjalna metodologia, a nie tylko sposób grupowania tabeli.
+- **Reguła:** Przy drobniejszym backtest bucketingu używaj w UI słowa `bucket`, pokazuj szerokość bucketu w nagłówku kolumny i dopowiadaj, że źródłowy feed pozostaje oficjalny.
