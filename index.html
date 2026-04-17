@@ -303,6 +303,72 @@
             text-transform: uppercase;
         }
 
+        .sentiment-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 5px 10px;
+            border-radius: 999px;
+            border: 1px solid transparent;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.02em;
+        }
+
+        .quality-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 10px;
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        .quality-card {
+            padding: 12px 13px;
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            min-height: 84px;
+        }
+
+        .quality-label {
+            display: block;
+            color: #72809a;
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            margin-bottom: 7px;
+        }
+
+        .quality-value {
+            display: block;
+            color: #edf1fb;
+            font-size: 15px;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            margin-bottom: 4px;
+        }
+
+        .quality-value.tone-good {
+            color: #00e676;
+        }
+
+        .quality-value.tone-warn {
+            color: #ff9800;
+        }
+
+        .quality-value.tone-alert {
+            color: #ff1744;
+        }
+
+        .quality-meta {
+            display: block;
+            color: #7a879f;
+            font-size: 11px;
+            line-height: 1.45;
+        }
+
         .controls {
             display: flex;
             flex-direction: column;
@@ -784,6 +850,34 @@
             font-style: italic;
         }
 
+        .calibration-section {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 24px 22px;
+        }
+
+        .calibration-title {
+            font-size: 15px;
+            font-weight: 700;
+            color: #e0e4f0;
+            margin-bottom: 4px;
+        }
+
+        .calibration-subtitle {
+            font-size: 12px;
+            color: #61708d;
+            margin-bottom: 14px;
+            line-height: 1.5;
+        }
+
+        .calibration-chart-wrap {
+            height: 220px;
+            border-radius: 14px;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            background: rgba(7, 13, 24, 0.52);
+            padding: 12px 14px 10px;
+        }
+
         .footer {
             display: flex;
             justify-content: space-between;
@@ -859,6 +953,20 @@
 
             .current-price {
                 font-size: 22px;
+            }
+
+            .quality-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+                gap: 8px;
+            }
+
+            .quality-card {
+                min-height: auto;
+                padding: 11px 10px;
+            }
+
+            .quality-value {
+                font-size: 13px;
             }
 
             .sentiment-badge {
@@ -944,6 +1052,24 @@
             /* Probability tables */
             .prob-section {
                 padding: 16px 10px 12px;
+            }
+
+            .calibration-section {
+                padding: 0 10px 14px;
+            }
+
+            .calibration-title {
+                font-size: 13px;
+            }
+
+            .calibration-subtitle {
+                font-size: 11px;
+                margin-bottom: 10px;
+            }
+
+            .calibration-chart-wrap {
+                height: 200px;
+                padding: 10px 10px 8px;
             }
 
             .prob-title {
@@ -1102,6 +1228,7 @@
                 <p class="chart-subtitle">Official Alternative.me sentiment painted over daily BTC price. Thresholds
                     below match the source methodology.</p>
                 <div class="info-row" id="btc-infoRow"></div>
+                <div class="quality-grid" id="btc-qualityPanel"></div>
             </div>
             <div class="controls">
                 <div class="time-selector" id="btc-timeSelector">
@@ -1197,6 +1324,7 @@
                 <p class="chart-subtitle">ETH price overlaid with the same market-wide Fear &amp; Greed feed. Useful as
                     context, but still not an ETH-native official index.</p>
                 <div class="info-row" id="eth-infoRow"></div>
+                <div class="quality-grid" id="eth-qualityPanel"></div>
             </div>
             <div class="controls">
                 <div class="time-selector" id="eth-timeSelector">
@@ -1293,6 +1421,7 @@
                 <p class="chart-subtitle">Autorski weekly composite score. It is a ranking heuristic for setup quality,
                     not a literal calibrated probability.</p>
                 <div class="info-row" id="btc-wp-infoRow"></div>
+                <div class="quality-grid" id="btc-wp-qualityPanel"></div>
             </div>
             <div class="controls">
                 <div class="time-selector" id="btc-wp-timeSelector">
@@ -1380,6 +1509,15 @@
             <div class="prob-note">⚠️ This remains a heuristic composite score. Past performance does not
                 guarantee future results.</div>
         </div>
+        <div class="calibration-section">
+            <div class="calibration-title">🧪 Calibration Snapshot (BTC)</div>
+            <div class="calibration-subtitle">Full-history score deciles versus realized 13W hit rate. Bars show how
+                many observations each bucket really contains.</div>
+            <div class="calibration-chart-wrap">
+                <canvas id="btc-wp-calibrationChart"></canvas>
+            </div>
+            <div class="prob-status" id="btc-wp-calibrationStatus">Preparing BTC calibration snapshot...</div>
+        </div>
     </div>
 
     <!-- ═══ ETH Composite Score Chart ═══ -->
@@ -1393,6 +1531,7 @@
                 <p class="chart-subtitle">The same weekly composite logic applied to ETH. Sentiment input still comes
                     from the market-wide Alternative.me feed.</p>
                 <div class="info-row" id="eth-wp-infoRow"></div>
+                <div class="quality-grid" id="eth-wp-qualityPanel"></div>
             </div>
             <div class="controls">
                 <div class="time-selector" id="eth-wp-timeSelector">
@@ -1479,6 +1618,15 @@
             <div class="prob-note">⚠️ Composite score, not guaranteed edge. Past performance does not guarantee future
                 results.</div>
         </div>
+        <div class="calibration-section">
+            <div class="calibration-title">🧪 Calibration Snapshot (ETH)</div>
+            <div class="calibration-subtitle">Full-history score deciles versus realized 13W hit rate. Bars show where
+                the ETH score has depth and where samples are still thin.</div>
+            <div class="calibration-chart-wrap">
+                <canvas id="eth-wp-calibrationChart"></canvas>
+            </div>
+            <div class="prob-status" id="eth-wp-calibrationStatus">Preparing ETH calibration snapshot...</div>
+        </div>
     </div>
     <script>
         (function () {
@@ -1527,8 +1675,13 @@
             const CACHE_VERSION = 'v2';
             const FNG_CACHE_TTL_MS = 6 * 60 * 60 * 1000;
             const PRICE_CACHE_TTL_MS = 4 * 60 * 60 * 1000;
+            const DAY_MS = 24 * 60 * 60 * 1000;
 
             const DIM_COLOR = '#ffffff';
+            const DATA_META = {
+                fng: null,
+                prices: new Map(),
+            };
 
             function getSentiment(value) {
                 return SENTIMENTS.find(s => value >= s.min && value <= s.max) || SENTIMENTS[0];
@@ -1644,6 +1797,115 @@
                 }));
             }
 
+            function setFngMeta(meta) {
+                DATA_META.fng = meta;
+            }
+
+            function setPriceMeta(symbol, interval, meta) {
+                DATA_META.prices.set(`${symbol}:${interval}`, meta);
+            }
+
+            function getPriceMeta(symbol, interval) {
+                return DATA_META.prices.get(`${symbol}:${interval}`) || null;
+            }
+
+            function toRgba(hex, alpha) {
+                if (!hex || !hex.startsWith('#')) return `rgba(148, 163, 184, ${alpha})`;
+                const normalized = hex.length === 4
+                    ? `#${hex[1]}${hex[1]}${hex[2]}${hex[2]}${hex[3]}${hex[3]}`
+                    : hex;
+                const value = parseInt(normalized.slice(1), 16);
+                const r = (value >> 16) & 255;
+                const g = (value >> 8) & 255;
+                const b = value & 255;
+                return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+            }
+
+            function formatShortDate(input) {
+                if (input == null) return '—';
+                const date = input instanceof Date ? input : new Date(input);
+                if (Number.isNaN(date.getTime())) return '—';
+                return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+            }
+
+            function formatSourceMode(mode) {
+                switch (mode) {
+                    case 'live':
+                        return { value: 'Live API', tone: 'tone-good' };
+                    case 'cache_fresh':
+                        return { value: 'Fresh cache', tone: 'tone-warn' };
+                    case 'cache_stale':
+                        return { value: 'Fallback cache', tone: 'tone-alert' };
+                    default:
+                        return { value: 'Unknown', tone: '' };
+                }
+            }
+
+            function buildSourceMeta(meta) {
+                if (!meta) return { value: 'Unavailable', tone: 'tone-alert', details: 'No fetch metadata available yet.' };
+                const source = formatSourceMode(meta.mode);
+                const age = meta.ageMs != null && meta.mode !== 'live' ? `${formatCacheAge(meta.ageMs)} · ` : '';
+                const rowsLabel = meta.rows === 1 ? 'entry' : 'entries';
+                return {
+                    value: source.value,
+                    tone: source.tone,
+                    details: `${age}${meta.rows} ${rowsLabel} · last ${formatShortDate(meta.lastDate)}`,
+                };
+            }
+
+            function renderQualityPanel(panelId, items) {
+                const panelEl = document.getElementById(panelId);
+                if (!panelEl) return;
+                panelEl.innerHTML = items.map(item => `
+                    <div class="quality-card">
+                        <span class="quality-label">${item.label}</span>
+                        <strong class="quality-value ${item.tone || ''}">${item.value}</strong>
+                        <span class="quality-meta">${item.details}</span>
+                    </div>
+                `).join('');
+            }
+
+            function buildCalibrationBuckets(series, horizons) {
+                const buckets = Array.from({ length: 10 }, (_, index) => {
+                    const start = index * 10;
+                    const end = index === 9 ? 100 : start + 9;
+                    const center = index === 9 ? 95 : start + 4.5;
+                    return {
+                        key: `score-${start}`,
+                        label: `${start}-${end}`,
+                        color: getZoneForValue(center, WP_ZONES)?.color || '#8b92a5',
+                        counts: Object.fromEntries(horizons.map(horizon => [horizon.key, 0])),
+                        wins: Object.fromEntries(horizons.map(horizon => [horizon.key, 0])),
+                    };
+                });
+
+                series.forEach((point, index) => {
+                    const score = point.wp?.value;
+                    if (!Number.isFinite(score) || !Number.isFinite(point.price)) return;
+                    const bucketIndex = Math.min(9, Math.max(0, Math.floor(score / 10)));
+                    const bucket = buckets[bucketIndex];
+
+                    horizons.forEach(horizon => {
+                        const future = series[index + horizon.offset];
+                        if (!future || !Number.isFinite(future.price)) return;
+                        bucket.counts[horizon.key] += 1;
+                        if (future.price > point.price) {
+                            bucket.wins[horizon.key] += 1;
+                        }
+                    });
+                });
+
+                return buckets.map(bucket => ({
+                    ...bucket,
+                    rates: Object.fromEntries(
+                        horizons.map(horizon => [
+                            horizon.key,
+                            bucket.counts[horizon.key] ? bucket.wins[horizon.key] / bucket.counts[horizon.key] : null,
+                        ])
+                    ),
+                }));
+            }
+
             function computeForwardStats(series, zones, valueAccessor, horizons) {
                 const rows = zones.map(zone => ({
                     ...zone,
@@ -1733,6 +1995,14 @@
                 const cacheKey = `btc-fear-greed:${CACHE_VERSION}:fng`;
                 const cached = readCache(cacheKey, FNG_CACHE_TTL_MS);
                 if (cached?.isFresh) {
+                    setFngMeta({
+                        mode: 'cache_fresh',
+                        ageMs: cached.ageMs,
+                        rows: cached.value.length,
+                        lastDate: cached.value[cached.value.length - 1]?.timestamp
+                            ? cached.value[cached.value.length - 1].timestamp * 1000
+                            : null,
+                    });
                     return buildFearAndGreedMap(cached.value);
                 }
 
@@ -1748,10 +2018,24 @@
                         }))
                     );
                     writeCache(cacheKey, rows);
+                    setFngMeta({
+                        mode: 'live',
+                        ageMs: 0,
+                        rows: rows.length,
+                        lastDate: rows[rows.length - 1]?.timestamp ? rows[rows.length - 1].timestamp * 1000 : null,
+                    });
                     return buildFearAndGreedMap(rows);
                 } catch (error) {
                     if (cached?.value) {
                         console.warn(`Falling back to cached Fear & Greed data (${formatCacheAge(cached.ageMs)}).`, error);
+                        setFngMeta({
+                            mode: 'cache_stale',
+                            ageMs: cached.ageMs,
+                            rows: cached.value.length,
+                            lastDate: cached.value[cached.value.length - 1]?.timestamp
+                                ? cached.value[cached.value.length - 1].timestamp * 1000
+                                : null,
+                        });
                         return buildFearAndGreedMap(cached.value);
                     }
                     throw error;
@@ -1767,6 +2051,12 @@
                     if (loadingTextEl) {
                         loadingTextEl.textContent = `Loading ${symbol} price from cache (${formatCacheAge(cached.ageMs)})...`;
                     }
+                    setPriceMeta(symbol, interval, {
+                        mode: 'cache_fresh',
+                        ageMs: cached.ageMs,
+                        rows: cached.value.length,
+                        lastDate: cached.value[cached.value.length - 1]?.ts || null,
+                    });
                     return deserializeCandles(cached.value).sort((a, b) => a.date - b.date);
                 }
 
@@ -1819,6 +2109,12 @@
                     if (loadingTextEl) {
                         loadingTextEl.textContent = `Using cached ${symbol} price (${formatCacheAge(cached.ageMs)}) after network error...`;
                     }
+                    setPriceMeta(symbol, interval, {
+                        mode: 'cache_stale',
+                        ageMs: cached.ageMs,
+                        rows: cached.value.length,
+                        lastDate: cached.value[cached.value.length - 1]?.ts || null,
+                    });
                     return deserializeCandles(cached.value).sort((a, b) => a.date - b.date);
                 }
 
@@ -1830,9 +2126,21 @@
 
                 const normalized = Array.from(byDay.values()).sort((a, b) => a.date - b.date);
                 if (!normalized.length && cached?.value) {
+                    setPriceMeta(symbol, interval, {
+                        mode: 'cache_stale',
+                        ageMs: cached.ageMs,
+                        rows: cached.value.length,
+                        lastDate: cached.value[cached.value.length - 1]?.ts || null,
+                    });
                     return deserializeCandles(cached.value).sort((a, b) => a.date - b.date);
                 }
                 writeCache(cacheKey, serializeCandles(normalized));
+                setPriceMeta(symbol, interval, {
+                    mode: 'live',
+                    ageMs: 0,
+                    rows: normalized.length,
+                    lastDate: normalized[normalized.length - 1]?.date?.getTime() || null,
+                });
                 return normalized;
             }
 
@@ -2058,6 +2366,8 @@
                 let customTo = null;
                 let wpRangeMin = 0;
                 let wpRangeMax = 100;
+                let latestBacktestStats = null;
+                let calibrationChart = null;
 
                 function getWpColor(val) {
                     const zone = getZoneForValue(val, WP_ZONES);
@@ -2101,6 +2411,186 @@
                         WEEKLY_HORIZONS,
                         `${symbol === 'BTCUSDT' ? 'BTC' : 'ETH'} weekly backtest with minimum 70% model coverage.`
                     );
+
+                    latestBacktestStats = stats;
+                }
+
+                function renderQualitySummary() {
+                    const combined = mergedData.map((d, i) => ({ ...d, wp: wpData[i] }));
+                    const filtered = filterByRange(combined, currentRange);
+                    const lastVisible = filtered[filtered.length - 1] || combined[combined.length - 1];
+                    const latestWithScore = [...combined].reverse().find(point => point.wp);
+                    const priceMeta = buildSourceMeta(getPriceMeta(symbol, '1w'));
+                    const fngMeta = buildSourceMeta(DATA_META.fng);
+                    const usablePct = latestBacktestStats?.candleCount
+                        ? Math.round((latestBacktestStats.usableSignals / latestBacktestStats.candleCount) * 100)
+                        : null;
+                    const scoreLagDays = lastVisible && latestWithScore
+                        ? Math.max(0, Math.round((lastVisible.date - latestWithScore.date) / DAY_MS))
+                        : null;
+                    const scoreTone = lastVisible?.wp?.coverage >= 85
+                        ? 'tone-good'
+                        : lastVisible?.wp?.coverage >= 70
+                            ? 'tone-warn'
+                            : 'tone-alert';
+
+                    renderQualityPanel(`${prefix}-wp-qualityPanel`, [
+                        {
+                            label: 'Weekly Price Feed',
+                            value: priceMeta.value,
+                            tone: priceMeta.tone,
+                            details: priceMeta.details,
+                        },
+                        {
+                            label: 'Sentiment Feed',
+                            value: fngMeta.value,
+                            tone: fngMeta.tone,
+                            details: fngMeta.details,
+                        },
+                        {
+                            label: 'Latest Score',
+                            value: lastVisible?.wp ? `Score ${lastVisible.wp.value}` : 'Unavailable',
+                            tone: lastVisible?.wp ? scoreTone : 'tone-alert',
+                            details: lastVisible?.wp
+                                ? `${getWpLabel(lastVisible.wp.value)} · ${lastVisible.wp.coverage}% coverage · ${formatShortDate(lastVisible.date)}`
+                                : 'No score in the visible range yet.',
+                        },
+                        {
+                            label: 'Usable History',
+                            value: usablePct != null ? `${usablePct}%` : '—',
+                            tone: usablePct >= 70 ? 'tone-good' : usablePct >= 50 ? 'tone-warn' : 'tone-alert',
+                            details: latestBacktestStats
+                                ? `${latestBacktestStats.usableSignals}/${latestBacktestStats.candleCount} weekly candles produced a score${scoreLagDays ? ` · latest visible gap ${scoreLagDays}d` : ''}`
+                                : 'Waiting for backtest stats.',
+                        },
+                    ]);
+                }
+
+                function renderCalibrationChart() {
+                    const combined = mergedData.map((d, i) => ({ ...d, wp: wpData[i] }));
+                    const buckets = buildCalibrationBuckets(combined, WEEKLY_HORIZONS);
+                    const primaryHorizon = 'w13';
+                    const statusEl = document.getElementById(`${prefix}-wp-calibrationStatus`);
+                    const canvas = document.getElementById(`${prefix}-wp-calibrationChart`);
+                    if (!statusEl || !canvas) return;
+
+                    const nonEmptyBuckets = buckets.filter(bucket => bucket.counts[primaryHorizon] > 0);
+                    const lowSampleBuckets = nonEmptyBuckets.filter(bucket => bucket.counts[primaryHorizon] < 5).length;
+
+                    statusEl.textContent = nonEmptyBuckets.length
+                        ? `Primary line = 13W realized hit rate. ${nonEmptyBuckets.length}/10 deciles have at least one sample; ${lowSampleBuckets} deciles still have fewer than 5 observations, so treat them as exploratory.`
+                        : 'Calibration needs more usable weekly score observations.';
+
+                    if (calibrationChart) {
+                        calibrationChart.destroy();
+                    }
+
+                    calibrationChart = new Chart(canvas.getContext('2d'), {
+                        type: 'bar',
+                        data: {
+                            labels: buckets.map(bucket => bucket.label),
+                            datasets: [
+                                {
+                                    type: 'bar',
+                                    label: '13W samples',
+                                    data: buckets.map(bucket => bucket.counts[primaryHorizon]),
+                                    yAxisID: 'yCount',
+                                    backgroundColor: buckets.map(bucket => toRgba(bucket.color, 0.18)),
+                                    borderColor: buckets.map(bucket => toRgba(bucket.color, 0.45)),
+                                    borderWidth: 1,
+                                    borderRadius: 6,
+                                },
+                                {
+                                    type: 'line',
+                                    label: '13W hit rate',
+                                    data: buckets.map(bucket => bucket.rates[primaryHorizon] != null ? Math.round(bucket.rates[primaryHorizon] * 100) : null),
+                                    yAxisID: 'yRate',
+                                    borderColor: '#a5b4fc',
+                                    backgroundColor: '#a5b4fc',
+                                    borderWidth: 2,
+                                    tension: 0.35,
+                                    pointRadius: 3,
+                                    pointHoverRadius: 4,
+                                    spanGaps: true,
+                                },
+                            ],
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            interaction: { mode: 'index', intersect: false },
+                            plugins: {
+                                legend: {
+                                    labels: {
+                                        color: '#93a1bb',
+                                        font: { size: 11, family: 'Inter' },
+                                    },
+                                },
+                                tooltip: {
+                                    callbacks: {
+                                        title(items) {
+                                            return items[0] ? `Score ${items[0].label}` : '';
+                                        },
+                                        afterBody(items) {
+                                            const bucket = buckets[items[0]?.dataIndex ?? -1];
+                                            if (!bucket) return [];
+                                            return WEEKLY_HORIZONS.map(horizon => {
+                                                const count = bucket.counts[horizon.key];
+                                                const rate = bucket.rates[horizon.key];
+                                                return `${horizon.label}: ${formatProbability(rate)} (n=${count})`;
+                                            });
+                                        },
+                                    },
+                                },
+                            },
+                            scales: {
+                                x: {
+                                    grid: { display: false },
+                                    ticks: {
+                                        color: '#6f7c96',
+                                        font: { size: 10, family: 'Inter' },
+                                    },
+                                },
+                                yRate: {
+                                    position: 'left',
+                                    min: 0,
+                                    max: 100,
+                                    grid: { color: 'rgba(255,255,255,0.05)' },
+                                    ticks: {
+                                        color: '#8f9ab1',
+                                        font: { size: 10, family: 'Inter' },
+                                        callback: value => `${value}%`,
+                                    },
+                                },
+                                yCount: {
+                                    position: 'right',
+                                    grid: { drawOnChartArea: false },
+                                    ticks: {
+                                        color: '#637089',
+                                        font: { size: 10, family: 'Inter' },
+                                    },
+                                },
+                            },
+                        },
+                        plugins: [{
+                            id: `${prefix}-wp-calibration-midline`,
+                            beforeDatasetsDraw(chartInstance) {
+                                const yScale = chartInstance.scales.yRate;
+                                const { ctx, chartArea } = chartInstance;
+                                if (!yScale || !chartArea) return;
+                                const y = yScale.getPixelForValue(50);
+                                ctx.save();
+                                ctx.strokeStyle = 'rgba(255,255,255,0.10)';
+                                ctx.lineWidth = 1;
+                                ctx.setLineDash([5, 5]);
+                                ctx.beginPath();
+                                ctx.moveTo(chartArea.left, y);
+                                ctx.lineTo(chartArea.right, y);
+                                ctx.stroke();
+                                ctx.restore();
+                            },
+                        }],
+                    });
                 }
 
                 function buildDatasets() {
@@ -2294,6 +2784,7 @@
                     chart.options.scales.x.time.unit = getTimeUnit();
                     chart.update('none');
                     showInfoRow();
+                    renderQualitySummary();
                 }
 
                 function showInfoRow() {
@@ -2410,8 +2901,10 @@
                         wpData = calcWinProbability(mergedData);
 
                         renderBacktestTable();
+                        renderCalibrationChart();
                         createChart();
                         showInfoRow();
+                        renderQualitySummary();
                     } catch (err) {
                         console.error(`Failed to load ${symbol} WP data:`, err);
                         el('loadingOverlay').innerHTML = `
@@ -2706,6 +3199,8 @@
                     chart.data.datasets = buildDatasets();
                     chart.options.scales.x.time.unit = getTimeUnit();
                     chart.update('none');
+                    showInfoRow();
+                    renderQualitySummary();
                 }
 
                 // Legend
@@ -2813,7 +3308,8 @@
                 // Info row
                 function showInfoRow() {
                     if (!mergedData.length) return;
-                    const latest = mergedData[mergedData.length - 1];
+                    const filtered = filterByRange(mergedData, currentRange);
+                    const latest = filtered[filtered.length - 1] || mergedData[mergedData.length - 1];
                     const infoEl = el('infoRow');
 
                     let fngHtml = '';
@@ -2834,6 +3330,51 @@
 
                     el('lastUpdate').textContent =
                         'Updated: ' + latest.date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+                }
+
+                function renderQualitySummary() {
+                    const filtered = filterByRange(mergedData, currentRange);
+                    const lastVisible = filtered[filtered.length - 1] || mergedData[mergedData.length - 1];
+                    const lastMatched = [...filtered].reverse().find(point => point.fngValue != null)
+                        || [...mergedData].reverse().find(point => point.fngValue != null);
+                    const priceMeta = buildSourceMeta(getPriceMeta(symbol, '1d'));
+                    const fngMeta = buildSourceMeta(DATA_META.fng);
+                    const matchedCount = mergedData.filter(point => point.fngValue != null).length;
+                    const matchRate = mergedData.length ? Math.round((matchedCount / mergedData.length) * 100) : null;
+                    const lagDays = lastVisible && lastMatched
+                        ? Math.max(0, Math.round((lastVisible.date - lastMatched.date) / DAY_MS))
+                        : null;
+
+                    renderQualityPanel(`${prefix}-qualityPanel`, [
+                        {
+                            label: 'Price Feed',
+                            value: priceMeta.value,
+                            tone: priceMeta.tone,
+                            details: priceMeta.details,
+                        },
+                        {
+                            label: 'Sentiment Feed',
+                            value: fngMeta.value,
+                            tone: fngMeta.tone,
+                            details: fngMeta.details,
+                        },
+                        {
+                            label: 'Matched History',
+                            value: matchRate != null ? `${matchRate}%` : '—',
+                            tone: matchRate >= 95 ? 'tone-good' : matchRate >= 80 ? 'tone-warn' : 'tone-alert',
+                            details: `${matchedCount}/${mergedData.length} price candles have an aligned F&G value`,
+                        },
+                        {
+                            label: 'Latest Join',
+                            value: lastMatched ? formatShortDate(lastMatched.date) : 'Missing',
+                            tone: !lastMatched ? 'tone-alert' : lagDays === 0 ? 'tone-good' : lagDays <= 3 ? 'tone-warn' : 'tone-alert',
+                            details: !lastMatched
+                                ? 'No aligned sentiment point in the visible range.'
+                                : lagDays === 0
+                                    ? 'Visible price and sentiment are aligned on the same date.'
+                                    : `Latest visible price is ahead of the last matched sentiment by ${lagDays}d.`,
+                        },
+                    ]);
                 }
 
                 // Drag selection
@@ -2915,6 +3456,7 @@
                         renderBacktestTable();
                         createChart();
                         showInfoRow();
+                        renderQualitySummary();
                     } catch (err) {
                         console.error(`Failed to load ${symbol} data:`, err);
                         el('loadingOverlay').innerHTML = `

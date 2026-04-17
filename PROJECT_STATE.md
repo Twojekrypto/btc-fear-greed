@@ -20,15 +20,15 @@
 - F&G zones aligned to source methodology: `0-24`, `25-44`, `45-54`, `55-74`, `75-100`
 - ETH chart uses the same market-wide / BTC-centric Alternative.me feed as a sentiment overlay, not as an ETH-native official index
 
-### 2. BTC & ETH Win Probability Charts
+### 2. BTC & ETH Composite Score Charts
 - **Composite heuristic score** combining 7 technical inputs on **weekly (1W) candles**:
   - RSI(14), MACD(12,26,9), Stochastic(14,3,3), WaveTrend(10,21)
   - Bollinger Bands %B(20,2), 50/200 MA Cross
   - Fear & Greed Index (sentiment)
 - Price line colored by composite score (4 levels):
-  - 🔴 Bearish (0-30%) → 🟠 Cautious (30-50%) → 🟡 Bullish (50-70%) → 🟢 Strong Buy (70-100%)
-- Left Y-axis: price ($), right Y-axis: Win Probability score (0-100)
-- **Win% Range Slider** (0-100) — dims non-matching data in white
+  - 🔴 Bearish (0-29) → 🟠 Cautious (30-49) → 🟡 Bullish (50-69) → 🟢 Strong Buy (70-100)
+- Left Y-axis: price ($), right Y-axis: Composite Score (0-100)
+- **Score Range Slider** (0-100) — dims non-matching data in white
 - Display format: `Score 71 · Strong Buy · 100% coverage`
 - Historical Win Rate statistics tables are computed dynamically from weekly history (1W, 4W, 13W, 52W)
 - Historical tables show row-level and per-horizon sample sizes (`n`) for transparency
@@ -36,6 +36,8 @@
 - Minimum model coverage threshold: `70%` of total weights before a weekly score is considered valid
 - No future-looking normalization in MACD / WaveTrend transforms
 - Browser-side cache stores fetched F&G and price history with network-fallback behavior
+- Data-quality panel shows source mode (`live`, fresh cache, fallback cache), latest joined date, and usable-history depth
+- Calibration snapshot charts show full-history score deciles versus realized 13W hit rate with sample bars
 - **(?)** info tooltips on all tables explaining time horizons
 
 ### 3. Indicator Weights (Win Probability Composite)
@@ -56,6 +58,7 @@
 - `overflow-x: hidden` prevents horizontal scroll
 - Official-vs-custom methodology is explained directly in the UI
 - Composite score UI no longer uses `%` on axis or legend ranges to avoid implying calibrated probability
+- Data source quality is surfaced directly in the chart headers instead of being hidden in implementation details
 - X-axis: shows years on ALL range, months on 2Y-5Y, weeks on 6M-1Y, days on 1M-3M
 
 ---
@@ -68,6 +71,8 @@
 - **Factory pattern**: `createFngChart(prefix, symbol, fngMapPromise)` and `createWinProbChart(prefix, symbol, fngMapPromise)`
 - **Shared functions**: `fetchPrice(symbol, loadingEl, interval)`, `fetchFearAndGreed()`, indicator calculators, dynamic backtest table builders
 - **Client-side caching**: `localStorage` cache with TTL and stale-cache fallback on fetch failure
+- **Data-quality metadata**: in-memory fetch metadata store for source mode, cache age, row count, and last available date
+- **Calibration view**: per-score-decile charts built from the same weekly history as the backtest tables
 - **Project notes**: `lesson.md` (quick running notes), `lessons.md` (session memory), `.agent/workflows/deploy.md` (safe deploy checklist)
 - **Deployment**: GitHub Pages (auto from master)
 
@@ -98,11 +103,13 @@
 21. ✅ Added browser cache for fetched history with stale-cache fallback on network errors
 22. ✅ Renamed user-facing “Win Probability” surfaces to “Composite Score” where the model is heuristic rather than calibrated
 23. ✅ Added per-horizon sample counts inside historical backtest tables
+24. ✅ Added per-chart data-quality panels showing source mode, cache age, joined date, and usable depth
+25. ✅ Added full-history calibration snapshots for BTC and ETH composite score deciles
 
 ---
 
 ## 🔮 Possible Next Steps
 - Add rolling / walk-forward backtest view instead of only aggregate bucket stats
-- Add calibration view for the composite score (score bucket vs realized forward return hit rate)
 - Consider precomputed JSON snapshots if browser-side cache still feels too heavy on first load
 - Add browser smoke-test checklist after deploy for BTC/ETH data load and table integrity
+- Add stricter calibration QA, for example flag score buckets with `n < 10` more aggressively

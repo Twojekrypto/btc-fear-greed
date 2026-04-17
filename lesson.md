@@ -48,3 +48,13 @@
 - **Kontekst:** Jeden bucket może mieć inną liczbę obserwacji dla 1W, 4W, 13W i 52W.
 - **Wniosek:** Samo jedno `n` na wiersz nie wystarcza do oceny jakości tabeli.
 - **Reguła:** Pokazuj liczebność nie tylko dla bucketu, ale też dla każdej komórki / horyzontu forward return.
+
+### 2026-04-17 — Data quality should be visible in the UI, not hidden in code
+- **Kontekst:** Dashboard korzysta z live fetchy, cache i fallbacku, ale wcześniej użytkownik widział tylko końcowy wykres.
+- **Wniosek:** Bez jawnej informacji o źródle i świeżości danych trudno ocenić, czy patrzymy na live API, cache czy tryb awaryjny.
+- **Reguła:** Pokazuj w nagłówku chartu stan źródła (`Live API`, fresh cache, fallback cache), ostatnią datę i podstawową głębokość danych.
+
+### 2026-04-17 — Calibration must show sample depth together with hit rate
+- **Kontekst:** Sam composite score jest heurystyczny i nie jest z definicji skalibrowanym prawdopodobieństwem.
+- **Wniosek:** Sama linia hit rate może wyglądać przekonująco nawet wtedy, gdy dany bucket ma bardzo mało obserwacji.
+- **Reguła:** Gdy pokazujesz kalibrację score'u, zawsze zestaw ją z liczebnością bucketów i oznacz, że małe `n` są tylko eksploracyjne.

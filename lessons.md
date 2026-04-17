@@ -69,3 +69,13 @@
 - **Kontekst:** Dalsze horyzonty mają mniej obserwacji niż krótsze.
 - **Błąd:** Jedno `n` na wiersz ukrywa różnicę między liczebnością dla 1W i 52W.
 - **Reguła:** W tabelach backtestowych pokazuj `n` także dla każdej komórki / horyzontu.
+
+### 2026-04-17 — Surface data quality in the chart header
+- **Kontekst:** Dashboard działa na mieszance live fetchy, cache i fallbacków.
+- **Błąd:** Jeśli UI nie pokazuje trybu źródła ani wieku danych, użytkownik łatwo zakłada, że wszystko jest równie świeże i live.
+- **Reguła:** Obok wykresu pokazuj stan źródła (`Live API`, fresh cache, fallback cache), ostatnią datę i podstawową głębokość danych.
+
+### 2026-04-17 — Calibration without sample depth is misleading
+- **Kontekst:** Composite score ma służyć jako heurystyczny ranking setupów, nie gotowa miara probabilistyczna.
+- **Błąd:** Linia kalibracji bez liczebności bucketów może sugerować pewność tam, gdzie są tylko pojedyncze obserwacje.
+- **Reguła:** W calibration view zawsze łącz hit rate z `n` dla bucketu i jasno oznaczaj małe próbki jako eksploracyjne.
