@@ -903,12 +903,30 @@
             box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.03);
         }
 
+        .chart-range-navigator {
+            margin-top: 14px;
+            width: 100%;
+            padding: 12px 14px;
+            border-radius: 20px;
+            background:
+                linear-gradient(180deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.02)),
+                rgba(7, 13, 26, 0.78);
+            box-shadow:
+                inset 0 1px 0 rgba(255, 255, 255, 0.04),
+                0 16px 32px rgba(0, 0, 0, 0.16);
+        }
+
         .range-navigator-head {
             display: flex;
             align-items: flex-start;
             justify-content: space-between;
             gap: 10px;
             margin-bottom: 8px;
+        }
+
+        .chart-range-navigator .range-navigator-head {
+            align-items: center;
+            margin-bottom: 10px;
         }
 
         .range-navigator-copy {
@@ -932,6 +950,10 @@
             font-weight: 600;
             letter-spacing: 0.01em;
             line-height: 1.4;
+        }
+
+        .chart-range-navigator .range-navigator-value {
+            font-size: 12px;
         }
 
         .range-reset-btn {
@@ -969,6 +991,11 @@
             background:
                 linear-gradient(180deg, rgba(9, 15, 27, 0.92), rgba(9, 15, 27, 0.84)),
                 rgba(9, 15, 27, 0.84);
+        }
+
+        .chart-range-navigator .range-navigator-canvas-wrap {
+            height: 78px;
+            border-radius: 14px;
         }
 
         .range-navigator-canvas {
@@ -2290,26 +2317,6 @@
                 </div>
                 <div class="panel-toolbar">
                     <div class="controls">
-                        <div class="range-navigator">
-                            <div class="range-navigator-head">
-                                <div class="range-navigator-copy">
-                                    <span class="range-navigator-eyebrow">Visible Range</span>
-                                    <span class="range-navigator-value" id="btc-rangeLabel">Loading range…</span>
-                                </div>
-                                <button class="range-reset-btn" id="btc-rangeReset" type="button">All history</button>
-                            </div>
-                            <div class="range-navigator-canvas-wrap">
-                                <canvas class="range-navigator-canvas" id="btc-navigatorCanvas"></canvas>
-                                <div class="range-navigator-overlay" id="btc-navigatorOverlay">
-                                    <div class="range-navigator-dim" id="btc-navDimLeft"></div>
-                                    <div class="range-navigator-window" id="btc-navWindow">
-                                        <div class="range-navigator-handle left" id="btc-navHandleLeft"></div>
-                                        <div class="range-navigator-handle right" id="btc-navHandleRight"></div>
-                                    </div>
-                                    <div class="range-navigator-dim" id="btc-navDimRight"></div>
-                                </div>
-                            </div>
-                        </div>
                         <div class="legend" id="btc-legend"></div>
                         <div class="fng-slider-container">
                             <span class="fng-slider-label">F&G Range:</span>
@@ -2330,6 +2337,26 @@
                 <div class="loading-overlay" id="btc-loadingOverlay">
                     <div class="spinner"></div>
                     <div class="loading-text" id="btc-loadingText">Loading BTC data...</div>
+                </div>
+            </div>
+            <div class="range-navigator chart-range-navigator">
+                <div class="range-navigator-head">
+                    <div class="range-navigator-copy">
+                        <span class="range-navigator-eyebrow">Visible Range</span>
+                        <span class="range-navigator-value" id="btc-rangeLabel">Loading range…</span>
+                    </div>
+                    <button class="range-reset-btn" id="btc-rangeReset" type="button">All history</button>
+                </div>
+                <div class="range-navigator-canvas-wrap">
+                    <canvas class="range-navigator-canvas" id="btc-navigatorCanvas"></canvas>
+                    <div class="range-navigator-overlay" id="btc-navigatorOverlay">
+                        <div class="range-navigator-dim" id="btc-navDimLeft"></div>
+                        <div class="range-navigator-window" id="btc-navWindow">
+                            <div class="range-navigator-handle left" id="btc-navHandleLeft"></div>
+                            <div class="range-navigator-handle right" id="btc-navHandleRight"></div>
+                        </div>
+                        <div class="range-navigator-dim" id="btc-navDimRight"></div>
+                    </div>
                 </div>
             </div>
             <div class="footer">
@@ -2404,26 +2431,6 @@
                 </div>
                 <div class="panel-toolbar">
                     <div class="controls">
-                        <div class="range-navigator">
-                            <div class="range-navigator-head">
-                                <div class="range-navigator-copy">
-                                    <span class="range-navigator-eyebrow">Visible Range</span>
-                                    <span class="range-navigator-value" id="eth-rangeLabel">Loading range…</span>
-                                </div>
-                                <button class="range-reset-btn" id="eth-rangeReset" type="button">All history</button>
-                            </div>
-                            <div class="range-navigator-canvas-wrap">
-                                <canvas class="range-navigator-canvas" id="eth-navigatorCanvas"></canvas>
-                                <div class="range-navigator-overlay" id="eth-navigatorOverlay">
-                                    <div class="range-navigator-dim" id="eth-navDimLeft"></div>
-                                    <div class="range-navigator-window" id="eth-navWindow">
-                                        <div class="range-navigator-handle left" id="eth-navHandleLeft"></div>
-                                        <div class="range-navigator-handle right" id="eth-navHandleRight"></div>
-                                    </div>
-                                    <div class="range-navigator-dim" id="eth-navDimRight"></div>
-                                </div>
-                            </div>
-                        </div>
                         <div class="legend" id="eth-legend"></div>
                         <div class="fng-slider-container">
                             <span class="fng-slider-label">F&G Range:</span>
@@ -2444,6 +2451,26 @@
                 <div class="loading-overlay" id="eth-loadingOverlay">
                     <div class="spinner"></div>
                     <div class="loading-text" id="eth-loadingText">Loading ETH data...</div>
+                </div>
+            </div>
+            <div class="range-navigator chart-range-navigator">
+                <div class="range-navigator-head">
+                    <div class="range-navigator-copy">
+                        <span class="range-navigator-eyebrow">Visible Range</span>
+                        <span class="range-navigator-value" id="eth-rangeLabel">Loading range…</span>
+                    </div>
+                    <button class="range-reset-btn" id="eth-rangeReset" type="button">All history</button>
+                </div>
+                <div class="range-navigator-canvas-wrap">
+                    <canvas class="range-navigator-canvas" id="eth-navigatorCanvas"></canvas>
+                    <div class="range-navigator-overlay" id="eth-navigatorOverlay">
+                        <div class="range-navigator-dim" id="eth-navDimLeft"></div>
+                        <div class="range-navigator-window" id="eth-navWindow">
+                            <div class="range-navigator-handle left" id="eth-navHandleLeft"></div>
+                            <div class="range-navigator-handle right" id="eth-navHandleRight"></div>
+                        </div>
+                        <div class="range-navigator-dim" id="eth-navDimRight"></div>
+                    </div>
                 </div>
             </div>
             <div class="footer">
@@ -2520,26 +2547,6 @@
                 </div>
                 <div class="panel-toolbar">
                     <div class="controls">
-                        <div class="range-navigator">
-                            <div class="range-navigator-head">
-                                <div class="range-navigator-copy">
-                                    <span class="range-navigator-eyebrow">Visible Range</span>
-                                    <span class="range-navigator-value" id="btc-wp-rangeLabel">Loading range…</span>
-                                </div>
-                                <button class="range-reset-btn" id="btc-wp-rangeReset" type="button">All history</button>
-                            </div>
-                            <div class="range-navigator-canvas-wrap">
-                                <canvas class="range-navigator-canvas" id="btc-wp-navigatorCanvas"></canvas>
-                                <div class="range-navigator-overlay" id="btc-wp-navigatorOverlay">
-                                    <div class="range-navigator-dim" id="btc-wp-navDimLeft"></div>
-                                    <div class="range-navigator-window" id="btc-wp-navWindow">
-                                        <div class="range-navigator-handle left" id="btc-wp-navHandleLeft"></div>
-                                        <div class="range-navigator-handle right" id="btc-wp-navHandleRight"></div>
-                                    </div>
-                                    <div class="range-navigator-dim" id="btc-wp-navDimRight"></div>
-                                </div>
-                            </div>
-                        </div>
                         <div class="legend">
                             <div class="legend-item static"><span class="legend-color" style="background:#00e676;"></span>Strong Buy
                                 (70-100)</div>
@@ -2569,6 +2576,26 @@
                 <div class="loading-overlay" id="btc-wp-loadingOverlay">
                     <div class="spinner"></div>
                     <div class="loading-text" id="btc-wp-loadingText">Computing BTC indicators...</div>
+                </div>
+            </div>
+            <div class="range-navigator chart-range-navigator">
+                <div class="range-navigator-head">
+                    <div class="range-navigator-copy">
+                        <span class="range-navigator-eyebrow">Visible Range</span>
+                        <span class="range-navigator-value" id="btc-wp-rangeLabel">Loading range…</span>
+                    </div>
+                    <button class="range-reset-btn" id="btc-wp-rangeReset" type="button">All history</button>
+                </div>
+                <div class="range-navigator-canvas-wrap">
+                    <canvas class="range-navigator-canvas" id="btc-wp-navigatorCanvas"></canvas>
+                    <div class="range-navigator-overlay" id="btc-wp-navigatorOverlay">
+                        <div class="range-navigator-dim" id="btc-wp-navDimLeft"></div>
+                        <div class="range-navigator-window" id="btc-wp-navWindow">
+                            <div class="range-navigator-handle left" id="btc-wp-navHandleLeft"></div>
+                            <div class="range-navigator-handle right" id="btc-wp-navHandleRight"></div>
+                        </div>
+                        <div class="range-navigator-dim" id="btc-wp-navDimRight"></div>
+                    </div>
                 </div>
             </div>
             <div class="footer">
@@ -2653,26 +2680,6 @@
                 </div>
                 <div class="panel-toolbar">
                     <div class="controls">
-                        <div class="range-navigator">
-                            <div class="range-navigator-head">
-                                <div class="range-navigator-copy">
-                                    <span class="range-navigator-eyebrow">Visible Range</span>
-                                    <span class="range-navigator-value" id="eth-wp-rangeLabel">Loading range…</span>
-                                </div>
-                                <button class="range-reset-btn" id="eth-wp-rangeReset" type="button">All history</button>
-                            </div>
-                            <div class="range-navigator-canvas-wrap">
-                                <canvas class="range-navigator-canvas" id="eth-wp-navigatorCanvas"></canvas>
-                                <div class="range-navigator-overlay" id="eth-wp-navigatorOverlay">
-                                    <div class="range-navigator-dim" id="eth-wp-navDimLeft"></div>
-                                    <div class="range-navigator-window" id="eth-wp-navWindow">
-                                        <div class="range-navigator-handle left" id="eth-wp-navHandleLeft"></div>
-                                        <div class="range-navigator-handle right" id="eth-wp-navHandleRight"></div>
-                                    </div>
-                                    <div class="range-navigator-dim" id="eth-wp-navDimRight"></div>
-                                </div>
-                            </div>
-                        </div>
                         <div class="legend">
                             <div class="legend-item static"><span class="legend-color" style="background:#00e676;"></span>Strong Buy
                                 (70-100)</div>
@@ -2702,6 +2709,26 @@
                 <div class="loading-overlay" id="eth-wp-loadingOverlay">
                     <div class="spinner"></div>
                     <div class="loading-text" id="eth-wp-loadingText">Computing ETH indicators...</div>
+                </div>
+            </div>
+            <div class="range-navigator chart-range-navigator">
+                <div class="range-navigator-head">
+                    <div class="range-navigator-copy">
+                        <span class="range-navigator-eyebrow">Visible Range</span>
+                        <span class="range-navigator-value" id="eth-wp-rangeLabel">Loading range…</span>
+                    </div>
+                    <button class="range-reset-btn" id="eth-wp-rangeReset" type="button">All history</button>
+                </div>
+                <div class="range-navigator-canvas-wrap">
+                    <canvas class="range-navigator-canvas" id="eth-wp-navigatorCanvas"></canvas>
+                    <div class="range-navigator-overlay" id="eth-wp-navigatorOverlay">
+                        <div class="range-navigator-dim" id="eth-wp-navDimLeft"></div>
+                        <div class="range-navigator-window" id="eth-wp-navWindow">
+                            <div class="range-navigator-handle left" id="eth-wp-navHandleLeft"></div>
+                            <div class="range-navigator-handle right" id="eth-wp-navHandleRight"></div>
+                        </div>
+                        <div class="range-navigator-dim" id="eth-wp-navDimRight"></div>
+                    </div>
                 </div>
             </div>
             <div class="footer">
