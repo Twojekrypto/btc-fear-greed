@@ -58,3 +58,13 @@
 - **Kontekst:** Sam composite score jest heurystyczny i nie jest z definicji skalibrowanym prawdopodobieństwem.
 - **Wniosek:** Sama linia hit rate może wyglądać przekonująco nawet wtedy, gdy dany bucket ma bardzo mało obserwacji.
 - **Reguła:** Gdy pokazujesz kalibrację score'u, zawsze zestaw ją z liczebnością bucketów i oznacz, że małe `n` są tylko eksploracyjne.
+
+### 2026-04-17 — Visible range should be explicit on interactive charts
+- **Kontekst:** Dashboard ma presety czasu, custom date range i drag-zoom.
+- **Wniosek:** Bez jawnej informacji o aktualnym zakresie łatwo błędnie czytać ostatni score albo sample depth jako „cały wykres”.
+- **Reguła:** W chartach interaktywnych pokazuj aktywny zakres / zoom jako element jakości danych, nie tylko w kontrolkach.
+
+### 2026-04-17 — Single-file dashboards need a repeatable smoke test
+- **Kontekst:** Runtime test w Safari utknął na ograniczeniu `Allow JavaScript from Apple Events`, mimo że sama strona się otwiera.
+- **Wniosek:** Dla single-file dashboardu nie można polegać wyłącznie na ręcznym browser checku ani na samym syntax checku.
+- **Reguła:** Trzymaj w repo lokalny smoke test z mockami DOM i fetch, który sprawdza render kluczowych paneli, tabel i chartów po każdej większej zmianie.

@@ -79,3 +79,13 @@
 - **Kontekst:** Composite score ma służyć jako heurystyczny ranking setupów, nie gotowa miara probabilistyczna.
 - **Błąd:** Linia kalibracji bez liczebności bucketów może sugerować pewność tam, gdzie są tylko pojedyncze obserwacje.
 - **Reguła:** W calibration view zawsze łącz hit rate z `n` dla bucketu i jasno oznaczaj małe próbki jako eksploracyjne.
+
+### 2026-04-17 — Interactive range context must be visible
+- **Kontekst:** Dashboard ma kilka presetów czasu, custom date range i drag-zoom.
+- **Błąd:** Jeśli aktualny zakres nie jest pokazany obok danych jakościowych, łatwo pomylić „widoczne teraz” z „całą historią”.
+- **Reguła:** Pokazuj aktywny zakres / zoom jako część kontekstu chartu, nie tylko w kontrolkach nad wykresem.
+
+### 2026-04-17 — Keep a local runtime smoke test for single-file dashboards
+- **Kontekst:** Browser automation może być ograniczona przez ustawienia lokalnej przeglądarki albo brak sterowalnego runtime.
+- **Błąd:** Sam syntax check nie mówi, czy po inicjalizacji rzeczywiście znikają loadery, wypełniają się tabele i renderują panele jakości.
+- **Reguła:** Utrzymuj w repo smoke test z mockami DOM i fetch, który uruchamia inline script i sprawdza kluczowe runtime invariants.

@@ -878,6 +878,30 @@
             padding: 12px 14px 10px;
         }
 
+        .calibration-insights {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 12px;
+        }
+
+        .calibration-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 10px;
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.07);
+            color: #cfd7e8;
+            font-size: 11px;
+            line-height: 1.4;
+        }
+
+        .calibration-chip strong {
+            color: #f7f9fd;
+        }
+
         .footer {
             display: flex;
             justify-content: space-between;
@@ -1070,6 +1094,11 @@
             .calibration-chart-wrap {
                 height: 200px;
                 padding: 10px 10px 8px;
+            }
+
+            .calibration-chip {
+                font-size: 10px;
+                padding: 7px 9px;
             }
 
             .prob-title {
@@ -1516,6 +1545,7 @@
             <div class="calibration-chart-wrap">
                 <canvas id="btc-wp-calibrationChart"></canvas>
             </div>
+            <div class="calibration-insights" id="btc-wp-calibrationInsights"></div>
             <div class="prob-status" id="btc-wp-calibrationStatus">Preparing BTC calibration snapshot...</div>
         </div>
     </div>
@@ -1625,6 +1655,7 @@
             <div class="calibration-chart-wrap">
                 <canvas id="eth-wp-calibrationChart"></canvas>
             </div>
+            <div class="calibration-insights" id="eth-wp-calibrationInsights"></div>
             <div class="prob-status" id="eth-wp-calibrationStatus">Preparing ETH calibration snapshot...</div>
         </div>
     </div>
@@ -1863,6 +1894,32 @@
                         <span class="quality-meta">${item.details}</span>
                     </div>
                 `).join('');
+            }
+
+            function describeRange(currentRange, customFrom, customTo, filteredCount) {
+                if (customFrom || customTo) {
+                    const fromLabel = customFrom ? formatShortDate(customFrom) : 'start';
+                    const toLabel = customTo ? formatShortDate(customTo) : 'latest';
+                    return {
+                        value: `${fromLabel} → ${toLabel}`,
+                        details: `${filteredCount} visible candles in custom zoom.`,
+                    };
+                }
+
+                const presets = {
+                    30: '1M preset',
+                    90: '3M preset',
+                    180: '6M preset',
+                    365: '1Y preset',
+                    730: '2Y preset',
+                    1825: '5Y preset',
+                    0: 'Full history',
+                };
+
+                return {
+                    value: presets[currentRange] || `${currentRange}d preset`,
+                    details: `${filteredCount} visible candles in the current range.`,
+                };
             }
 
             function buildCalibrationBuckets(series, horizons) {
@@ -2433,6 +2490,7 @@
                         : lastVisible?.wp?.coverage >= 70
                             ? 'tone-warn'
                             : 'tone-alert';
+                    const rangeMeta = describeRange(currentRange, customFrom, customTo, filtered.length);
 
                     renderQualityPanel(`${prefix}-wp-qualityPanel`, [
                         {
@@ -2456,6 +2514,12 @@
                                 : 'No score in the visible range yet.',
                         },
                         {
+                            label: 'Visible Range',
+                            value: rangeMeta.value,
+                            tone: '',
+                            details: rangeMeta.details,
+                        },
+                        {
                             label: 'Usable History',
                             value: usablePct != null ? `${usablePct}%` : '—',
                             tone: usablePct >= 70 ? 'tone-good' : usablePct >= 50 ? 'tone-warn' : 'tone-alert',
@@ -2472,14 +2536,35 @@
                     const primaryHorizon = 'w13';
                     const statusEl = document.getElementById(`${prefix}-wp-calibrationStatus`);
                     const canvas = document.getElementById(`${prefix}-wp-calibrationChart`);
+                    const insightsEl = document.getElementById(`${prefix}-wp-calibrationInsights`);
                     if (!statusEl || !canvas) return;
 
                     const nonEmptyBuckets = buckets.filter(bucket => bucket.counts[primaryHorizon] > 0);
                     const lowSampleBuckets = nonEmptyBuckets.filter(bucket => bucket.counts[primaryHorizon] < 5).length;
+                    const bestBucket = nonEmptyBuckets.reduce((best, bucket) =>
+                        !best || (bucket.rates[primaryHorizon] ?? -1) > (best.rates[primaryHorizon] ?? -1) ? bucket : best,
+                    null);
+                    const weakestBucket = nonEmptyBuckets.reduce((worst, bucket) =>
+                        !worst || (bucket.rates[primaryHorizon] ?? 2) < (worst.rates[primaryHorizon] ?? 2) ? bucket : worst,
+                    null);
+                    const reliableBuckets = nonEmptyBuckets.filter(bucket => bucket.counts[primaryHorizon] >= 10).length;
 
                     statusEl.textContent = nonEmptyBuckets.length
                         ? `Primary line = 13W realized hit rate. ${nonEmptyBuckets.length}/10 deciles have at least one sample; ${lowSampleBuckets} deciles still have fewer than 5 observations, so treat them as exploratory.`
                         : 'Calibration needs more usable weekly score observations.';
+
+                    if (insightsEl) {
+                        const chips = [];
+                        if (bestBucket) {
+                            chips.push(`<span class="calibration-chip"><strong>Best 13W:</strong> ${bestBucket.label} · ${formatProbability(bestBucket.rates[primaryHorizon])} (n=${bestBucket.counts[primaryHorizon]})</span>`);
+                        }
+                        if (weakestBucket) {
+                            chips.push(`<span class="calibration-chip"><strong>Weakest 13W:</strong> ${weakestBucket.label} · ${formatProbability(weakestBucket.rates[primaryHorizon])} (n=${weakestBucket.counts[primaryHorizon]})</span>`);
+                        }
+                        chips.push(`<span class="calibration-chip"><strong>Reliable buckets:</strong> ${reliableBuckets}/10 with n≥10 on 13W</span>`);
+                        chips.push(`<span class="calibration-chip"><strong>Read as:</strong> ranking quality, not guaranteed probability</span>`);
+                        insightsEl.innerHTML = chips.join('');
+                    }
 
                     if (calibrationChart) {
                         calibrationChart.destroy();
@@ -3344,6 +3429,7 @@
                     const lagDays = lastVisible && lastMatched
                         ? Math.max(0, Math.round((lastVisible.date - lastMatched.date) / DAY_MS))
                         : null;
+                    const rangeMeta = describeRange(currentRange, customFrom, customTo, filtered.length);
 
                     renderQualityPanel(`${prefix}-qualityPanel`, [
                         {
@@ -3363,6 +3449,12 @@
                             value: matchRate != null ? `${matchRate}%` : '—',
                             tone: matchRate >= 95 ? 'tone-good' : matchRate >= 80 ? 'tone-warn' : 'tone-alert',
                             details: `${matchedCount}/${mergedData.length} price candles have an aligned F&G value`,
+                        },
+                        {
+                            label: 'Visible Range',
+                            value: rangeMeta.value,
+                            tone: '',
+                            details: rangeMeta.details,
                         },
                         {
                             label: 'Latest Join',

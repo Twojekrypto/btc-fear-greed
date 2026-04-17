@@ -37,7 +37,9 @@
 - No future-looking normalization in MACD / WaveTrend transforms
 - Browser-side cache stores fetched F&G and price history with network-fallback behavior
 - Data-quality panel shows source mode (`live`, fresh cache, fallback cache), latest joined date, and usable-history depth
+- Data-quality panel also shows the active visible range / zoom context for each chart
 - Calibration snapshot charts show full-history score deciles versus realized 13W hit rate with sample bars
+- Calibration section now includes quick insight chips (best bucket, weakest bucket, reliable bucket count, heuristic caveat)
 - **(?)** info tooltips on all tables explaining time horizons
 
 ### 3. Indicator Weights (Win Probability Composite)
@@ -73,6 +75,7 @@
 - **Client-side caching**: `localStorage` cache with TTL and stale-cache fallback on fetch failure
 - **Data-quality metadata**: in-memory fetch metadata store for source mode, cache age, row count, and last available date
 - **Calibration view**: per-score-decile charts built from the same weekly history as the backtest tables
+- **Smoke test**: `scripts/dashboard-smoke-test.js` runs the inline dashboard script against mocked DOM + mocked fetch data and checks that key panels/charts render
 - **Project notes**: `lesson.md` (quick running notes), `lessons.md` (session memory), `.agent/workflows/deploy.md` (safe deploy checklist)
 - **Deployment**: GitHub Pages (auto from master)
 
@@ -105,6 +108,9 @@
 23. ✅ Added per-horizon sample counts inside historical backtest tables
 24. ✅ Added per-chart data-quality panels showing source mode, cache age, joined date, and usable depth
 25. ✅ Added full-history calibration snapshots for BTC and ETH composite score deciles
+26. ✅ Added visible-range context directly into each chart quality panel
+27. ✅ Added calibration insight chips summarizing best / weakest buckets and reliable sample depth
+28. ✅ Added a local smoke-test script for the inline dashboard runtime
 
 ---
 
@@ -113,3 +119,4 @@
 - Consider precomputed JSON snapshots if browser-side cache still feels too heavy on first load
 - Add browser smoke-test checklist after deploy for BTC/ETH data load and table integrity
 - Add stricter calibration QA, for example flag score buckets with `n < 10` more aggressively
+- Add browser E2E automation once a controllable browser path is available locally
