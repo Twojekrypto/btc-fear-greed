@@ -93,3 +93,8 @@
 - **Context:** The chart toolbar stacked time presets, date fields, and reset actions above the visual, which made the workspace feel busy and pushed attention away from the chart itself.
 - **Takeaway:** A mini overview navigator communicates the visible range faster while using less space than buttons plus date inputs.
 - **Rule:** For dense analytics charts, prefer a compact brush navigator with one clear range label and one reset action over long preset rows and manual date pickers.
+
+### 2026-04-17 — Premium dashboard alignment should be verified with a browser-side JS audit
+- **Context:** Visual tweaks to the chart header can still leave subtle misalignment between the insight column, control column, quality cards, and range navigator.
+- **Takeaway:** Screenshot review helps, but a browser-side JS audit catches whether desktop columns truly share the same edges and dimensions.
+- **Rule:** For premium dashboard layout changes, run a browser JS audit that measures the live DOM on a desktop viewport and checks column height parity, card uniformity, and chart-to-navigator width alignment.

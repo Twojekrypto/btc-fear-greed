@@ -109,3 +109,8 @@
 - **Kontekst:** Toolbar chartu miał osobne presety czasu, pola `From / To` i reset zoomu, przez co zajmował dużo miejsca i wizualnie konkurował z samym wykresem.
 - **Błąd:** Rozbudowany control bar zwiększa clutter i spowalnia odczyt aktualnego zakresu, nawet jeśli funkcjonalnie działa poprawnie.
 - **Reguła:** W gęstych chartach używaj kompaktowego mini-chart navigatora z jednym opisem aktywnego zakresu i jedną akcją resetu zamiast wielu presetów i ręcznych pól daty.
+
+### 2026-04-17 — Layout premium dashboardu warto mierzyć browser-side JavaScriptem
+- **Kontekst:** Sam screenshot nie pokazuje precyzyjnie, czy kolumny nad chartem naprawdę kończą się na tej samej linii i czy karty mają równą geometrię.
+- **Błąd:** Ocenianie premium layoutu wyłącznie “na oko” zostawia ryzyko subtelnych rozjazdów mimo dobrego pierwszego wrażenia.
+- **Reguła:** Przy dopracowywaniu premium dashboardu uruchamiaj browser-side audit JS na desktopowym viewportcie i sprawdzaj metryki wyrównania kolumn, kart i navigatora względem chartu.

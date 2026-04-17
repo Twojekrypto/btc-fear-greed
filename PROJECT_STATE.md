@@ -112,6 +112,7 @@
 27. ✅ Added calibration insight chips summarizing best / weakest buckets and reliable sample depth
 28. ✅ Added a local smoke-test script for the inline dashboard runtime
 29. ✅ Replaced bulky range presets/date pickers with a compact brush navigator above each chart
+30. ✅ Added a browser-side JS chart layout audit for premium desktop alignment checks
 
 ---
 
