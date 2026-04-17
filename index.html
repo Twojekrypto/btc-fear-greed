@@ -1279,12 +1279,65 @@
             border: 1px solid rgba(255, 255, 255, 0.08);
             box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
             min-height: 40px;
+            position: relative;
         }
 
         .legend-item:hover {
             background: rgba(255, 255, 255, 0.08);
             border-color: rgba(255, 255, 255, 0.14);
             transform: translateY(-1px);
+        }
+
+        .legend-item[data-tooltip]::after {
+            content: attr(data-tooltip);
+            position: absolute;
+            left: 50%;
+            bottom: calc(100% + 10px);
+            transform: translate(-50%, 6px);
+            padding: 8px 10px;
+            border-radius: 10px;
+            background: rgba(7, 13, 26, 0.96);
+            border: 1px solid rgba(148, 163, 184, 0.16);
+            color: #edf2fb;
+            font-size: 10px;
+            font-weight: 600;
+            letter-spacing: 0.02em;
+            line-height: 1.35;
+            white-space: nowrap;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.16s ease, transform 0.16s ease;
+            box-shadow: 0 14px 30px rgba(0, 0, 0, 0.28);
+            z-index: 20;
+        }
+
+        .legend-item[data-tooltip]::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            bottom: calc(100% + 4px);
+            width: 10px;
+            height: 10px;
+            background: rgba(7, 13, 26, 0.96);
+            border-left: 1px solid rgba(148, 163, 184, 0.16);
+            border-top: 1px solid rgba(148, 163, 184, 0.16);
+            transform: translateX(-50%) rotate(225deg);
+            opacity: 0;
+            transition: opacity 0.16s ease, transform 0.16s ease;
+            pointer-events: none;
+            z-index: 19;
+        }
+
+        .legend-item[data-tooltip]:hover::after,
+        .legend-item[data-tooltip]:hover::before,
+        .legend-item[data-tooltip]:focus-visible::after,
+        .legend-item[data-tooltip]:focus-visible::before {
+            opacity: 1;
+            transform: translate(-50%, 0);
+        }
+
+        .legend-item[data-tooltip]:focus-visible::before {
+            transform: translateX(-50%) rotate(225deg);
         }
 
         .legend-item.disabled {
@@ -2629,13 +2682,13 @@
                 <div class="panel-toolbar">
                     <div class="controls">
                         <div class="legend">
-                            <div class="legend-item static"><span class="legend-color" style="background:#00e676;"></span>Strong Buy
+                            <div class="legend-item static" data-tooltip="Score range 70-100" title="Score range 70-100"><span class="legend-color" style="background:#00e676;"></span>Strong Buy
                                 (70-100)</div>
-                            <div class="legend-item static"><span class="legend-color" style="background:#ffeb3b;"></span>Bullish
+                            <div class="legend-item static" data-tooltip="Score range 50-69" title="Score range 50-69"><span class="legend-color" style="background:#ffeb3b;"></span>Bullish
                                 (50-69)</div>
-                            <div class="legend-item static"><span class="legend-color" style="background:#ff9800;"></span>Cautious
+                            <div class="legend-item static" data-tooltip="Score range 30-49" title="Score range 30-49"><span class="legend-color" style="background:#ff9800;"></span>Cautious
                                 (30-49)</div>
-                            <div class="legend-item static"><span class="legend-color" style="background:#ff1744;"></span>Bearish
+                            <div class="legend-item static" data-tooltip="Score range 0-29" title="Score range 0-29"><span class="legend-color" style="background:#ff1744;"></span>Bearish
                                 (0-29)</div>
                         </div>
                         <div class="fng-slider-container">
@@ -2762,13 +2815,13 @@
                 <div class="panel-toolbar">
                     <div class="controls">
                         <div class="legend">
-                            <div class="legend-item static"><span class="legend-color" style="background:#00e676;"></span>Strong Buy
+                            <div class="legend-item static" data-tooltip="Score range 70-100" title="Score range 70-100"><span class="legend-color" style="background:#00e676;"></span>Strong Buy
                                 (70-100)</div>
-                            <div class="legend-item static"><span class="legend-color" style="background:#ffeb3b;"></span>Bullish
+                            <div class="legend-item static" data-tooltip="Score range 50-69" title="Score range 50-69"><span class="legend-color" style="background:#ffeb3b;"></span>Bullish
                                 (50-69)</div>
-                            <div class="legend-item static"><span class="legend-color" style="background:#ff9800;"></span>Cautious
+                            <div class="legend-item static" data-tooltip="Score range 30-49" title="Score range 30-49"><span class="legend-color" style="background:#ff9800;"></span>Cautious
                                 (30-49)</div>
-                            <div class="legend-item static"><span class="legend-color" style="background:#ff1744;"></span>Bearish
+                            <div class="legend-item static" data-tooltip="Score range 0-29" title="Score range 0-29"><span class="legend-color" style="background:#ff1744;"></span>Bearish
                                 (0-29)</div>
                         </div>
                         <div class="fng-slider-container">
@@ -4351,9 +4404,8 @@
                 }
 
                 function setDefaultNavigatorWindow(updateMain = false) {
-                    const nextWindow = getDefaultBrushFractions(mergedData, 365);
-                    brushStart = nextWindow.start;
-                    brushEnd = nextWindow.end;
+                    brushStart = 0;
+                    brushEnd = 1;
                     applyNavigatorSelection(updateMain);
                 }
 
@@ -4805,6 +4857,8 @@
                     SENTIMENTS.forEach(s => {
                         const item = document.createElement('div');
                         item.className = 'legend-item' + (visibility[s.key] ? '' : ' disabled');
+                        item.dataset.tooltip = `Range ${s.min}-${s.max}`;
+                        item.title = `Range ${s.min}-${s.max}`;
                         item.innerHTML = `<span class="swatch" style="background:${s.color}"></span><span>${s.label}</span>`;
                         item.addEventListener('click', () => {
                             visibility[s.key] = !visibility[s.key];
@@ -4858,9 +4912,8 @@
                 }
 
                 function setDefaultNavigatorWindow(updateMain = false) {
-                    const nextWindow = getDefaultBrushFractions(mergedData, 365);
-                    brushStart = nextWindow.start;
-                    brushEnd = nextWindow.end;
+                    brushStart = 0;
+                    brushEnd = 1;
                     applyNavigatorSelection(updateMain);
                 }
 

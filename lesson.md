@@ -98,3 +98,8 @@
 - **Context:** Visual tweaks to the chart header can still leave subtle misalignment between the insight column, control column, quality cards, and range navigator.
 - **Takeaway:** Screenshot review helps, but a browser-side JS audit catches whether desktop columns truly share the same edges and dimensions.
 - **Rule:** For premium dashboard layout changes, run a browser JS audit that measures the live DOM on a desktop viewport and checks column height parity, card uniformity, and chart-to-navigator width alignment.
+
+### 2026-04-17 — Default chart state should maximize context, and legend states should explain their ranges
+- **Context:** A 1-year default made the navigator feel pre-zoomed, while legend labels like `Fear` or `Ext Greed` still required mental mapping to numeric ranges.
+- **Takeaway:** Full-history as the default gives better market context, and hover range hints remove ambiguity from compact labels.
+- **Rule:** Default analytics charts to full history unless a narrower starting window is explicitly required, and add hover help for any compact state label whose numeric range is not obvious.

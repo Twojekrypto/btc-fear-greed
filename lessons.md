@@ -114,3 +114,8 @@
 - **Kontekst:** Sam screenshot nie pokazuje precyzyjnie, czy kolumny nad chartem naprawdę kończą się na tej samej linii i czy karty mają równą geometrię.
 - **Błąd:** Ocenianie premium layoutu wyłącznie “na oko” zostawia ryzyko subtelnych rozjazdów mimo dobrego pierwszego wrażenia.
 - **Reguła:** Przy dopracowywaniu premium dashboardu uruchamiaj browser-side audit JS na desktopowym viewportcie i sprawdzaj metryki wyrównania kolumn, kart i navigatora względem chartu.
+
+### 2026-04-17 — Default view should favor full context, and compact legend labels need hover range hints
+- **Kontekst:** Domyślny widok ostatniego roku zawężał od razu kontekst rynku, a krótkie etykiety typu `Fear` / `Ext Greed` nie mówiły wprost, jaki zakres punktów oznaczają.
+- **Błąd:** Pre-zoom na starcie i skrótowe legendy zwiększają niepotrzebne domysły przy pierwszym kontakcie z chartem.
+- **Reguła:** Jeśli użytkownik nie prosi o węższy start, dashboard powinien otwierać chart na pełnej historii, a kompaktowe legendy powinny pokazywać dokładny zakres po hoverze.
