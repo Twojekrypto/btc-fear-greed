@@ -78,3 +78,8 @@
 - **Kontekst:** The working branch had the English UI, but the public GitHub Pages site still served the older Polish tooltip copy.
 - **Wniosek:** In this repo, pushing only the feature branch is not enough when the user is validating the public URL.
 - **Reguła:** If the task is meant to change the live GitHub Pages site, publish the reviewed commit to `master`, then verify the live URL for the exact copy that changed.
+
+### 2026-04-17 — Tabs need panel-scoped controls, not shared chart chrome
+- **Kontekst:** After adding `Chart / Backtest / Calibration` tabs, the chart controls still stayed visible on non-chart tabs, making the layout feel broken.
+- **Wniosek:** A tabbed analytics workspace only feels coherent when each tab owns the controls that matter to that view.
+- **Reguła:** Keep range pickers, legends, and sliders inside the `Chart` panel, and render `Backtest` / `Calibration` as their own clean surfaces with dedicated spacing and table wrappers.

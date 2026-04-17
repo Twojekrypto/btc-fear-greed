@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="pl">
+<html lang="en">
 
 <head>
     <meta charset="UTF-8">
@@ -665,22 +665,24 @@
         }
 
         .section-panel {
-            max-height: 0;
-            opacity: 0;
-            overflow: hidden;
-            pointer-events: none;
-            transform: translateY(6px);
-            transition:
-                opacity 0.24s ease,
-                transform 0.24s ease,
-                max-height 0.34s ease;
+            display: none;
         }
 
         .section-panel.is-active {
-            max-height: 2600px;
-            opacity: 1;
-            pointer-events: auto;
-            transform: translateY(0);
+            display: block;
+            animation: panel-entrance 0.24s ease;
+        }
+
+        @keyframes panel-entrance {
+            from {
+                opacity: 0;
+                transform: translateY(8px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         .chart-title {
@@ -860,6 +862,17 @@
             flex-direction: column;
             align-items: flex-end;
             gap: 12px;
+        }
+
+        .panel-toolbar {
+            display: flex;
+            justify-content: flex-end;
+            margin-bottom: 18px;
+        }
+
+        .panel-toolbar .controls {
+            width: 100%;
+            align-items: flex-end;
         }
 
         .time-selector {
@@ -1278,9 +1291,30 @@
 
         /* Probability table */
         .prob-section {
-            max-width: 900px;
-            margin: 0 auto;
-            padding: 28px 24px 20px;
+            padding: 28px 28px 22px;
+        }
+
+        .section-panel[data-panel="backtest"],
+        .section-panel[data-panel="calibration"] {
+            border-radius: 24px;
+            border: 1px solid rgba(255, 255, 255, 0.07);
+            background:
+                linear-gradient(180deg, rgba(255, 255, 255, 0.035), rgba(255, 255, 255, 0.012)),
+                rgba(7, 12, 24, 0.72);
+            box-shadow:
+                inset 0 1px 0 rgba(255, 255, 255, 0.03),
+                0 16px 34px rgba(0, 0, 0, 0.18);
+        }
+
+        .prob-table-shell {
+            margin-top: 18px;
+            overflow-x: auto;
+            border-radius: 18px;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            background:
+                linear-gradient(180deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.015)),
+                rgba(10, 16, 29, 0.72);
+            scrollbar-width: thin;
         }
 
         .prob-title {
@@ -1358,6 +1392,7 @@
             width: 100%;
             border-collapse: collapse;
             font-size: 13px;
+            min-width: 720px;
         }
 
         .prob-table th {
@@ -1468,9 +1503,7 @@
         }
 
         .calibration-section {
-            max-width: 900px;
-            margin: 0 auto;
-            padding: 0 24px 22px;
+            padding: 28px 28px 26px;
         }
 
         .calibration-title {
@@ -1763,6 +1796,10 @@
                 gap: 8px;
             }
 
+            .panel-toolbar {
+                margin-bottom: 14px;
+            }
+
             .time-selector {
                 width: 100%;
                 justify-content: flex-start;
@@ -1843,11 +1880,16 @@
 
             /* Probability tables */
             .prob-section {
-                padding: 16px 10px 12px;
+                padding: 18px 12px 14px;
             }
 
             .calibration-section {
-                padding: 0 10px 14px;
+                padding: 18px 12px 16px;
+            }
+
+            .prob-table-shell {
+                margin-top: 14px;
+                border-radius: 14px;
             }
 
             .calibration-title {
@@ -2078,43 +2120,45 @@
                 <div class="info-row" id="btc-infoRow"></div>
                 <div class="quality-grid" id="btc-qualityPanel"></div>
             </div>
-            <div class="controls">
-                <div class="time-selector" id="btc-timeSelector">
-                    <button class="time-btn" data-range="30">1M</button>
-                    <button class="time-btn" data-range="90">3M</button>
-                    <button class="time-btn" data-range="180">6M</button>
-                    <button class="time-btn active" data-range="365">1Y</button>
-                    <button class="time-btn" data-range="730">2Y</button>
-                    <button class="time-btn" data-range="1825">5Y</button>
-                    <button class="time-btn" data-range="0">ALL</button>
-                </div>
-                <div class="date-range-picker">
-                    <label>From</label>
-                    <input type="date" id="btc-dateFrom">
-                    <span class="separator">—</span>
-                    <label>To</label>
-                    <input type="date" id="btc-dateTo">
-                    <button class="reset-zoom-btn" id="btc-resetZoom">↺ Reset Zoom</button>
-                </div>
-                <div class="legend" id="btc-legend"></div>
-                <div class="fng-slider-container">
-                    <span class="fng-slider-label">F&G Range:</span>
-                    <span class="fng-slider-value" id="btc-fngMinVal">0</span>
-                    <div class="fng-slider-track-wrapper">
-                        <div class="fng-slider-track"></div>
-                        <div class="fng-slider-track-active" id="btc-fngTrackActive"></div>
-                        <input type="range" id="btc-fngMin" min="0" max="100" value="0">
-                        <input type="range" id="btc-fngMax" min="0" max="100" value="100">
-                    </div>
-                    <span class="fng-slider-value" id="btc-fngMaxVal">100</span>
-                </div>
-            </div>
         </div>
         <div class="section-tabs" id="btc-sectionTabs">
             <button class="section-tab active" data-panel="chart">Chart</button>
             <button class="section-tab" data-panel="backtest">Backtest</button>
         </div>
         <div class="section-panel is-active" data-panel-group="btc" data-panel="chart">
+            <div class="panel-toolbar">
+                <div class="controls">
+                    <div class="time-selector" id="btc-timeSelector">
+                        <button class="time-btn" data-range="30">1M</button>
+                        <button class="time-btn" data-range="90">3M</button>
+                        <button class="time-btn" data-range="180">6M</button>
+                        <button class="time-btn active" data-range="365">1Y</button>
+                        <button class="time-btn" data-range="730">2Y</button>
+                        <button class="time-btn" data-range="1825">5Y</button>
+                        <button class="time-btn" data-range="0">ALL</button>
+                    </div>
+                    <div class="date-range-picker">
+                        <label>From</label>
+                        <input type="date" id="btc-dateFrom">
+                        <span class="separator">—</span>
+                        <label>To</label>
+                        <input type="date" id="btc-dateTo">
+                        <button class="reset-zoom-btn" id="btc-resetZoom">↺ Reset Zoom</button>
+                    </div>
+                    <div class="legend" id="btc-legend"></div>
+                    <div class="fng-slider-container">
+                        <span class="fng-slider-label">F&G Range:</span>
+                        <span class="fng-slider-value" id="btc-fngMinVal">0</span>
+                        <div class="fng-slider-track-wrapper">
+                            <div class="fng-slider-track"></div>
+                            <div class="fng-slider-track-active" id="btc-fngTrackActive"></div>
+                            <input type="range" id="btc-fngMin" min="0" max="100" value="0">
+                            <input type="range" id="btc-fngMax" min="0" max="100" value="100">
+                        </div>
+                        <span class="fng-slider-value" id="btc-fngMaxVal">100</span>
+                    </div>
+                </div>
+            </div>
             <div class="chart-wrapper" id="btc-chartWrapper">
                 <canvas id="btc-fngChart"></canvas>
                 <div class="selection-overlay" id="btc-selectionOverlay"></div>
@@ -2131,41 +2175,43 @@
             </div>
         </div>
         <div class="section-panel" data-panel-group="btc" data-panel="backtest">
-        <div class="prob-section">
-            <div class="prob-title">📊 Historical Win Rate by Fear & Greed Level (BTC)
-                <span class="info-tip">?
-                    <div class="info-tip-content">
-                        <strong>How to read this table</strong><br>
-                        Rows match the official Alternative.me zones. Columns show how often BTC closed higher after
-                        each forward horizon from the signal date.<br><br>
-                        The table is computed dynamically after load and no longer relies on manually entered values.
-                    </div>
-                </span>
+            <div class="prob-section">
+                <div class="prob-title">📊 Historical Win Rate by Fear & Greed Level (BTC)
+                    <span class="info-tip">?
+                        <div class="info-tip-content">
+                            <strong>How to read this table</strong><br>
+                            Rows match the official Alternative.me zones. Columns show how often BTC closed higher after
+                            each forward horizon from the signal date.<br><br>
+                            The table is computed dynamically after load and no longer relies on manually entered values.
+                        </div>
+                    </span>
+                </div>
+                <div class="prob-subtitle">Daily backtest recomputed from Binance closes grouped by official F&amp;G
+                    zones.</div>
+                <div class="prob-table-shell">
+                    <table class="prob-table">
+                        <thead>
+                            <tr>
+                                <th>Official F&amp;G Zone</th>
+                                <th>7 Days</th>
+                                <th>30 Days</th>
+                                <th>90 Days</th>
+                                <th>1 Year</th>
+                            </tr>
+                        </thead>
+                        <tbody id="btc-fng-probBody">
+                            <tr>
+                                <td colspan="5" class="prob-empty">Calculating historical BTC win rates...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="prob-status" id="btc-fng-probStatus">Using official Alternative.me zones and daily Binance
+                    closes.</div>
+                <div class="prob-note">⚠️ Alternative.me describes the feed as bitcoin-focused market sentiment, so the
+                    table tracks BTC directly against that source.
+                </div>
             </div>
-            <div class="prob-subtitle">Daily backtest recomputed from Binance closes grouped by official F&amp;G
-                zones.</div>
-            <table class="prob-table">
-                <thead>
-                    <tr>
-                        <th>Official F&amp;G Zone</th>
-                        <th>7 Days</th>
-                        <th>30 Days</th>
-                        <th>90 Days</th>
-                        <th>1 Year</th>
-                    </tr>
-                </thead>
-                <tbody id="btc-fng-probBody">
-                    <tr>
-                        <td colspan="5" class="prob-empty">Calculating historical BTC win rates...</td>
-                    </tr>
-                </tbody>
-            </table>
-            <div class="prob-status" id="btc-fng-probStatus">Using official Alternative.me zones and daily Binance
-                closes.</div>
-            <div class="prob-note">⚠️ Alternative.me describes the feed as bitcoin-focused market sentiment, so the
-                table tracks BTC directly against that source.
-            </div>
-        </div>
         </div>
     </div>
 
@@ -2182,43 +2228,45 @@
                 <div class="info-row" id="eth-infoRow"></div>
                 <div class="quality-grid" id="eth-qualityPanel"></div>
             </div>
-            <div class="controls">
-                <div class="time-selector" id="eth-timeSelector">
-                    <button class="time-btn" data-range="30">1M</button>
-                    <button class="time-btn" data-range="90">3M</button>
-                    <button class="time-btn" data-range="180">6M</button>
-                    <button class="time-btn active" data-range="365">1Y</button>
-                    <button class="time-btn" data-range="730">2Y</button>
-                    <button class="time-btn" data-range="1825">5Y</button>
-                    <button class="time-btn" data-range="0">ALL</button>
-                </div>
-                <div class="date-range-picker">
-                    <label>From</label>
-                    <input type="date" id="eth-dateFrom">
-                    <span class="separator">—</span>
-                    <label>To</label>
-                    <input type="date" id="eth-dateTo">
-                    <button class="reset-zoom-btn" id="eth-resetZoom">↺ Reset Zoom</button>
-                </div>
-                <div class="legend" id="eth-legend"></div>
-                <div class="fng-slider-container">
-                    <span class="fng-slider-label">F&G Range:</span>
-                    <span class="fng-slider-value" id="eth-fngMinVal">0</span>
-                    <div class="fng-slider-track-wrapper">
-                        <div class="fng-slider-track"></div>
-                        <div class="fng-slider-track-active" id="eth-fngTrackActive"></div>
-                        <input type="range" id="eth-fngMin" min="0" max="100" value="0">
-                        <input type="range" id="eth-fngMax" min="0" max="100" value="100">
-                    </div>
-                    <span class="fng-slider-value" id="eth-fngMaxVal">100</span>
-                </div>
-            </div>
         </div>
         <div class="section-tabs" id="eth-sectionTabs">
             <button class="section-tab active" data-panel="chart">Chart</button>
             <button class="section-tab" data-panel="backtest">Backtest</button>
         </div>
         <div class="section-panel is-active" data-panel-group="eth" data-panel="chart">
+            <div class="panel-toolbar">
+                <div class="controls">
+                    <div class="time-selector" id="eth-timeSelector">
+                        <button class="time-btn" data-range="30">1M</button>
+                        <button class="time-btn" data-range="90">3M</button>
+                        <button class="time-btn" data-range="180">6M</button>
+                        <button class="time-btn active" data-range="365">1Y</button>
+                        <button class="time-btn" data-range="730">2Y</button>
+                        <button class="time-btn" data-range="1825">5Y</button>
+                        <button class="time-btn" data-range="0">ALL</button>
+                    </div>
+                    <div class="date-range-picker">
+                        <label>From</label>
+                        <input type="date" id="eth-dateFrom">
+                        <span class="separator">—</span>
+                        <label>To</label>
+                        <input type="date" id="eth-dateTo">
+                        <button class="reset-zoom-btn" id="eth-resetZoom">↺ Reset Zoom</button>
+                    </div>
+                    <div class="legend" id="eth-legend"></div>
+                    <div class="fng-slider-container">
+                        <span class="fng-slider-label">F&G Range:</span>
+                        <span class="fng-slider-value" id="eth-fngMinVal">0</span>
+                        <div class="fng-slider-track-wrapper">
+                            <div class="fng-slider-track"></div>
+                            <div class="fng-slider-track-active" id="eth-fngTrackActive"></div>
+                            <input type="range" id="eth-fngMin" min="0" max="100" value="0">
+                            <input type="range" id="eth-fngMax" min="0" max="100" value="100">
+                        </div>
+                        <span class="fng-slider-value" id="eth-fngMaxVal">100</span>
+                    </div>
+                </div>
+            </div>
             <div class="chart-wrapper" id="eth-chartWrapper">
                 <canvas id="eth-fngChart"></canvas>
                 <div class="selection-overlay" id="eth-selectionOverlay"></div>
@@ -2235,41 +2283,43 @@
             </div>
         </div>
         <div class="section-panel" data-panel-group="eth" data-panel="backtest">
-        <div class="prob-section">
-            <div class="prob-title">📊 Historical Win Rate by Fear & Greed Level (ETH)
-                <span class="info-tip">?
-                    <div class="info-tip-content">
-                        <strong>How to read this table</strong><br>
-                        This is the same Alternative.me sentiment feed, but paired with ETH history. Read it as
-                        market-wide risk appetite, not as an official ETH-native index.<br><br>
-                        The table is computed automatically from the fetched history after load.
-                    </div>
-                </span>
+            <div class="prob-section">
+                <div class="prob-title">📊 Historical Win Rate by Fear & Greed Level (ETH)
+                    <span class="info-tip">?
+                        <div class="info-tip-content">
+                            <strong>How to read this table</strong><br>
+                            This is the same Alternative.me sentiment feed, but paired with ETH history. Read it as
+                            market-wide risk appetite, not as an official ETH-native index.<br><br>
+                            The table is computed automatically from the fetched history after load.
+                        </div>
+                    </span>
+                </div>
+                <div class="prob-subtitle">Daily backtest: ETH returns grouped by the official BTC-centric F&amp;G
+                    zones.</div>
+                <div class="prob-table-shell">
+                    <table class="prob-table">
+                        <thead>
+                            <tr>
+                                <th>Official F&amp;G Zone</th>
+                                <th>7 Days</th>
+                                <th>30 Days</th>
+                                <th>90 Days</th>
+                                <th>1 Year</th>
+                            </tr>
+                        </thead>
+                        <tbody id="eth-fng-probBody">
+                            <tr>
+                                <td colspan="5" class="prob-empty">Calculating historical ETH win rates...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="prob-status" id="eth-fng-probStatus">Alternative.me still documents the official index as
+                    bitcoin-focused market sentiment.</div>
+                <div class="prob-note">⚠️ For ETH this is a context overlay, not a source-native ETH fear &amp; greed
+                    benchmark.
+                </div>
             </div>
-            <div class="prob-subtitle">Daily backtest: ETH returns grouped by the official BTC-centric F&amp;G
-                zones.</div>
-            <table class="prob-table">
-                <thead>
-                    <tr>
-                        <th>Official F&amp;G Zone</th>
-                        <th>7 Days</th>
-                        <th>30 Days</th>
-                        <th>90 Days</th>
-                        <th>1 Year</th>
-                    </tr>
-                </thead>
-                <tbody id="eth-fng-probBody">
-                    <tr>
-                        <td colspan="5" class="prob-empty">Calculating historical ETH win rates...</td>
-                    </tr>
-                </tbody>
-            </table>
-            <div class="prob-status" id="eth-fng-probStatus">Alternative.me still documents the official index as
-                bitcoin-focused market sentiment.</div>
-            <div class="prob-note">⚠️ For ETH this is a context overlay, not a source-native ETH fear &amp; greed
-                benchmark.
-            </div>
-        </div>
         </div>
     </div>
 
@@ -2282,50 +2332,10 @@
                     <span class="dot dot-btc"></span>
                     <h1>BTC Composite Score</h1>
                 </div>
-                <p class="chart-subtitle">Autorski weekly composite score. It is a ranking heuristic for setup quality,
+                <p class="chart-subtitle">Custom weekly composite score. It is a ranking heuristic for setup quality,
                     not a literal calibrated probability.</p>
                 <div class="info-row" id="btc-wp-infoRow"></div>
                 <div class="quality-grid" id="btc-wp-qualityPanel"></div>
-            </div>
-            <div class="controls">
-                <div class="time-selector" id="btc-wp-timeSelector">
-                    <button class="time-btn" data-range="30">1M</button>
-                    <button class="time-btn" data-range="90">3M</button>
-                    <button class="time-btn" data-range="180">6M</button>
-                    <button class="time-btn active" data-range="365">1Y</button>
-                    <button class="time-btn" data-range="730">2Y</button>
-                    <button class="time-btn" data-range="1825">5Y</button>
-                    <button class="time-btn" data-range="0">ALL</button>
-                </div>
-                <div class="date-range-picker">
-                    <label>From</label>
-                    <input type="date" id="btc-wp-dateFrom">
-                    <span class="separator">—</span>
-                    <label>To</label>
-                    <input type="date" id="btc-wp-dateTo">
-                    <button class="reset-zoom-btn" id="btc-wp-resetZoom">↺ Reset Zoom</button>
-                </div>
-                <div class="legend">
-                    <div class="legend-item static"><span class="legend-color" style="background:#00e676;"></span>Strong Buy
-                        (70-100)</div>
-                    <div class="legend-item static"><span class="legend-color" style="background:#ffeb3b;"></span>Bullish
-                        (50-69)</div>
-                    <div class="legend-item static"><span class="legend-color" style="background:#ff9800;"></span>Cautious
-                        (30-49)</div>
-                    <div class="legend-item static"><span class="legend-color" style="background:#ff1744;"></span>Bearish
-                        (0-29)</div>
-                </div>
-                <div class="fng-slider-container">
-                    <span class="fng-slider-label">Score Range:</span>
-                    <span class="fng-slider-value" id="btc-wp-wpMinVal">0</span>
-                    <div class="fng-slider-track-wrapper">
-                        <div class="fng-slider-track"></div>
-                        <div class="fng-slider-track-active" id="btc-wp-wpTrackActive"></div>
-                        <input type="range" id="btc-wp-wpMin" min="0" max="100" value="0">
-                        <input type="range" id="btc-wp-wpMax" min="0" max="100" value="100">
-                    </div>
-                    <span class="fng-slider-value" id="btc-wp-wpMaxVal">100</span>
-                </div>
             </div>
         </div>
         <div class="section-tabs" id="btc-wp-sectionTabs">
@@ -2334,6 +2344,48 @@
             <button class="section-tab" data-panel="calibration">Calibration</button>
         </div>
         <div class="section-panel is-active" data-panel-group="btc-wp" data-panel="chart">
+            <div class="panel-toolbar">
+                <div class="controls">
+                    <div class="time-selector" id="btc-wp-timeSelector">
+                        <button class="time-btn" data-range="30">1M</button>
+                        <button class="time-btn" data-range="90">3M</button>
+                        <button class="time-btn" data-range="180">6M</button>
+                        <button class="time-btn active" data-range="365">1Y</button>
+                        <button class="time-btn" data-range="730">2Y</button>
+                        <button class="time-btn" data-range="1825">5Y</button>
+                        <button class="time-btn" data-range="0">ALL</button>
+                    </div>
+                    <div class="date-range-picker">
+                        <label>From</label>
+                        <input type="date" id="btc-wp-dateFrom">
+                        <span class="separator">—</span>
+                        <label>To</label>
+                        <input type="date" id="btc-wp-dateTo">
+                        <button class="reset-zoom-btn" id="btc-wp-resetZoom">↺ Reset Zoom</button>
+                    </div>
+                    <div class="legend">
+                        <div class="legend-item static"><span class="legend-color" style="background:#00e676;"></span>Strong Buy
+                            (70-100)</div>
+                        <div class="legend-item static"><span class="legend-color" style="background:#ffeb3b;"></span>Bullish
+                            (50-69)</div>
+                        <div class="legend-item static"><span class="legend-color" style="background:#ff9800;"></span>Cautious
+                            (30-49)</div>
+                        <div class="legend-item static"><span class="legend-color" style="background:#ff1744;"></span>Bearish
+                            (0-29)</div>
+                    </div>
+                    <div class="fng-slider-container">
+                        <span class="fng-slider-label">Score Range:</span>
+                        <span class="fng-slider-value" id="btc-wp-wpMinVal">0</span>
+                        <div class="fng-slider-track-wrapper">
+                            <div class="fng-slider-track"></div>
+                            <div class="fng-slider-track-active" id="btc-wp-wpTrackActive"></div>
+                            <input type="range" id="btc-wp-wpMin" min="0" max="100" value="0">
+                            <input type="range" id="btc-wp-wpMax" min="0" max="100" value="100">
+                        </div>
+                        <span class="fng-slider-value" id="btc-wp-wpMaxVal">100</span>
+                    </div>
+                </div>
+            </div>
             <div class="chart-wrapper" id="btc-wp-chartWrapper">
                 <canvas id="btc-wp-chart"></canvas>
                 <div class="loading-overlay" id="btc-wp-loadingOverlay">
@@ -2347,52 +2399,54 @@
             </div>
         </div>
         <div class="section-panel" data-panel-group="btc-wp" data-panel="backtest">
-        <div class="prob-section">
-            <div class="prob-title">📊 Historical Hit Rate by Composite Score (BTC)
-                <span class="info-tip">?
-                    <div class="info-tip-content">
-                        The score blends weekly momentum, trend, mean reversion, and F&amp;G. Each component is only
-                        calculated once it has enough warm-up data, and the final average reweights only the signals
-                        that are actually available.<br><br>
-                        The table shows forward returns measured on weekly candles: 1W, 4W, 13W, and 52W.
-                    </div>
-                </span>
+            <div class="prob-section">
+                <div class="prob-title">📊 Historical Hit Rate by Composite Score (BTC)
+                    <span class="info-tip">?
+                        <div class="info-tip-content">
+                            The score blends weekly momentum, trend, mean reversion, and F&amp;G. Each component is only
+                            calculated once it has enough warm-up data, and the final average reweights only the signals
+                            that are actually available.<br><br>
+                            The table shows forward returns measured on weekly candles: 1W, 4W, 13W, and 52W.
+                        </div>
+                    </span>
+                </div>
+                <div class="prob-subtitle">Weekly backtest grouped by score zone. Values below are recomputed from fetched
+                    history after load.</div>
+                <div class="prob-table-shell">
+                    <table class="prob-table">
+                        <thead>
+                            <tr>
+                                <th>Score at Buy</th>
+                                <th>1W</th>
+                                <th>4W</th>
+                                <th>13W</th>
+                                <th>52W</th>
+                            </tr>
+                        </thead>
+                        <tbody id="btc-wp-probBody">
+                            <tr>
+                                <td colspan="5" class="prob-empty">Calculating weekly BTC score backtest...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="prob-status" id="btc-wp-probStatus">Weekly score uses only the indicators available at each
+                    timestamp and reports per-horizon sample counts.</div>
+                <div class="prob-note">⚠️ This remains a heuristic composite score. Past performance does not
+                    guarantee future results.</div>
             </div>
-            <div class="prob-subtitle">Weekly backtest grouped by score zone. Values below are recomputed from fetched
-                history after load.</div>
-            <table class="prob-table">
-                <thead>
-                    <tr>
-                        <th>Score at Buy</th>
-                        <th>1W</th>
-                        <th>4W</th>
-                        <th>13W</th>
-                        <th>52W</th>
-                    </tr>
-                </thead>
-                <tbody id="btc-wp-probBody">
-                    <tr>
-                        <td colspan="5" class="prob-empty">Calculating weekly BTC score backtest...</td>
-                    </tr>
-                </tbody>
-            </table>
-            <div class="prob-status" id="btc-wp-probStatus">Weekly score uses only the indicators available at each
-                timestamp and reports per-horizon sample counts.</div>
-            <div class="prob-note">⚠️ This remains a heuristic composite score. Past performance does not
-                guarantee future results.</div>
-        </div>
         </div>
         <div class="section-panel" data-panel-group="btc-wp" data-panel="calibration">
-        <div class="calibration-section">
-            <div class="calibration-title">🧪 Calibration Snapshot (BTC)</div>
-            <div class="calibration-subtitle">Full-history score deciles versus realized 13W hit rate. Bars show how
-                many observations each bucket really contains.</div>
-            <div class="calibration-chart-wrap">
-                <canvas id="btc-wp-calibrationChart"></canvas>
+            <div class="calibration-section">
+                <div class="calibration-title">🧪 Calibration Snapshot (BTC)</div>
+                <div class="calibration-subtitle">Full-history score deciles versus realized 13W hit rate. Bars show how
+                    many observations each bucket really contains.</div>
+                <div class="calibration-chart-wrap">
+                    <canvas id="btc-wp-calibrationChart"></canvas>
+                </div>
+                <div class="calibration-insights" id="btc-wp-calibrationInsights"></div>
+                <div class="prob-status" id="btc-wp-calibrationStatus">Preparing BTC calibration snapshot...</div>
             </div>
-            <div class="calibration-insights" id="btc-wp-calibrationInsights"></div>
-            <div class="prob-status" id="btc-wp-calibrationStatus">Preparing BTC calibration snapshot...</div>
-        </div>
         </div>
     </div>
 
@@ -2409,46 +2463,6 @@
                 <div class="info-row" id="eth-wp-infoRow"></div>
                 <div class="quality-grid" id="eth-wp-qualityPanel"></div>
             </div>
-            <div class="controls">
-                <div class="time-selector" id="eth-wp-timeSelector">
-                    <button class="time-btn" data-range="30">1M</button>
-                    <button class="time-btn" data-range="90">3M</button>
-                    <button class="time-btn" data-range="180">6M</button>
-                    <button class="time-btn active" data-range="365">1Y</button>
-                    <button class="time-btn" data-range="730">2Y</button>
-                    <button class="time-btn" data-range="1825">5Y</button>
-                    <button class="time-btn" data-range="0">ALL</button>
-                </div>
-                <div class="date-range-picker">
-                    <label>From</label>
-                    <input type="date" id="eth-wp-dateFrom">
-                    <span class="separator">—</span>
-                    <label>To</label>
-                    <input type="date" id="eth-wp-dateTo">
-                    <button class="reset-zoom-btn" id="eth-wp-resetZoom">↺ Reset Zoom</button>
-                </div>
-                <div class="legend">
-                    <div class="legend-item static"><span class="legend-color" style="background:#00e676;"></span>Strong Buy
-                        (70-100)</div>
-                    <div class="legend-item static"><span class="legend-color" style="background:#ffeb3b;"></span>Bullish
-                        (50-69)</div>
-                    <div class="legend-item static"><span class="legend-color" style="background:#ff9800;"></span>Cautious
-                        (30-49)</div>
-                    <div class="legend-item static"><span class="legend-color" style="background:#ff1744;"></span>Bearish
-                        (0-29)</div>
-                </div>
-                <div class="fng-slider-container">
-                    <span class="fng-slider-label">Score Range:</span>
-                    <span class="fng-slider-value" id="eth-wp-wpMinVal">0</span>
-                    <div class="fng-slider-track-wrapper">
-                        <div class="fng-slider-track"></div>
-                        <div class="fng-slider-track-active" id="eth-wp-wpTrackActive"></div>
-                        <input type="range" id="eth-wp-wpMin" min="0" max="100" value="0">
-                        <input type="range" id="eth-wp-wpMax" min="0" max="100" value="100">
-                    </div>
-                    <span class="fng-slider-value" id="eth-wp-wpMaxVal">100</span>
-                </div>
-            </div>
         </div>
         <div class="section-tabs" id="eth-wp-sectionTabs">
             <button class="section-tab active" data-panel="chart">Chart</button>
@@ -2456,6 +2470,48 @@
             <button class="section-tab" data-panel="calibration">Calibration</button>
         </div>
         <div class="section-panel is-active" data-panel-group="eth-wp" data-panel="chart">
+            <div class="panel-toolbar">
+                <div class="controls">
+                    <div class="time-selector" id="eth-wp-timeSelector">
+                        <button class="time-btn" data-range="30">1M</button>
+                        <button class="time-btn" data-range="90">3M</button>
+                        <button class="time-btn" data-range="180">6M</button>
+                        <button class="time-btn active" data-range="365">1Y</button>
+                        <button class="time-btn" data-range="730">2Y</button>
+                        <button class="time-btn" data-range="1825">5Y</button>
+                        <button class="time-btn" data-range="0">ALL</button>
+                    </div>
+                    <div class="date-range-picker">
+                        <label>From</label>
+                        <input type="date" id="eth-wp-dateFrom">
+                        <span class="separator">—</span>
+                        <label>To</label>
+                        <input type="date" id="eth-wp-dateTo">
+                        <button class="reset-zoom-btn" id="eth-wp-resetZoom">↺ Reset Zoom</button>
+                    </div>
+                    <div class="legend">
+                        <div class="legend-item static"><span class="legend-color" style="background:#00e676;"></span>Strong Buy
+                            (70-100)</div>
+                        <div class="legend-item static"><span class="legend-color" style="background:#ffeb3b;"></span>Bullish
+                            (50-69)</div>
+                        <div class="legend-item static"><span class="legend-color" style="background:#ff9800;"></span>Cautious
+                            (30-49)</div>
+                        <div class="legend-item static"><span class="legend-color" style="background:#ff1744;"></span>Bearish
+                            (0-29)</div>
+                    </div>
+                    <div class="fng-slider-container">
+                        <span class="fng-slider-label">Score Range:</span>
+                        <span class="fng-slider-value" id="eth-wp-wpMinVal">0</span>
+                        <div class="fng-slider-track-wrapper">
+                            <div class="fng-slider-track"></div>
+                            <div class="fng-slider-track-active" id="eth-wp-wpTrackActive"></div>
+                            <input type="range" id="eth-wp-wpMin" min="0" max="100" value="0">
+                            <input type="range" id="eth-wp-wpMax" min="0" max="100" value="100">
+                        </div>
+                        <span class="fng-slider-value" id="eth-wp-wpMaxVal">100</span>
+                    </div>
+                </div>
+            </div>
             <div class="chart-wrapper" id="eth-wp-chartWrapper">
                 <canvas id="eth-wp-chart"></canvas>
                 <div class="loading-overlay" id="eth-wp-loadingOverlay">
@@ -2469,51 +2525,53 @@
             </div>
         </div>
         <div class="section-panel" data-panel-group="eth-wp" data-panel="backtest">
-        <div class="prob-section">
-            <div class="prob-title">📊 Historical Hit Rate by Composite Score (ETH)
-                <span class="info-tip">?
-                    <div class="info-tip-content">
-                        The score is calculated on weekly candles and no longer normalizes against the full future
-                        sample. That keeps the historical backtest free from look-ahead bias.<br><br>
-                        The 1W / 4W / 13W / 52W horizons refer to the following weekly closes.
-                    </div>
-                </span>
+            <div class="prob-section">
+                <div class="prob-title">📊 Historical Hit Rate by Composite Score (ETH)
+                    <span class="info-tip">?
+                        <div class="info-tip-content">
+                            The score is calculated on weekly candles and no longer normalizes against the full future
+                            sample. That keeps the historical backtest free from look-ahead bias.<br><br>
+                            The 1W / 4W / 13W / 52W horizons refer to the following weekly closes.
+                        </div>
+                    </span>
+                </div>
+                <div class="prob-subtitle">Weekly backtest grouped by ETH score zone. Values update from the fetched
+                    history.</div>
+                <div class="prob-table-shell">
+                    <table class="prob-table">
+                        <thead>
+                            <tr>
+                                <th>Score at Buy</th>
+                                <th>1W</th>
+                                <th>4W</th>
+                                <th>13W</th>
+                                <th>52W</th>
+                            </tr>
+                        </thead>
+                        <tbody id="eth-wp-probBody">
+                            <tr>
+                                <td colspan="5" class="prob-empty">Calculating weekly ETH score backtest...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="prob-status" id="eth-wp-probStatus">ETH score shares the same market-wide sentiment input as
+                    BTC and reports per-horizon sample counts.</div>
+                <div class="prob-note">⚠️ Composite score, not guaranteed edge. Past performance does not guarantee future
+                    results.</div>
             </div>
-            <div class="prob-subtitle">Weekly backtest grouped by ETH score zone. Values update from the fetched
-                history.</div>
-            <table class="prob-table">
-                <thead>
-                    <tr>
-                        <th>Score at Buy</th>
-                        <th>1W</th>
-                        <th>4W</th>
-                        <th>13W</th>
-                        <th>52W</th>
-                    </tr>
-                </thead>
-                <tbody id="eth-wp-probBody">
-                    <tr>
-                        <td colspan="5" class="prob-empty">Calculating weekly ETH score backtest...</td>
-                    </tr>
-                </tbody>
-            </table>
-            <div class="prob-status" id="eth-wp-probStatus">ETH score shares the same market-wide sentiment input as
-                BTC and reports per-horizon sample counts.</div>
-            <div class="prob-note">⚠️ Composite score, not guaranteed edge. Past performance does not guarantee future
-                results.</div>
-        </div>
         </div>
         <div class="section-panel" data-panel-group="eth-wp" data-panel="calibration">
-        <div class="calibration-section">
-            <div class="calibration-title">🧪 Calibration Snapshot (ETH)</div>
-            <div class="calibration-subtitle">Full-history score deciles versus realized 13W hit rate. Bars show where
-                the ETH score has depth and where samples are still thin.</div>
-            <div class="calibration-chart-wrap">
-                <canvas id="eth-wp-calibrationChart"></canvas>
+            <div class="calibration-section">
+                <div class="calibration-title">🧪 Calibration Snapshot (ETH)</div>
+                <div class="calibration-subtitle">Full-history score deciles versus realized 13W hit rate. Bars show where
+                    the ETH score has depth and where samples are still thin.</div>
+                <div class="calibration-chart-wrap">
+                    <canvas id="eth-wp-calibrationChart"></canvas>
+                </div>
+                <div class="calibration-insights" id="eth-wp-calibrationInsights"></div>
+                <div class="prob-status" id="eth-wp-calibrationStatus">Preparing ETH calibration snapshot...</div>
             </div>
-            <div class="calibration-insights" id="eth-wp-calibrationInsights"></div>
-            <div class="prob-status" id="eth-wp-calibrationStatus">Preparing ETH calibration snapshot...</div>
-        </div>
         </div>
     </div>
     </div>

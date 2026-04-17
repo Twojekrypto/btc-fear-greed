@@ -94,3 +94,8 @@
 - **Kontekst:** Branch roboczy może zawierać poprawne UI, ale publiczny adres nadal może serwować starszy `master`.
 - **Błąd:** Sam push feature brancha nie naprawia live site, jeśli user sprawdza publiczny URL GitHub Pages.
 - **Reguła:** Gdy zmiana ma być widoczna na publicznym GitHub Pages, po pushu brancha opublikuj zatwierdzony commit także na `master` i zweryfikuj live HTML pod kątem konkretnej poprawki.
+
+### 2026-04-17 — W tabbed analytics views, controls must belong to the active panel
+- **Kontekst:** Po dodaniu zakładek `Chart / Backtest / Calibration` chartowe kontrolki nadal wisiały nad tabelami i kalibracją.
+- **Błąd:** Wspólny toolbar dla wszystkich zakładek sprawia wrażenie rozjechanego layoutu i miesza kontekst użytkownika.
+- **Reguła:** Range presets, date pickers, legends i sliders trzymaj tylko w panelu `Chart`; `Backtest` i `Calibration` renderuj jako osobne surface’y z własnym spacingiem i wrapperem dla tabel.
