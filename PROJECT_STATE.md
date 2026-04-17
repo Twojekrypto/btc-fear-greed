@@ -111,6 +111,7 @@
 26. ✅ Added visible-range context directly into each chart quality panel
 27. ✅ Added calibration insight chips summarizing best / weakest buckets and reliable sample depth
 28. ✅ Added a local smoke-test script for the inline dashboard runtime
+29. ✅ Replaced bulky range presets/date pickers with a compact brush navigator above each chart
 
 ---
 

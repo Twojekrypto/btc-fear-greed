@@ -104,3 +104,8 @@
 - **Kontekst:** Dane po lewej i filtry po prawej były rozdzielone na tyle mocno, że środek chartu zostawał pusty mimo dużej ilości informacji.
 - **Błąd:** Rozbijanie summary i controls na osobne poziome pasy tworzy martwą przestrzeń i osłabia premium feel.
 - **Reguła:** W desktopowym widoku chartu układaj live metrics i filtry w jednej górnej siatce nad wykresem; najpierw kompresuj chrome filtrów, dopiero potem dodawaj kolejne rzędy.
+
+### 2026-04-17 — Prefer a brush navigator over stacked date controls
+- **Kontekst:** Toolbar chartu miał osobne presety czasu, pola `From / To` i reset zoomu, przez co zajmował dużo miejsca i wizualnie konkurował z samym wykresem.
+- **Błąd:** Rozbudowany control bar zwiększa clutter i spowalnia odczyt aktualnego zakresu, nawet jeśli funkcjonalnie działa poprawnie.
+- **Reguła:** W gęstych chartach używaj kompaktowego mini-chart navigatora z jednym opisem aktywnego zakresu i jedną akcją resetu zamiast wielu presetów i ręcznych pól daty.

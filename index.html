@@ -893,6 +893,144 @@
             width: 100%;
         }
 
+        .range-navigator {
+            padding: 10px;
+            border-radius: 18px;
+            border: 1px solid rgba(148, 163, 184, 0.10);
+            background:
+                linear-gradient(180deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.02)),
+                rgba(6, 12, 25, 0.72);
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.03);
+        }
+
+        .range-navigator-head {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 10px;
+            margin-bottom: 8px;
+        }
+
+        .range-navigator-copy {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            min-width: 0;
+        }
+
+        .range-navigator-eyebrow {
+            font-size: 9px;
+            color: #7a879f;
+            font-weight: 700;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+        }
+
+        .range-navigator-value {
+            font-size: 11px;
+            color: #e3e9f8;
+            font-weight: 600;
+            letter-spacing: 0.01em;
+            line-height: 1.4;
+        }
+
+        .range-reset-btn {
+            flex-shrink: 0;
+            padding: 6px 9px;
+            border-radius: 10px;
+            border: 1px solid rgba(124, 140, 255, 0.18);
+            background: rgba(124, 140, 255, 0.08);
+            color: #cfd9f6;
+            font-family: 'Inter', sans-serif;
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: opacity 0.18s ease, transform 0.18s ease, background 0.18s ease;
+        }
+
+        .range-reset-btn:hover:not(:disabled) {
+            transform: translateY(-1px);
+            background: rgba(124, 140, 255, 0.14);
+        }
+
+        .range-reset-btn:disabled {
+            opacity: 0.45;
+            cursor: default;
+        }
+
+        .range-navigator-canvas-wrap {
+            position: relative;
+            height: 68px;
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            background:
+                linear-gradient(180deg, rgba(9, 15, 27, 0.92), rgba(9, 15, 27, 0.84)),
+                rgba(9, 15, 27, 0.84);
+        }
+
+        .range-navigator-canvas {
+            width: 100%;
+            height: 100%;
+            display: block;
+        }
+
+        .range-navigator-overlay {
+            position: absolute;
+            inset: 0;
+            user-select: none;
+            touch-action: none;
+        }
+
+        .range-navigator-dim {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            background: rgba(4, 9, 19, 0.58);
+            backdrop-filter: blur(1px);
+        }
+
+        .range-navigator-window {
+            position: absolute;
+            top: 4px;
+            bottom: 4px;
+            min-width: 18px;
+            border-radius: 10px;
+            border: 1px solid rgba(129, 140, 248, 0.55);
+            background: rgba(129, 140, 248, 0.12);
+            box-shadow:
+                inset 0 0 0 1px rgba(255, 255, 255, 0.05),
+                0 0 0 1px rgba(99, 102, 241, 0.12);
+            cursor: grab;
+        }
+
+        .range-navigator-window:active {
+            cursor: grabbing;
+        }
+
+        .range-navigator-handle {
+            position: absolute;
+            top: 50%;
+            width: 12px;
+            height: 28px;
+            transform: translateY(-50%);
+            border-radius: 999px;
+            background: rgba(238, 242, 255, 0.92);
+            border: 1px solid rgba(129, 140, 248, 0.35);
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.22);
+            cursor: ew-resize;
+        }
+
+        .range-navigator-handle.left {
+            left: -6px;
+        }
+
+        .range-navigator-handle.right {
+            right: -6px;
+        }
+
         .time-selector {
             display: flex;
             gap: 4px;
@@ -1210,7 +1348,7 @@
         .chart-wrapper {
             position: relative;
             height: 480px;
-            cursor: crosshair;
+            cursor: default;
             border-radius: 22px;
             border: 1px solid rgba(255, 255, 255, 0.06);
             background:
@@ -1220,18 +1358,6 @@
             box-shadow:
                 inset 0 1px 0 rgba(255, 255, 255, 0.04),
                 inset 0 -1px 0 rgba(255, 255, 255, 0.02);
-        }
-
-        .selection-overlay {
-            position: absolute;
-            top: 0;
-            bottom: 0;
-            background: rgba(99, 102, 241, 0.15);
-            border-left: 1px solid rgba(99, 102, 241, 0.4);
-            border-right: 1px solid rgba(99, 102, 241, 0.4);
-            pointer-events: none;
-            z-index: 5;
-            display: none;
         }
 
         .reset-zoom-btn {
@@ -1827,6 +1953,15 @@
                 padding: 12px 11px;
             }
 
+            .range-navigator-head {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .range-reset-btn {
+                align-self: flex-start;
+            }
+
             .time-selector {
                 width: 100%;
                 justify-content: flex-start;
@@ -2012,9 +2147,6 @@
                 padding: 3px 8px;
             }
 
-            .selection-overlay {
-                display: none !important;
-            }
         }
 
         /* Extra small screens */
@@ -2158,22 +2290,25 @@
                 </div>
                 <div class="panel-toolbar">
                     <div class="controls">
-                        <div class="time-selector" id="btc-timeSelector">
-                            <button class="time-btn" data-range="30">1M</button>
-                            <button class="time-btn" data-range="90">3M</button>
-                            <button class="time-btn" data-range="180">6M</button>
-                            <button class="time-btn active" data-range="365">1Y</button>
-                            <button class="time-btn" data-range="730">2Y</button>
-                            <button class="time-btn" data-range="1825">5Y</button>
-                            <button class="time-btn" data-range="0">ALL</button>
-                        </div>
-                        <div class="date-range-picker">
-                            <label>From</label>
-                            <input type="date" id="btc-dateFrom">
-                            <span class="separator">—</span>
-                            <label>To</label>
-                            <input type="date" id="btc-dateTo">
-                            <button class="reset-zoom-btn" id="btc-resetZoom">↺ Reset Zoom</button>
+                        <div class="range-navigator">
+                            <div class="range-navigator-head">
+                                <div class="range-navigator-copy">
+                                    <span class="range-navigator-eyebrow">Visible Range</span>
+                                    <span class="range-navigator-value" id="btc-rangeLabel">Loading range…</span>
+                                </div>
+                                <button class="range-reset-btn" id="btc-rangeReset" type="button">All history</button>
+                            </div>
+                            <div class="range-navigator-canvas-wrap">
+                                <canvas class="range-navigator-canvas" id="btc-navigatorCanvas"></canvas>
+                                <div class="range-navigator-overlay" id="btc-navigatorOverlay">
+                                    <div class="range-navigator-dim" id="btc-navDimLeft"></div>
+                                    <div class="range-navigator-window" id="btc-navWindow">
+                                        <div class="range-navigator-handle left" id="btc-navHandleLeft"></div>
+                                        <div class="range-navigator-handle right" id="btc-navHandleRight"></div>
+                                    </div>
+                                    <div class="range-navigator-dim" id="btc-navDimRight"></div>
+                                </div>
+                            </div>
                         </div>
                         <div class="legend" id="btc-legend"></div>
                         <div class="fng-slider-container">
@@ -2192,7 +2327,6 @@
             </div>
             <div class="chart-wrapper" id="btc-chartWrapper">
                 <canvas id="btc-fngChart"></canvas>
-                <div class="selection-overlay" id="btc-selectionOverlay"></div>
                 <div class="loading-overlay" id="btc-loadingOverlay">
                     <div class="spinner"></div>
                     <div class="loading-text" id="btc-loadingText">Loading BTC data...</div>
@@ -2270,22 +2404,25 @@
                 </div>
                 <div class="panel-toolbar">
                     <div class="controls">
-                        <div class="time-selector" id="eth-timeSelector">
-                            <button class="time-btn" data-range="30">1M</button>
-                            <button class="time-btn" data-range="90">3M</button>
-                            <button class="time-btn" data-range="180">6M</button>
-                            <button class="time-btn active" data-range="365">1Y</button>
-                            <button class="time-btn" data-range="730">2Y</button>
-                            <button class="time-btn" data-range="1825">5Y</button>
-                            <button class="time-btn" data-range="0">ALL</button>
-                        </div>
-                        <div class="date-range-picker">
-                            <label>From</label>
-                            <input type="date" id="eth-dateFrom">
-                            <span class="separator">—</span>
-                            <label>To</label>
-                            <input type="date" id="eth-dateTo">
-                            <button class="reset-zoom-btn" id="eth-resetZoom">↺ Reset Zoom</button>
+                        <div class="range-navigator">
+                            <div class="range-navigator-head">
+                                <div class="range-navigator-copy">
+                                    <span class="range-navigator-eyebrow">Visible Range</span>
+                                    <span class="range-navigator-value" id="eth-rangeLabel">Loading range…</span>
+                                </div>
+                                <button class="range-reset-btn" id="eth-rangeReset" type="button">All history</button>
+                            </div>
+                            <div class="range-navigator-canvas-wrap">
+                                <canvas class="range-navigator-canvas" id="eth-navigatorCanvas"></canvas>
+                                <div class="range-navigator-overlay" id="eth-navigatorOverlay">
+                                    <div class="range-navigator-dim" id="eth-navDimLeft"></div>
+                                    <div class="range-navigator-window" id="eth-navWindow">
+                                        <div class="range-navigator-handle left" id="eth-navHandleLeft"></div>
+                                        <div class="range-navigator-handle right" id="eth-navHandleRight"></div>
+                                    </div>
+                                    <div class="range-navigator-dim" id="eth-navDimRight"></div>
+                                </div>
+                            </div>
                         </div>
                         <div class="legend" id="eth-legend"></div>
                         <div class="fng-slider-container">
@@ -2304,7 +2441,6 @@
             </div>
             <div class="chart-wrapper" id="eth-chartWrapper">
                 <canvas id="eth-fngChart"></canvas>
-                <div class="selection-overlay" id="eth-selectionOverlay"></div>
                 <div class="loading-overlay" id="eth-loadingOverlay">
                     <div class="spinner"></div>
                     <div class="loading-text" id="eth-loadingText">Loading ETH data...</div>
@@ -2384,22 +2520,25 @@
                 </div>
                 <div class="panel-toolbar">
                     <div class="controls">
-                        <div class="time-selector" id="btc-wp-timeSelector">
-                            <button class="time-btn" data-range="30">1M</button>
-                            <button class="time-btn" data-range="90">3M</button>
-                            <button class="time-btn" data-range="180">6M</button>
-                            <button class="time-btn active" data-range="365">1Y</button>
-                            <button class="time-btn" data-range="730">2Y</button>
-                            <button class="time-btn" data-range="1825">5Y</button>
-                            <button class="time-btn" data-range="0">ALL</button>
-                        </div>
-                        <div class="date-range-picker">
-                            <label>From</label>
-                            <input type="date" id="btc-wp-dateFrom">
-                            <span class="separator">—</span>
-                            <label>To</label>
-                            <input type="date" id="btc-wp-dateTo">
-                            <button class="reset-zoom-btn" id="btc-wp-resetZoom">↺ Reset Zoom</button>
+                        <div class="range-navigator">
+                            <div class="range-navigator-head">
+                                <div class="range-navigator-copy">
+                                    <span class="range-navigator-eyebrow">Visible Range</span>
+                                    <span class="range-navigator-value" id="btc-wp-rangeLabel">Loading range…</span>
+                                </div>
+                                <button class="range-reset-btn" id="btc-wp-rangeReset" type="button">All history</button>
+                            </div>
+                            <div class="range-navigator-canvas-wrap">
+                                <canvas class="range-navigator-canvas" id="btc-wp-navigatorCanvas"></canvas>
+                                <div class="range-navigator-overlay" id="btc-wp-navigatorOverlay">
+                                    <div class="range-navigator-dim" id="btc-wp-navDimLeft"></div>
+                                    <div class="range-navigator-window" id="btc-wp-navWindow">
+                                        <div class="range-navigator-handle left" id="btc-wp-navHandleLeft"></div>
+                                        <div class="range-navigator-handle right" id="btc-wp-navHandleRight"></div>
+                                    </div>
+                                    <div class="range-navigator-dim" id="btc-wp-navDimRight"></div>
+                                </div>
+                            </div>
                         </div>
                         <div class="legend">
                             <div class="legend-item static"><span class="legend-color" style="background:#00e676;"></span>Strong Buy
@@ -2514,22 +2653,25 @@
                 </div>
                 <div class="panel-toolbar">
                     <div class="controls">
-                        <div class="time-selector" id="eth-wp-timeSelector">
-                            <button class="time-btn" data-range="30">1M</button>
-                            <button class="time-btn" data-range="90">3M</button>
-                            <button class="time-btn" data-range="180">6M</button>
-                            <button class="time-btn active" data-range="365">1Y</button>
-                            <button class="time-btn" data-range="730">2Y</button>
-                            <button class="time-btn" data-range="1825">5Y</button>
-                            <button class="time-btn" data-range="0">ALL</button>
-                        </div>
-                        <div class="date-range-picker">
-                            <label>From</label>
-                            <input type="date" id="eth-wp-dateFrom">
-                            <span class="separator">—</span>
-                            <label>To</label>
-                            <input type="date" id="eth-wp-dateTo">
-                            <button class="reset-zoom-btn" id="eth-wp-resetZoom">↺ Reset Zoom</button>
+                        <div class="range-navigator">
+                            <div class="range-navigator-head">
+                                <div class="range-navigator-copy">
+                                    <span class="range-navigator-eyebrow">Visible Range</span>
+                                    <span class="range-navigator-value" id="eth-wp-rangeLabel">Loading range…</span>
+                                </div>
+                                <button class="range-reset-btn" id="eth-wp-rangeReset" type="button">All history</button>
+                            </div>
+                            <div class="range-navigator-canvas-wrap">
+                                <canvas class="range-navigator-canvas" id="eth-wp-navigatorCanvas"></canvas>
+                                <div class="range-navigator-overlay" id="eth-wp-navigatorOverlay">
+                                    <div class="range-navigator-dim" id="eth-wp-navDimLeft"></div>
+                                    <div class="range-navigator-window" id="eth-wp-navWindow">
+                                        <div class="range-navigator-handle left" id="eth-wp-navHandleLeft"></div>
+                                        <div class="range-navigator-handle right" id="eth-wp-navHandleRight"></div>
+                                    </div>
+                                    <div class="range-navigator-dim" id="eth-wp-navDimRight"></div>
+                                </div>
+                            </div>
                         </div>
                         <div class="legend">
                             <div class="legend-item static"><span class="legend-color" style="background:#00e676;"></span>Strong Buy
@@ -2896,6 +3038,150 @@
                 tabsRoot.dataset.bound = 'true';
                 const initial = tabs.find(tab => tab.classList.contains('active'))?.dataset.panel || tabs[0].dataset.panel;
                 activate(initial);
+            }
+
+            function getDefaultBrushFractions(series, days = 365) {
+                if (!series.length) return { start: 0, end: 1 };
+                const denominator = Math.max(1, series.length - 1);
+                const lastTs = series[series.length - 1].date.getTime();
+                const cutoff = lastTs - days * DAY_MS;
+                const startIdx = series.findIndex(point => point.date.getTime() >= cutoff);
+                return {
+                    start: (startIdx === -1 ? 0 : startIdx) / denominator,
+                    end: 1,
+                };
+            }
+
+            function drawRangeNavigatorCanvas(canvas, series, accent) {
+                if (!canvas || !series?.length) return;
+                const rect = canvas.getBoundingClientRect();
+                const width = Math.max(1, Math.round(rect.width || canvas.clientWidth || 320));
+                const height = Math.max(1, Math.round(rect.height || canvas.clientHeight || 68));
+                const dpr = window.devicePixelRatio || 1;
+                canvas.width = width * dpr;
+                canvas.height = height * dpr;
+                canvas.style.width = `${width}px`;
+                canvas.style.height = `${height}px`;
+
+                const ctx = canvas.getContext('2d');
+                if (!ctx || typeof ctx.clearRect !== 'function') return;
+                if (typeof ctx.setTransform === 'function') {
+                    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+                } else if (typeof ctx.resetTransform === 'function') {
+                    ctx.resetTransform();
+                    if (typeof ctx.scale === 'function') ctx.scale(dpr, dpr);
+                }
+                ctx.clearRect(0, 0, width, height);
+
+                if (series.length < 2) return;
+                if (
+                    typeof ctx.beginPath !== 'function' ||
+                    typeof ctx.moveTo !== 'function' ||
+                    typeof ctx.lineTo !== 'function' ||
+                    typeof ctx.stroke !== 'function' ||
+                    typeof ctx.fill !== 'function' ||
+                    typeof ctx.createLinearGradient !== 'function'
+                ) return;
+
+                const padLeft = 4;
+                const padRight = 4;
+                const padTop = 8;
+                const padBottom = 8;
+                const plotWidth = width - padLeft - padRight;
+                const plotHeight = height - padTop - padBottom;
+                const values = series.map(point => Math.log10(Math.max(point.price || 1, 1e-6)));
+                const minValue = Math.min(...values);
+                const maxValue = Math.max(...values);
+                const spread = Math.max(maxValue - minValue, 1e-6);
+
+                const points = series.map((point, index) => {
+                    const x = padLeft + (plotWidth * index) / Math.max(1, series.length - 1);
+                    const normalized = (values[index] - minValue) / spread;
+                    const y = padTop + plotHeight * (1 - normalized);
+                    return { x, y };
+                });
+
+                const areaGradient = ctx.createLinearGradient(0, padTop, 0, height);
+                areaGradient.addColorStop(0, toRgba(accent, 0.22));
+                areaGradient.addColorStop(1, toRgba(accent, 0));
+                const lineGradient = ctx.createLinearGradient(0, 0, width, 0);
+                lineGradient.addColorStop(0, toRgba(accent, 0.55));
+                lineGradient.addColorStop(0.55, accent);
+                lineGradient.addColorStop(1, toRgba(accent, 0.7));
+
+                ctx.fillStyle = areaGradient;
+                ctx.beginPath();
+                points.forEach((point, index) => {
+                    if (index === 0) ctx.moveTo(point.x, point.y);
+                    else ctx.lineTo(point.x, point.y);
+                });
+                ctx.lineTo(points[points.length - 1].x, height - padBottom);
+                ctx.lineTo(points[0].x, height - padBottom);
+                ctx.closePath();
+                ctx.fill();
+
+                ctx.strokeStyle = toRgba('#ffffff', 0.10);
+                ctx.lineWidth = 1;
+                ctx.beginPath();
+                ctx.moveTo(padLeft, height - padBottom + 0.5);
+                ctx.lineTo(width - padRight, height - padBottom + 0.5);
+                ctx.stroke();
+
+                ctx.strokeStyle = toRgba(accent, 0.26);
+                ctx.lineWidth = 5;
+                ctx.lineCap = 'round';
+                ctx.lineJoin = 'round';
+                ctx.beginPath();
+                points.forEach((point, index) => {
+                    if (index === 0) ctx.moveTo(point.x, point.y);
+                    else ctx.lineTo(point.x, point.y);
+                });
+                ctx.stroke();
+
+                ctx.strokeStyle = lineGradient;
+                ctx.lineWidth = 1.8;
+                ctx.beginPath();
+                points.forEach((point, index) => {
+                    if (index === 0) ctx.moveTo(point.x, point.y);
+                    else ctx.lineTo(point.x, point.y);
+                });
+                ctx.stroke();
+            }
+
+            function updateRangeNavigatorUI({
+                overlay,
+                dimLeft,
+                dimRight,
+                windowEl,
+                labelEl,
+                resetButton,
+                brushStart,
+                brushEnd,
+                series,
+            }) {
+                if (!overlay || !dimLeft || !dimRight || !windowEl || !series?.length) return;
+                const width = overlay.clientWidth || overlay.getBoundingClientRect().width || 0;
+                const left = width * brushStart;
+                const right = width * brushEnd;
+
+                dimLeft.style.left = '0px';
+                dimLeft.style.width = `${left}px`;
+                dimRight.style.left = `${right}px`;
+                dimRight.style.width = `${Math.max(0, width - right)}px`;
+                windowEl.style.left = `${left}px`;
+                windowEl.style.width = `${Math.max(18, right - left)}px`;
+
+                if (labelEl) {
+                    const maxIndex = Math.max(1, series.length - 1);
+                    const startIdx = Math.max(0, Math.floor(brushStart * maxIndex));
+                    const endIdx = Math.max(startIdx + 1, Math.min(maxIndex, Math.ceil(brushEnd * maxIndex)));
+                    const visibleCount = endIdx - startIdx + 1;
+                    labelEl.textContent = `${formatShortDate(series[startIdx].date)} — ${formatShortDate(series[endIdx].date)} · ${visibleCount} visible`;
+                }
+
+                if (resetButton) {
+                    resetButton.disabled = brushStart <= 0.001 && brushEnd >= 0.999;
+                }
             }
 
             function describeRange(currentRange, customFrom, customTo, filteredCount) {
@@ -3427,6 +3713,9 @@
                 let wpRangeMax = 100;
                 let latestBacktestStats = null;
                 let calibrationChart = null;
+                let brushStart = 0;
+                let brushEnd = 1;
+                let navigatorBound = false;
 
                 function getWpColor(val) {
                     const zone = getZoneForValue(val, WP_ZONES);
@@ -3911,49 +4200,122 @@
                     });
                 }
 
-                // Time selector
-                function setupTimeSelector() {
-                    el('timeSelector')?.querySelectorAll('.time-btn').forEach(btn => {
-                        btn.addEventListener('click', () => {
-                            el('timeSelector').querySelectorAll('.time-btn').forEach(b => b.classList.remove('active'));
-                            btn.classList.add('active');
-                            currentRange = parseInt(btn.dataset.range);
-                            customFrom = null;
-                            customTo = null;
-                            const df = el('dateFrom');
-                            const dt = el('dateTo');
-                            if (df) df.value = '';
-                            if (dt) dt.value = '';
-                            updateChart();
-                        });
+                function applyNavigatorSelection(updateMain = true) {
+                    if (!mergedData.length) return;
+                    const maxIndex = Math.max(1, mergedData.length - 1);
+                    const startIdx = Math.max(0, Math.floor(brushStart * maxIndex));
+                    const endIdx = Math.max(startIdx + 1, Math.min(maxIndex, Math.ceil(brushEnd * maxIndex)));
+                    customFrom = new Date(mergedData[startIdx].date.getTime());
+                    customTo = new Date(mergedData[endIdx].date.getTime());
+                    currentRange = 0;
+                    updateRangeNavigatorUI({
+                        overlay: el('navigatorOverlay'),
+                        dimLeft: el('navDimLeft'),
+                        dimRight: el('navDimRight'),
+                        windowEl: el('navWindow'),
+                        labelEl: el('rangeLabel'),
+                        resetButton: el('rangeReset'),
+                        brushStart,
+                        brushEnd,
+                        series: mergedData,
+                    });
+                    if (updateMain) updateChart();
+                }
+
+                function renderNavigator() {
+                    if (!mergedData.length) return;
+                    drawRangeNavigatorCanvas(
+                        el('navigatorCanvas'),
+                        mergedData,
+                        symbol === 'BTCUSDT' ? '#f97316' : '#627eea'
+                    );
+                    updateRangeNavigatorUI({
+                        overlay: el('navigatorOverlay'),
+                        dimLeft: el('navDimLeft'),
+                        dimRight: el('navDimRight'),
+                        windowEl: el('navWindow'),
+                        labelEl: el('rangeLabel'),
+                        resetButton: el('rangeReset'),
+                        brushStart,
+                        brushEnd,
+                        series: mergedData,
                     });
                 }
 
-                // Date picker
-                function setupDatePicker() {
-                    const onDateChange = () => {
-                        const fromVal = el('dateFrom')?.value;
-                        const toVal = el('dateTo')?.value;
-                        if (fromVal) customFrom = new Date(fromVal);
-                        if (toVal) customTo = new Date(toVal);
-                        if (customFrom || customTo) {
-                            el('timeSelector')?.querySelectorAll('.time-btn').forEach(b => b.classList.remove('active'));
-                            updateChart();
-                        }
+                function setDefaultNavigatorWindow(updateMain = false) {
+                    const nextWindow = getDefaultBrushFractions(mergedData, 365);
+                    brushStart = nextWindow.start;
+                    brushEnd = nextWindow.end;
+                    applyNavigatorSelection(updateMain);
+                }
+
+                function setupNavigatorInteractions() {
+                    if (navigatorBound) return;
+                    const overlay = el('navigatorOverlay');
+                    const windowEl = el('navWindow');
+                    const leftHandle = el('navHandleLeft');
+                    const rightHandle = el('navHandleRight');
+                    const resetButton = el('rangeReset');
+                    if (!overlay || !windowEl || !leftHandle || !rightHandle || !resetButton) return;
+
+                    const minWidth = () => Math.min(0.35, Math.max(0.05, 20 / Math.max(mergedData.length, 1)));
+                    const overlayWidth = () => overlay.getBoundingClientRect().width || overlay.clientWidth || 1;
+                    const canBindWindowEvents = typeof window !== 'undefined' && typeof window.addEventListener === 'function';
+
+                    let mode = null;
+                    let startX = 0;
+                    let startBrushStart = 0;
+                    let startBrushEnd = 1;
+
+                    const beginDrag = (nextMode, event) => {
+                        event.preventDefault();
+                        mode = nextMode;
+                        startX = event.clientX;
+                        startBrushStart = brushStart;
+                        startBrushEnd = brushEnd;
                     };
-                    el('dateFrom')?.addEventListener('change', onDateChange);
-                    el('dateTo')?.addEventListener('change', onDateChange);
-                    el('resetZoom')?.addEventListener('click', () => {
-                        customFrom = null;
-                        customTo = null;
-                        const df = el('dateFrom');
-                        const dt = el('dateTo');
-                        if (df) df.value = '';
-                        if (dt) dt.value = '';
-                        const btn = el('timeSelector')?.querySelector(`[data-range="${currentRange}"]`);
-                        if (btn) btn.classList.add('active');
-                        updateChart();
+
+                    leftHandle.addEventListener('pointerdown', event => beginDrag('left', event));
+                    rightHandle.addEventListener('pointerdown', event => beginDrag('right', event));
+                    windowEl.addEventListener('pointerdown', event => {
+                        if (event.target === leftHandle || event.target === rightHandle) return;
+                        beginDrag('pan', event);
                     });
+
+                    if (canBindWindowEvents) {
+                        window.addEventListener('pointermove', event => {
+                            if (!mode) return;
+                            const delta = (event.clientX - startX) / overlayWidth();
+                            const minSelection = minWidth();
+
+                            if (mode === 'left') {
+                                brushStart = clamp(startBrushStart + delta, 0, brushEnd - minSelection);
+                            } else if (mode === 'right') {
+                                brushEnd = clamp(startBrushEnd + delta, brushStart + minSelection, 1);
+                            } else if (mode === 'pan') {
+                                const width = startBrushEnd - startBrushStart;
+                                const nextStart = clamp(startBrushStart + delta, 0, 1 - width);
+                                brushStart = nextStart;
+                                brushEnd = nextStart + width;
+                            }
+
+                            applyNavigatorSelection();
+                        });
+
+                        window.addEventListener('pointerup', () => {
+                            mode = null;
+                        });
+
+                        window.addEventListener('resize', renderNavigator);
+                    }
+
+                    resetButton.addEventListener('click', () => {
+                        brushStart = 0;
+                        brushEnd = 1;
+                        applyNavigatorSelection();
+                    });
+
+                    navigatorBound = true;
                 }
 
                 // WP range slider
@@ -3989,17 +4351,20 @@
                 }
 
                 async function init() {
-                    setupTimeSelector();
-                    setupDatePicker();
                     setupWpSlider();
                     setupSectionTabs(`${prefix}-wp`, (panelName) => {
                         if (panelName === 'chart' && chart) {
-                            chart.resize();
-                            chart.update('none');
+                            requestAnimationFrame(() => {
+                                chart.resize();
+                                chart.update('none');
+                                renderNavigator();
+                            });
                         }
                         if (panelName === 'calibration' && calibrationChart) {
-                            calibrationChart.resize();
-                            calibrationChart.update('none');
+                            requestAnimationFrame(() => {
+                                calibrationChart.resize();
+                                calibrationChart.update('none');
+                            });
                         }
                     });
 
@@ -4015,10 +4380,13 @@
                         loadingEl.textContent = 'Computing composite score...';
                         mergedData = mergeData(prices, fngMap);
                         wpData = calcWinProbability(mergedData);
+                        setDefaultNavigatorWindow(false);
 
                         renderBacktestTable();
                         renderCalibrationChart();
                         createChart();
+                        setupNavigatorInteractions();
+                        renderNavigator();
                         showInfoRow();
                         renderQualitySummary();
                     } catch (err) {
@@ -4051,6 +4419,9 @@
                 let customTo = null;
                 let fngRangeMin = 0;
                 let fngRangeMax = 100;
+                let brushStart = 0;
+                let brushEnd = 1;
+                let navigatorBound = false;
                 const visibility = {};
                 SENTIMENTS.forEach(s => visibility[s.key] = true);
 
@@ -4336,58 +4707,122 @@
                     });
                 }
 
-                // Time selector
-                function setupTimeSelector() {
-                    const container = el('timeSelector');
-                    container.querySelectorAll('.time-btn').forEach(btn => {
-                        btn.addEventListener('click', () => {
-                            container.querySelector('.active')?.classList.remove('active');
-                            btn.classList.add('active');
-                            currentRange = parseInt(btn.dataset.range);
-                            customFrom = null;
-                            customTo = null;
-                            el('dateFrom').value = '';
-                            el('dateTo').value = '';
-                            updateChart();
-                        });
+                function applyNavigatorSelection(updateMain = true) {
+                    if (!mergedData.length) return;
+                    const maxIndex = Math.max(1, mergedData.length - 1);
+                    const startIdx = Math.max(0, Math.floor(brushStart * maxIndex));
+                    const endIdx = Math.max(startIdx + 1, Math.min(maxIndex, Math.ceil(brushEnd * maxIndex)));
+                    customFrom = new Date(mergedData[startIdx].date.getTime());
+                    customTo = new Date(mergedData[endIdx].date.getTime());
+                    currentRange = 0;
+                    updateRangeNavigatorUI({
+                        overlay: el('navigatorOverlay'),
+                        dimLeft: el('navDimLeft'),
+                        dimRight: el('navDimRight'),
+                        windowEl: el('navWindow'),
+                        labelEl: el('rangeLabel'),
+                        resetButton: el('rangeReset'),
+                        brushStart,
+                        brushEnd,
+                        series: mergedData,
+                    });
+                    if (updateMain) updateChart();
+                }
+
+                function renderNavigator() {
+                    if (!mergedData.length) return;
+                    drawRangeNavigatorCanvas(
+                        el('navigatorCanvas'),
+                        mergedData,
+                        symbol === 'BTCUSDT' ? '#f97316' : '#627eea'
+                    );
+                    updateRangeNavigatorUI({
+                        overlay: el('navigatorOverlay'),
+                        dimLeft: el('navDimLeft'),
+                        dimRight: el('navDimRight'),
+                        windowEl: el('navWindow'),
+                        labelEl: el('rangeLabel'),
+                        resetButton: el('rangeReset'),
+                        brushStart,
+                        brushEnd,
+                        series: mergedData,
                     });
                 }
 
-                // Date pickers
-                function setupDatePickers() {
-                    const fromInput = el('dateFrom');
-                    const toInput = el('dateTo');
+                function setDefaultNavigatorWindow(updateMain = false) {
+                    const nextWindow = getDefaultBrushFractions(mergedData, 365);
+                    brushStart = nextWindow.start;
+                    brushEnd = nextWindow.end;
+                    applyNavigatorSelection(updateMain);
+                }
 
-                    function onDateChange() {
-                        const fromVal = fromInput.value;
-                        const toVal = toInput.value;
-                        customFrom = fromVal ? new Date(fromVal + 'T00:00:00') : null;
-                        customTo = toVal ? new Date(toVal + 'T23:59:59') : null;
-                        if (customFrom || customTo) {
-                            el('timeSelector').querySelector('.active')?.classList.remove('active');
-                            el('resetZoom').classList.add('visible');
-                        } else {
-                            el('resetZoom').classList.remove('visible');
-                        }
-                        updateChart();
+                function setupNavigatorInteractions() {
+                    if (navigatorBound) return;
+                    const overlay = el('navigatorOverlay');
+                    const windowEl = el('navWindow');
+                    const leftHandle = el('navHandleLeft');
+                    const rightHandle = el('navHandleRight');
+                    const resetButton = el('rangeReset');
+                    if (!overlay || !windowEl || !leftHandle || !rightHandle || !resetButton) return;
+
+                    const minWidth = () => Math.min(0.35, Math.max(0.05, 20 / Math.max(mergedData.length, 1)));
+                    const overlayWidth = () => overlay.getBoundingClientRect().width || overlay.clientWidth || 1;
+                    const canBindWindowEvents = typeof window !== 'undefined' && typeof window.addEventListener === 'function';
+
+                    let mode = null;
+                    let startX = 0;
+                    let startBrushStart = 0;
+                    let startBrushEnd = 1;
+
+                    const beginDrag = (nextMode, event) => {
+                        event.preventDefault();
+                        mode = nextMode;
+                        startX = event.clientX;
+                        startBrushStart = brushStart;
+                        startBrushEnd = brushEnd;
+                    };
+
+                    leftHandle.addEventListener('pointerdown', event => beginDrag('left', event));
+                    rightHandle.addEventListener('pointerdown', event => beginDrag('right', event));
+                    windowEl.addEventListener('pointerdown', event => {
+                        if (event.target === leftHandle || event.target === rightHandle) return;
+                        beginDrag('pan', event);
+                    });
+
+                    if (canBindWindowEvents) {
+                        window.addEventListener('pointermove', event => {
+                            if (!mode) return;
+                            const delta = (event.clientX - startX) / overlayWidth();
+                            const minSelection = minWidth();
+
+                            if (mode === 'left') {
+                                brushStart = clamp(startBrushStart + delta, 0, brushEnd - minSelection);
+                            } else if (mode === 'right') {
+                                brushEnd = clamp(startBrushEnd + delta, brushStart + minSelection, 1);
+                            } else if (mode === 'pan') {
+                                const width = startBrushEnd - startBrushStart;
+                                const nextStart = clamp(startBrushStart + delta, 0, 1 - width);
+                                brushStart = nextStart;
+                                brushEnd = nextStart + width;
+                            }
+
+                            applyNavigatorSelection();
+                        });
+
+                        window.addEventListener('pointerup', () => {
+                            mode = null;
+                        });
+
+                        window.addEventListener('resize', renderNavigator);
                     }
 
-                    fromInput.addEventListener('change', onDateChange);
-                    toInput.addEventListener('change', onDateChange);
-
-                    el('resetZoom').addEventListener('click', () => {
-                        customFrom = null;
-                        customTo = null;
-                        fromInput.value = '';
-                        toInput.value = '';
-                        el('resetZoom').classList.remove('visible');
-                        const container = el('timeSelector');
-                        container.querySelector('.active')?.classList.remove('active');
-                        const btn1Y = container.querySelector('[data-range="365"]');
-                        if (btn1Y) btn1Y.classList.add('active');
-                        currentRange = 365;
-                        updateChart();
+                    resetButton.addEventListener('click', () => {
+                        brushStart = 0;
+                        brushEnd = 1;
+                        applyNavigatorSelection();
                     });
+
+                    navigatorBound = true;
                 }
 
                 // F&G Slider
@@ -4507,73 +4942,17 @@
                     ]);
                 }
 
-                // Drag selection
-                function setupDragSelection() {
-                    const wrapper = el('chartWrapper');
-                    const overlay = el('selectionOverlay');
-                    let isDragging = false;
-                    let startX = 0;
-
-                    wrapper.addEventListener('mousedown', (e) => {
-                        if (!chart || e.button !== 0) return;
-                        const rect = wrapper.getBoundingClientRect();
-                        startX = e.clientX - rect.left;
-                        isDragging = true;
-                        overlay.style.display = 'block';
-                        overlay.style.left = startX + 'px';
-                        overlay.style.width = '0px';
-                    });
-
-                    wrapper.addEventListener('mousemove', (e) => {
-                        if (!isDragging) return;
-                        const rect = wrapper.getBoundingClientRect();
-                        const currentX = e.clientX - rect.left;
-                        overlay.style.left = Math.min(startX, currentX) + 'px';
-                        overlay.style.width = Math.abs(currentX - startX) + 'px';
-                    });
-
-                    const finishDrag = (e) => {
-                        if (!isDragging) return;
-                        isDragging = false;
-                        overlay.style.display = 'none';
-                        if (!chart) return;
-                        const rect = wrapper.getBoundingClientRect();
-                        const endX = e.clientX - rect.left;
-                        if (Math.abs(endX - startX) < 20) return;
-
-                        const xScale = chart.scales.x;
-                        const leftPx = Math.min(startX, endX);
-                        const rightPx = Math.max(startX, endX);
-                        const dateLeft = new Date(xScale.getValueForPixel(leftPx));
-                        const dateRight = new Date(xScale.getValueForPixel(rightPx));
-                        if (isNaN(dateLeft.getTime()) || isNaN(dateRight.getTime())) return;
-
-                        customFrom = dateLeft;
-                        customTo = dateRight;
-                        el('dateFrom').value = dateLeft.toISOString().slice(0, 10);
-                        el('dateTo').value = dateRight.toISOString().slice(0, 10);
-                        el('timeSelector').querySelector('.active')?.classList.remove('active');
-                        el('resetZoom').classList.add('visible');
-                        updateChart();
-                    };
-
-                    wrapper.addEventListener('mouseup', finishDrag);
-                    wrapper.addEventListener('mouseleave', () => {
-                        if (isDragging) { isDragging = false; overlay.style.display = 'none'; }
-                    });
-                }
-
                 // Init this chart
                 async function init() {
-                    setupTimeSelector();
-                    setupDatePickers();
                     buildLegend();
-                    setupDragSelection();
                     setupFngSlider();
                     setupSectionTabs(prefix, (panelName) => {
                         if (panelName === 'chart' && chart) {
-                            chart.resize();
-                            chart.update('none');
+                            requestAnimationFrame(() => {
+                                chart.resize();
+                                chart.update('none');
+                                renderNavigator();
+                            });
                         }
                     });
 
@@ -4588,9 +4967,12 @@
 
                         loadingEl.textContent = 'Merging datasets...';
                         mergedData = mergeData(prices, fngMap);
+                        setDefaultNavigatorWindow(false);
 
                         renderBacktestTable();
                         createChart();
+                        setupNavigatorInteractions();
+                        renderNavigator();
                         showInfoRow();
                         renderQualitySummary();
                     } catch (err) {

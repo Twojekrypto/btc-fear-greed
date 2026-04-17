@@ -88,3 +88,8 @@
 - **Kontekst:** The chart views had the summary data on the far left and filters on the far right, leaving a large dead zone in the middle.
 - **Wniosek:** Premium analytics layouts feel tighter when live stats and filters share the same top workspace instead of floating in separate bands.
 - **Reguła:** In desktop chart views, place summary metrics and filter controls inside one compact top grid above the chart; shrink legend/filter chrome before adding more vertical stacks.
+
+### 2026-04-17 — Range navigation should live in a compact brush, not a control bar
+- **Context:** The chart toolbar stacked time presets, date fields, and reset actions above the visual, which made the workspace feel busy and pushed attention away from the chart itself.
+- **Takeaway:** A mini overview navigator communicates the visible range faster while using less space than buttons plus date inputs.
+- **Rule:** For dense analytics charts, prefer a compact brush navigator with one clear range label and one reset action over long preset rows and manual date pickers.
