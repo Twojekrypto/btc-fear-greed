@@ -1,43 +1,101 @@
-# BTC Price vs. Crypto Fear And Greed — Project State
+# BTC Fear & Greed Dashboard — Project State
 
-## Opis
-Interaktywny wykres cenowy BTC kolorowany sentymentem Fear & Greed Index.
+> Last updated: 2026-04-17
+> Live: https://twojekrypto.github.io/btc-fear-greed/
+> Repo: https://github.com/Twojekrypto/btc-fear-greed
 
-## Funkcje
-- **Pojedyncza linia cenowa BTC** kolorowana kolorem F&G (zielony = Ext Fear/kupuj, czerwony = Ext Greed/sprzedaj)
-- **Pełna historia od 2018** — dane z Binance API (klines, 1d interval)
-- **F&G Index** z Alternative.me API (pełna historia)
-- **Presetowe zakresy czasu**: 1M, 3M, 6M, 1Y, 2Y, 5Y, ALL
-- **Ręczne zakresy dat**: pola From/To
-- **Drag-to-zoom**: kliknij i przeciągnij na wykresie by zaznaczyć okres
-- **Przycisk Reset**: przywraca widok 1Y po zoomowaniu
-- **Legendy z dim/highlight**: kliknij sentymenty by podświetlić/wygasić segmenty (białe gdy wygaszone)
-- **Skala logarytmiczna** osi Y z czystymi tickami ($5k, $10k, $20k, $50k, $100k...)
-- **Tooltip** z ceną BTC + wartością F&G + etykietą sentymentu
+---
 
-## Kolory sentymentu (odwrócone, logika tradingowa)
-| Sentiment | Kolor | Zakres | Sygnał |
-|-----------|-------|--------|--------|
-| Ext Fear | 🟢 `#10b981` | 0-24 | KUP |
-| Fear | 🟢 `#22c55e` | 25-44 | — |
-| Neutral | 🟡 `#eab308` | 45-55 | — |
-| Greed | 🟠 `#f97316` | 56-74 | — |
-| Ext Greed | 🔴 `#ef4444` | 75-100 | SPRZEDAJ |
+## 📊 Current Features
 
-## Stack techniczny
-- HTML + Vanilla JS + CSS (single file: `index.html`)
-- Chart.js 4.4.4 + chartjs-adapter-date-fns
-- Binance API (BTC price, free, no auth)
-- Alternative.me API (F&G index, free)
-- Google Fonts (Inter)
+### 1. BTC & ETH Price vs. Fear & Greed Charts
+- Price line colored by official Alternative.me F&G sentiment (5 levels: Ext Fear → Ext Greed)
+- Left Y-axis: price ($), right Y-axis: F&G value
+- Sentiment legend toggles (click to show/hide levels)
+- **F&G Range Slider** (0-100) — filters data, non-matching price dims to white
+- Time selector: 1M, 3M, 6M, 1Y, 2Y, 5Y, ALL
+- Custom date range picker (From/To)
+- Click-and-drag zoom with reset button
+- Historical Win Rate statistics tables are computed dynamically from fetched history (7D, 30D, 90D, 1Y)
+- F&G zones aligned to source methodology: `0-24`, `25-44`, `45-54`, `55-74`, `75-100`
+- ETH chart uses the same market-wide / BTC-centric Alternative.me feed as a sentiment overlay, not as an ETH-native official index
 
-## Historia zmian
-1. Początek — replikacja wykresu z Alphractal z oddzielną linią F&G i BTC
-2. Fix bug z znikaniem wykresu przy filtrowaniu sentamentu (segment API)
-3. Przeniesienie kolorów F&G na linię cenową BTC (jedno line chart)
-4. Zamiana CoinGecko → Binance API (pełna historia)
-5. Zmiana DIM_COLOR z niewidocznego szarego na biały (50% opacity)
-6. Odwrócenie kolorów (Ext Fear = zielony/kupuj, Ext Greed = czerwony/sprzedaj)
-7. Dodanie ręcznych date pickerów (From/To)
-8. Dodanie drag-to-zoom na wykresie + przycisk Reset
-9. Naprawa skali Y (czyste ticki zamiast gęstych $1k)
+### 2. BTC & ETH Win Probability Charts
+- **Composite heuristic score** combining 7 technical inputs on **weekly (1W) candles**:
+  - RSI(14), MACD(12,26,9), Stochastic(14,3,3), WaveTrend(10,21)
+  - Bollinger Bands %B(20,2), 50/200 MA Cross
+  - Fear & Greed Index (sentiment)
+- Price line colored by composite score (4 levels):
+  - 🔴 Bearish (0-30%) → 🟠 Cautious (30-50%) → 🟡 Bullish (50-70%) → 🟢 Strong Buy (70-100%)
+- Left Y-axis: price ($), right Y-axis: Win Probability score (0-100)
+- **Win% Range Slider** (0-100) — dims non-matching data in white
+- Display format: `Score 71 · Strong Buy · 100% coverage`
+- Historical Win Rate statistics tables are computed dynamically from weekly history (1W, 4W, 13W, 52W)
+- Composite score reweights only the indicators available at a given timestamp
+- Minimum model coverage threshold: `70%` of total weights before a weekly score is considered valid
+- No future-looking normalization in MACD / WaveTrend transforms
+- **(?)** info tooltips on all tables explaining time horizons
+
+### 3. Indicator Weights (Win Probability Composite)
+| Indicator | Category | Weight |
+|---|---|---|
+| Fear & Greed Index | Sentiment | 20% |
+| RSI(14) | Momentum | 15% |
+| MACD(12,26,9) | Trend | 15% |
+| Stochastic(14,3,3) | Momentum | 10% |
+| WaveTrend(10,21) | Trend | 15% |
+| Bollinger %B(20,2) | Mean Reversion | 10% |
+| 50/200 MA Cross | Long-term Trend | 15% |
+
+### 4. UI/UX
+- New hero / methodology panel at the top of the page clarifying official vs custom signals
+- Dark theme with glassmorphism effects
+- Mobile responsive (breakpoints: 640px, 380px)
+- `overflow-x: hidden` prevents horizontal scroll
+- Official-vs-custom methodology is explained directly in the UI
+- X-axis: shows years on ALL range, months on 2Y-5Y, weeks on 6M-1Y, days on 1M-3M
+
+---
+
+## 🏗️ Architecture
+
+- **Single file**: `index.html` (~2809 lines)
+- **APIs**: Binance (klines), Alternative.me (F&G)
+- **Libraries**: Chart.js 4.4.4, chartjs-adapter-date-fns 3.0.0
+- **Factory pattern**: `createFngChart(prefix, symbol, fngMapPromise)` and `createWinProbChart(prefix, symbol, fngMapPromise)`
+- **Shared functions**: `fetchPrice(symbol, loadingEl, interval)`, `fetchFearAndGreed()`, indicator calculators, dynamic backtest table builders
+- **Project notes**: `lesson.md` (quick running notes), `lessons.md` (session memory), `.agent/workflows/deploy.md` (safe deploy checklist)
+- **Deployment**: GitHub Pages (auto from master)
+
+---
+
+## 📝 Session History
+
+1. ✅ Analyzed F&G levels for best buy/sell signals
+2. ✅ Added win rate statistics tables (BTC + ETH)
+3. ✅ Created composite Win Probability indicator (RSI + MACD + Stoch + WaveTrend + F&G)
+4. ✅ Overlay WP colors on price chart (replaced separate indicator line)
+5. ✅ Added Win% Range slider to both WP charts
+6. ✅ Switched WP indicators to weekly (1W) candles for long-term signals
+7. ✅ Fixed slider to dim (white) instead of hide non-matching data
+8. ✅ Changed "Win: 70%" to "Score: 70" to avoid confusion with win rates
+9. ✅ Removed all indicator names (RSI, MACD etc.) from public view
+10. ✅ Added (?) info tooltips to statistics tables
+11. ✅ Fixed X-axis to show years on ALL range (range=0 bug)
+12. ✅ Added Bollinger Bands %B and 50/200 MA Cross (7 indicators total)
+13. ✅ Comprehensive mobile responsive design
+14. ✅ Refreshed UI to separate official Alternative.me F&G from custom weekly composite score
+15. ✅ Replaced hardcoded probability tables with dynamic backtests computed from fetched data
+16. ✅ Aligned F&G thresholds with official Alternative.me methodology
+17. ✅ Removed future leak from indicator normalization and stopped zero-filling warm-up sections
+18. ✅ Added score coverage reporting and 70% minimum model-coverage gate for weekly signals
+19. ✅ Clarified that ETH uses a market-wide BTC-centric sentiment overlay rather than an official ETH-native F&G feed
+20. ✅ Added local note files and safer deploy workflow docs
+
+---
+
+## 🔮 Possible Next Steps
+- Add rolling / walk-forward backtest view instead of only aggregate bucket stats
+- Add calibration view for the composite score (score bucket vs realized forward return hit rate)
+- Add local caching layer or precomputed JSON snapshots to reduce browser-side recomputation
+- Add browser smoke-test checklist after deploy for BTC/ETH data load and table integrity

@@ -28,3 +28,8 @@
 - **Kontekst:** Ten sam feed F&G był nakładany na BTC i ETH.
 - **Wniosek:** Alternative.me nadal opisuje oficjalny indeks jako bitcoin-focused, więc dla ETH to jest tylko overlay sentymentu rynkowego.
 - **Reguła:** W UI i opisach dla ETH zawsze zaznaczaj, że to market-wide sentiment proxy, a nie oficjalny ETH Fear & Greed.
+
+### 2026-04-17 — Selective staging is safer than `git add -A`
+- **Kontekst:** Repo zawiera obok kodu także notatki i lokalne pliki pomocnicze.
+- **Wniosek:** Łatwo przypadkiem wypchnąć niepowiązane zmiany użytkownika, jeśli staging jest zbyt szeroki.
+- **Reguła:** Do commita dodawaj tylko pliki związane z bieżącą zmianą; szczególnie ostrożnie traktuj `PROJECT_STATE.md`, `lessons.md` i `.agent/`.
