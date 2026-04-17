@@ -123,3 +123,8 @@
 - **Context:** The live market snapshot sat near the top of a long analytics page and kept following the user while scrolling.
 - **Takeaway:** On a chart-heavy premium dashboard, a sticky summary strip starts competing with the actual charts and wastes vertical attention.
 - **Rule:** Keep global snapshot surfaces static in the page flow unless the user explicitly asks for persistent sticky navigation.
+
+### 2026-04-17 — Backtest tables should sort in place, not force visual scanning
+- **Context:** Once backtests gained more buckets, the user needed a faster way to compare best and worst horizons without reading every row manually.
+- **Takeaway:** Dense analytics tables feel much more usable when the columns sort directly in place and keep a clear active sort state.
+- **Rule:** For backtest tables with multiple horizons, make every header sortable, default to bucket order, and let horizon clicks start in descending order so the strongest hit rates surface first.

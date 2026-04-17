@@ -1673,7 +1673,7 @@
 
         .prob-table th {
             text-align: center;
-            padding: 10px 8px;
+            padding: 0;
             color: #6b7280;
             font-weight: 600;
             font-size: 11px;
@@ -1684,6 +1684,56 @@
 
         .prob-table th:first-child {
             text-align: left;
+        }
+
+        .prob-sort-btn {
+            width: 100%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 10px 8px;
+            border: none;
+            background: transparent;
+            color: inherit;
+            font: inherit;
+            letter-spacing: inherit;
+            text-transform: inherit;
+            cursor: pointer;
+            transition: color 0.18s ease, background 0.18s ease;
+        }
+
+        .prob-table th:first-child .prob-sort-btn {
+            justify-content: flex-start;
+        }
+
+        .prob-sort-btn:hover,
+        .prob-sort-btn:focus-visible {
+            color: #dfe8f8;
+            background: rgba(255, 255, 255, 0.03);
+            outline: none;
+        }
+
+        .prob-sort-btn::after {
+            content: '↕';
+            color: #4d5b77;
+            font-size: 10px;
+            line-height: 1;
+            transition: color 0.18s ease;
+        }
+
+        .prob-sort-btn[data-active="true"] {
+            color: #f5f8ff;
+        }
+
+        .prob-sort-btn[data-direction="asc"]::after {
+            content: '↑';
+            color: #aab9d9;
+        }
+
+        .prob-sort-btn[data-direction="desc"]::after {
+            content: '↓';
+            color: #aab9d9;
         }
 
         .prob-table td {
@@ -2243,9 +2293,13 @@
             }
 
             .prob-table th {
-                padding: 6px 4px;
                 font-size: 9px;
                 letter-spacing: 0.3px;
+            }
+
+            .prob-sort-btn {
+                padding: 6px 4px;
+                gap: 5px;
             }
 
             .prob-table td {
@@ -2321,6 +2375,10 @@
 
             .prob-table th {
                 font-size: 8px;
+            }
+
+            .prob-sort-btn::after {
+                font-size: 9px;
             }
 
             .prob-table td {
@@ -2514,11 +2572,11 @@
                     <table class="prob-table">
                         <thead>
                             <tr>
-                                <th>F&amp;G Bucket (10 pts)</th>
-                                <th>7 Days</th>
-                                <th>30 Days</th>
-                                <th>90 Days</th>
-                                <th>1 Year</th>
+                                <th><button class="prob-sort-btn" id="btc-fng-sort-bucket" data-sort-key="bucket" type="button">F&amp;G Bucket (10 pts)</button></th>
+                                <th><button class="prob-sort-btn" id="btc-fng-sort-d7" data-sort-key="d7" type="button">7 Days</button></th>
+                                <th><button class="prob-sort-btn" id="btc-fng-sort-d30" data-sort-key="d30" type="button">30 Days</button></th>
+                                <th><button class="prob-sort-btn" id="btc-fng-sort-d90" data-sort-key="d90" type="button">90 Days</button></th>
+                                <th><button class="prob-sort-btn" id="btc-fng-sort-d365" data-sort-key="d365" type="button">1 Year</button></th>
                             </tr>
                         </thead>
                         <tbody id="btc-fng-probBody">
@@ -2629,11 +2687,11 @@
                     <table class="prob-table">
                         <thead>
                             <tr>
-                                <th>F&amp;G Bucket (10 pts)</th>
-                                <th>7 Days</th>
-                                <th>30 Days</th>
-                                <th>90 Days</th>
-                                <th>1 Year</th>
+                                <th><button class="prob-sort-btn" id="eth-fng-sort-bucket" data-sort-key="bucket" type="button">F&amp;G Bucket (10 pts)</button></th>
+                                <th><button class="prob-sort-btn" id="eth-fng-sort-d7" data-sort-key="d7" type="button">7 Days</button></th>
+                                <th><button class="prob-sort-btn" id="eth-fng-sort-d30" data-sort-key="d30" type="button">30 Days</button></th>
+                                <th><button class="prob-sort-btn" id="eth-fng-sort-d90" data-sort-key="d90" type="button">90 Days</button></th>
+                                <th><button class="prob-sort-btn" id="eth-fng-sort-d365" data-sort-key="d365" type="button">1 Year</button></th>
                             </tr>
                         </thead>
                         <tbody id="eth-fng-probBody">
@@ -2749,11 +2807,11 @@
                     <table class="prob-table">
                         <thead>
                             <tr>
-                                <th>Score Bucket</th>
-                                <th>1W</th>
-                                <th>4W</th>
-                                <th>13W</th>
-                                <th>52W</th>
+                                <th><button class="prob-sort-btn" id="btc-wp-sort-bucket" data-sort-key="bucket" type="button">Score Bucket</button></th>
+                                <th><button class="prob-sort-btn" id="btc-wp-sort-w1" data-sort-key="w1" type="button">1W</button></th>
+                                <th><button class="prob-sort-btn" id="btc-wp-sort-w4" data-sort-key="w4" type="button">4W</button></th>
+                                <th><button class="prob-sort-btn" id="btc-wp-sort-w13" data-sort-key="w13" type="button">13W</button></th>
+                                <th><button class="prob-sort-btn" id="btc-wp-sort-w52" data-sort-key="w52" type="button">52W</button></th>
                             </tr>
                         </thead>
                         <tbody id="btc-wp-probBody">
@@ -2879,11 +2937,11 @@
                     <table class="prob-table">
                         <thead>
                             <tr>
-                                <th>Score Bucket</th>
-                                <th>1W</th>
-                                <th>4W</th>
-                                <th>13W</th>
-                                <th>52W</th>
+                                <th><button class="prob-sort-btn" id="eth-wp-sort-bucket" data-sort-key="bucket" type="button">Score Bucket</button></th>
+                                <th><button class="prob-sort-btn" id="eth-wp-sort-w1" data-sort-key="w1" type="button">1W</button></th>
+                                <th><button class="prob-sort-btn" id="eth-wp-sort-w4" data-sort-key="w4" type="button">4W</button></th>
+                                <th><button class="prob-sort-btn" id="eth-wp-sort-w13" data-sort-key="w13" type="button">13W</button></th>
+                                <th><button class="prob-sort-btn" id="eth-wp-sort-w52" data-sort-key="w52" type="button">52W</button></th>
                             </tr>
                         </thead>
                         <tbody id="eth-wp-probBody">
@@ -2989,6 +3047,7 @@
             const DAY_MS = 24 * 60 * 60 * 1000;
 
             const DIM_COLOR = '#ffffff';
+            const PROBABILITY_TABLE_SORT_STATE = new Map();
             const DATA_META = {
                 fng: null,
                 prices: new Map(),
@@ -3479,12 +3538,107 @@
                 };
             }
 
-            function renderProbabilityTable(bodyId, statusId, stats, horizons, contextText) {
+            function getProbabilityTableSortState(tableKey) {
+                if (!PROBABILITY_TABLE_SORT_STATE.has(tableKey)) {
+                    PROBABILITY_TABLE_SORT_STATE.set(tableKey, { key: 'bucket', direction: 'asc' });
+                }
+                return PROBABILITY_TABLE_SORT_STATE.get(tableKey);
+            }
+
+            function sortProbabilityRows(rows, sortState) {
+                const sortedRows = [...rows];
+
+                sortedRows.sort((left, right) => {
+                    if (sortState.key === 'bucket') {
+                        const leftMin = Number.isFinite(left.min) ? left.min : 0;
+                        const rightMin = Number.isFinite(right.min) ? right.min : 0;
+                        return sortState.direction === 'asc' ? leftMin - rightMin : rightMin - leftMin;
+                    }
+
+                    const leftRate = left.rates?.[sortState.key];
+                    const rightRate = right.rates?.[sortState.key];
+                    const leftMissing = leftRate == null;
+                    const rightMissing = rightRate == null;
+
+                    if (leftMissing && rightMissing) return (left.min ?? 0) - (right.min ?? 0);
+                    if (leftMissing) return 1;
+                    if (rightMissing) return -1;
+
+                    if (leftRate !== rightRate) {
+                        return sortState.direction === 'asc' ? leftRate - rightRate : rightRate - leftRate;
+                    }
+
+                    const leftCount = left.counts?.[sortState.key] || 0;
+                    const rightCount = right.counts?.[sortState.key] || 0;
+                    if (leftCount !== rightCount) {
+                        return sortState.direction === 'asc' ? leftCount - rightCount : rightCount - leftCount;
+                    }
+
+                    return (left.min ?? 0) - (right.min ?? 0);
+                });
+
+                return sortedRows;
+            }
+
+            function updateProbabilitySortControls(tableKey, horizons) {
+                const sortState = getProbabilityTableSortState(tableKey);
+                const keys = ['bucket', ...horizons.map(horizon => horizon.key)];
+
+                keys.forEach(key => {
+                    const button = document.getElementById(`${tableKey}-sort-${key}`);
+                    if (!button) return;
+                    const isActive = sortState.key === key;
+                    button.dataset.active = isActive ? 'true' : 'false';
+                    button.dataset.direction = isActive ? sortState.direction : 'none';
+                    if (typeof button.setAttribute === 'function') {
+                        button.setAttribute('aria-pressed', isActive ? 'true' : 'false');
+                        button.setAttribute(
+                            'title',
+                            isActive
+                                ? `Sorted ${sortState.direction === 'asc' ? 'ascending' : 'descending'}`
+                                : 'Click to sort'
+                        );
+                    }
+                });
+            }
+
+            function setupProbabilityTableSorting(tableKey, horizons, rerender) {
+                const keys = ['bucket', ...horizons.map(horizon => horizon.key)];
+
+                keys.forEach(key => {
+                    const button = document.getElementById(`${tableKey}-sort-${key}`);
+                    if (!button || button.dataset.bound === 'true') return;
+
+                    button.addEventListener('click', () => {
+                        const current = getProbabilityTableSortState(tableKey);
+                        const nextDirection = current.key === key
+                            ? (current.direction === 'asc' ? 'desc' : 'asc')
+                            : (key === 'bucket' ? 'asc' : 'desc');
+
+                        PROBABILITY_TABLE_SORT_STATE.set(tableKey, {
+                            key,
+                            direction: nextDirection,
+                        });
+
+                        updateProbabilitySortControls(tableKey, horizons);
+                        rerender();
+                    });
+
+                    button.dataset.bound = 'true';
+                });
+
+                updateProbabilitySortControls(tableKey, horizons);
+            }
+
+            function renderProbabilityTable(bodyId, statusId, stats, horizons, contextText, tableKey) {
                 const bodyEl = document.getElementById(bodyId);
                 const statusEl = document.getElementById(statusId);
                 if (!bodyEl || !statusEl) return;
 
-                bodyEl.innerHTML = stats.rows.map(row => {
+                const sortState = getProbabilityTableSortState(tableKey);
+                const sortedRows = sortProbabilityRows(stats.rows, sortState);
+
+                bodyEl.innerHTML = sortedRows.map(row => {
                     const cells = horizons.map(horizon => {
                         const rate = row.rates[horizon.key];
                         const cellClass = getProbabilityClass(rate);
@@ -3511,7 +3665,8 @@
                     `;
                 }).join('');
 
-                statusEl.textContent = `${contextText} ${stats.usableSignals} signals across ${stats.candleCount} candles. Rates show how often the future close finished above the signal-date close. Row n = bucket matches; cell n = observations available for that exact horizon.`;
+                updateProbabilitySortControls(tableKey, horizons);
+                statusEl.textContent = `${contextText} ${stats.usableSignals} signals across ${stats.candleCount} candles. Rates show how often the future close finished above the signal-date close. Row n = bucket matches; cell n = observations available for that exact horizon. Click any column header to sort.`;
             }
 
             // ── Fetch Fear & Greed (shared between charts) ──
@@ -3936,7 +4091,8 @@
                         `${prefix}-wp-probStatus`,
                         stats,
                         WEEKLY_HORIZONS,
-                        `${symbol === 'BTCUSDT' ? 'BTC' : 'ETH'} weekly backtest with minimum 70% model coverage.`
+                        `${symbol === 'BTCUSDT' ? 'BTC' : 'ETH'} weekly backtest with minimum 70% model coverage.`,
+                        `${prefix}-wp`
                     );
 
                     latestBacktestStats = stats;
@@ -4525,6 +4681,7 @@
 
                 async function init() {
                     setupWpSlider();
+                    setupProbabilityTableSorting(`${prefix}-wp`, WEEKLY_HORIZONS, renderBacktestTable);
                     setupSectionTabs(`${prefix}-wp`, (panelName) => {
                         if (panelName === 'chart' && chart) {
                             requestAnimationFrame(() => {
@@ -4611,7 +4768,8 @@
                         `${prefix}-fng-probStatus`,
                         stats,
                         DAILY_HORIZONS,
-                        `${symbol === 'BTCUSDT' ? 'BTC' : 'ETH'} daily backtest.`
+                        `${symbol === 'BTCUSDT' ? 'BTC' : 'ETH'} daily backtest.`,
+                        `${prefix}-fng`
                     );
                 }
 
@@ -5115,6 +5273,7 @@
                 async function init() {
                     buildLegend();
                     setupFngSlider();
+                    setupProbabilityTableSorting(`${prefix}-fng`, DAILY_HORIZONS, renderBacktestTable);
                     setupSectionTabs(prefix, (panelName) => {
                         if (panelName === 'chart' && chart) {
                             requestAnimationFrame(() => {

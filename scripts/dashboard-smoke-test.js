@@ -282,6 +282,18 @@ async function main() {
     runner();
     await flushAsync();
 
+    const btcFngBeforeSort = getElement('btc-fng-probBody').innerHTML;
+    const btcFngSortButton = getElement('btc-fng-sort-d30');
+    btcFngSortButton.listeners.get('click')?.();
+    await flushAsync(2);
+    const btcFngAfterSort = getElement('btc-fng-probBody').innerHTML;
+
+    const btcWpBeforeSort = getElement('btc-wp-probBody').innerHTML;
+    const btcWpSortButton = getElement('btc-wp-sort-w13');
+    btcWpSortButton.listeners.get('click')?.();
+    await flushAsync(2);
+    const btcWpAfterSort = getElement('btc-wp-probBody').innerHTML;
+
     const checks = [
         {
             name: 'BTC F&G quality panel rendered',
@@ -334,6 +346,14 @@ async function main() {
         {
             name: 'Charts were instantiated',
             pass: chartInstances.length >= 6,
+        },
+        {
+            name: 'BTC F&G backtest sorts when a horizon header is clicked',
+            pass: btcFngBeforeSort !== btcFngAfterSort,
+        },
+        {
+            name: 'BTC composite backtest sorts when a horizon header is clicked',
+            pass: btcWpBeforeSort !== btcWpAfterSort,
         },
     ];
 

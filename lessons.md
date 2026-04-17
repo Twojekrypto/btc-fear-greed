@@ -139,3 +139,8 @@
 - **Kontekst:** Na długiej stronie analytics `Live Market Snapshot` zaczął przyklejać się do góry przy scrollu.
 - **Błąd:** Sticky summary na takiej stronie zabiera uwagę głównym chartom i wygląda bardziej jak przeszkoda niż premium pomoc.
 - **Reguła:** Globalne paski snapshotów trzymaj w normalnym flow strony; sticky zostaw tylko dla naprawdę krytycznej nawigacji albo jeśli user wyraźnie tego chce.
+
+### 2026-04-17 — Richer backtest tables need native sorting
+- **Kontekst:** Po przejściu na 10-point buckets tabele backtestu mają więcej wierszy i trudniej ręcznie wyłapać najlepsze lub najsłabsze zakresy.
+- **Błąd:** Bez sortowania user musi skanować cały grid wzrokiem, co obniża czytelność i premium feel analityki.
+- **Reguła:** W backtestach dawaj sortowanie po każdej kolumnie, utrzymuj domyślnie porządek bucketów, a po kliknięciu horizonu zaczynaj od malejącego hit rate.
