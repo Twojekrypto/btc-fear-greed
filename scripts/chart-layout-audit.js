@@ -138,6 +138,8 @@ async function main() {
         chart: rectObj(sel('#btc-chartWrapper')),
         cards: Array.from(document.querySelectorAll('#btc-qualityPanel .quality-card')).map((el, i) => ({ i, ...rectObj(el) })),
         legendItems: Array.from(document.querySelectorAll('#btc-legend .legend-item')).map((el, i) => ({ i, ...rectObj(el) })),
+        compositeLegendTexts: Array.from(document.querySelectorAll('#btc-wp-container .legend-item.static')).map(el => el.textContent.trim()),
+        compositeLegendTooltips: Array.from(document.querySelectorAll('#btc-wp-container .legend-item.static')).map(el => el.getAttribute('data-tooltip') || ''),
         computed: {
           topColumns: getComputedStyle(sel('#btc-container .chart-panel-top')).gridTemplateColumns,
           qualityColumns: getComputedStyle(sel('#btc-qualityPanel')).gridTemplateColumns,
@@ -167,6 +169,8 @@ async function main() {
     const cardHeights = layout.cards.map(card => card.height);
     assertMetric(Math.max(...cardWidths) - Math.min(...cardWidths) <= 1, 'Quality cards should keep a uniform width.', failures);
     assertMetric(Math.max(...cardHeights) - Math.min(...cardHeights) <= 4, 'Quality cards should keep a near-uniform height.', failures);
+    assertMetric(layout.compositeLegendTexts.every(text => !/\(\d/.test(text)), 'Composite legend labels should stay compact and avoid always-visible numeric ranges.', failures);
+    assertMetric(layout.compositeLegendTooltips.every(text => /range\s+\d/.test(text)), 'Composite legend labels should expose numeric ranges through hover tooltips.', failures);
 
     if (failures.length) {
       console.error('\nLayout audit failed:');

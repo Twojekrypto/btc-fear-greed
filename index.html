@@ -2682,14 +2682,10 @@
                 <div class="panel-toolbar">
                     <div class="controls">
                         <div class="legend">
-                            <div class="legend-item static" data-tooltip="Score range 70-100" title="Score range 70-100"><span class="legend-color" style="background:#00e676;"></span>Strong Buy
-                                (70-100)</div>
-                            <div class="legend-item static" data-tooltip="Score range 50-69" title="Score range 50-69"><span class="legend-color" style="background:#ffeb3b;"></span>Bullish
-                                (50-69)</div>
-                            <div class="legend-item static" data-tooltip="Score range 30-49" title="Score range 30-49"><span class="legend-color" style="background:#ff9800;"></span>Cautious
-                                (30-49)</div>
-                            <div class="legend-item static" data-tooltip="Score range 0-29" title="Score range 0-29"><span class="legend-color" style="background:#ff1744;"></span>Bearish
-                                (0-29)</div>
+                            <div class="legend-item static" data-tooltip="Strong Buy · score range 70-100" title="Strong Buy · score range 70-100"><span class="legend-color" style="background:#00e676;"></span>Strong Buy</div>
+                            <div class="legend-item static" data-tooltip="Bullish · score range 50-69" title="Bullish · score range 50-69"><span class="legend-color" style="background:#ffeb3b;"></span>Bullish</div>
+                            <div class="legend-item static" data-tooltip="Cautious · score range 30-49" title="Cautious · score range 30-49"><span class="legend-color" style="background:#ff9800;"></span>Cautious</div>
+                            <div class="legend-item static" data-tooltip="Bearish · score range 0-29" title="Bearish · score range 0-29"><span class="legend-color" style="background:#ff1744;"></span>Bearish</div>
                         </div>
                         <div class="fng-slider-container">
                             <span class="fng-slider-label">Score Range:</span>
@@ -2815,14 +2811,10 @@
                 <div class="panel-toolbar">
                     <div class="controls">
                         <div class="legend">
-                            <div class="legend-item static" data-tooltip="Score range 70-100" title="Score range 70-100"><span class="legend-color" style="background:#00e676;"></span>Strong Buy
-                                (70-100)</div>
-                            <div class="legend-item static" data-tooltip="Score range 50-69" title="Score range 50-69"><span class="legend-color" style="background:#ffeb3b;"></span>Bullish
-                                (50-69)</div>
-                            <div class="legend-item static" data-tooltip="Score range 30-49" title="Score range 30-49"><span class="legend-color" style="background:#ff9800;"></span>Cautious
-                                (30-49)</div>
-                            <div class="legend-item static" data-tooltip="Score range 0-29" title="Score range 0-29"><span class="legend-color" style="background:#ff1744;"></span>Bearish
-                                (0-29)</div>
+                            <div class="legend-item static" data-tooltip="Strong Buy · score range 70-100" title="Strong Buy · score range 70-100"><span class="legend-color" style="background:#00e676;"></span>Strong Buy</div>
+                            <div class="legend-item static" data-tooltip="Bullish · score range 50-69" title="Bullish · score range 50-69"><span class="legend-color" style="background:#ffeb3b;"></span>Bullish</div>
+                            <div class="legend-item static" data-tooltip="Cautious · score range 30-49" title="Cautious · score range 30-49"><span class="legend-color" style="background:#ff9800;"></span>Cautious</div>
+                            <div class="legend-item static" data-tooltip="Bearish · score range 0-29" title="Bearish · score range 0-29"><span class="legend-color" style="background:#ff1744;"></span>Bearish</div>
                         </div>
                         <div class="fng-slider-container">
                             <span class="fng-slider-label">Score Range:</span>
@@ -4857,8 +4849,8 @@
                     SENTIMENTS.forEach(s => {
                         const item = document.createElement('div');
                         item.className = 'legend-item' + (visibility[s.key] ? '' : ' disabled');
-                        item.dataset.tooltip = `Range ${s.min}-${s.max}`;
-                        item.title = `Range ${s.min}-${s.max}`;
+                        item.dataset.tooltip = `${s.fullLabel.split(' ').slice(1).join(' ')} · range ${s.min}-${s.max}`;
+                        item.title = `${s.fullLabel.split(' ').slice(1).join(' ')} · range ${s.min}-${s.max}`;
                         item.innerHTML = `<span class="swatch" style="background:${s.color}"></span><span>${s.label}</span>`;
                         item.addEventListener('click', () => {
                             visibility[s.key] = !visibility[s.key];

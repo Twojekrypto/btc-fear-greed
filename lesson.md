@@ -103,3 +103,8 @@
 - **Context:** A 1-year default made the navigator feel pre-zoomed, while legend labels like `Fear` or `Ext Greed` still required mental mapping to numeric ranges.
 - **Takeaway:** Full-history as the default gives better market context, and hover range hints remove ambiguity from compact labels.
 - **Rule:** Default analytics charts to full history unless a narrower starting window is explicitly required, and add hover help for any compact state label whose numeric range is not obvious.
+
+### 2026-04-17 — Premium legends should keep the row compact and defer ranges to hover
+- **Context:** Showing ranges like `(70-100)` directly inside every legend chip made the control row wider and noisier than necessary.
+- **Takeaway:** Compact labels scan faster when the numeric range appears only on hover or focus.
+- **Rule:** In premium dashboard legends, keep the visible chip text short and reveal the exact numeric range through tooltip/focus help instead of printing it permanently in the row.

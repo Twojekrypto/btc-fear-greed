@@ -114,6 +114,7 @@
 29. ✅ Replaced bulky range presets/date pickers with a compact brush navigator above each chart
 30. ✅ Added a browser-side JS chart layout audit for premium desktop alignment checks
 31. ✅ Set charts to open on full history by default and added hover range hints to legend states
+32. ✅ Slimmed composite legend chips so ranges appear on hover instead of taking permanent toolbar space
 
 ---
 

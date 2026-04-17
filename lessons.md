@@ -119,3 +119,8 @@
 - **Kontekst:** Domyślny widok ostatniego roku zawężał od razu kontekst rynku, a krótkie etykiety typu `Fear` / `Ext Greed` nie mówiły wprost, jaki zakres punktów oznaczają.
 - **Błąd:** Pre-zoom na starcie i skrótowe legendy zwiększają niepotrzebne domysły przy pierwszym kontakcie z chartem.
 - **Reguła:** Jeśli użytkownik nie prosi o węższy start, dashboard powinien otwierać chart na pełnej historii, a kompaktowe legendy powinny pokazywać dokładny zakres po hoverze.
+
+### 2026-04-17 — W premium legendach zakres nie powinien być stale wypisany w chipie
+- **Kontekst:** Chipy typu `Strong Buy (70-100)` zabierały cenne miejsce w control row i pogarszały rytm całego toolbara.
+- **Błąd:** Stałe dopisywanie zakresu do każdej etykiety osłabia czytelność i robi zwięzłą legendę zbyt ciężką wizualnie.
+- **Reguła:** W premium legendzie trzymaj krótki label w chipie, a pełny zakres pokazuj dopiero na hoverze lub focusie.
