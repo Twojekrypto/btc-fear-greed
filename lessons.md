@@ -89,3 +89,8 @@
 - **Kontekst:** Browser automation może być ograniczona przez ustawienia lokalnej przeglądarki albo brak sterowalnego runtime.
 - **Błąd:** Sam syntax check nie mówi, czy po inicjalizacji rzeczywiście znikają loadery, wypełniają się tabele i renderują panele jakości.
 - **Reguła:** Utrzymuj w repo smoke test z mockami DOM i fetch, który uruchamia inline script i sprawdza kluczowe runtime invariants.
+
+### 2026-04-17 — GitHub Pages requires a production publish step
+- **Kontekst:** Branch roboczy może zawierać poprawne UI, ale publiczny adres nadal może serwować starszy `master`.
+- **Błąd:** Sam push feature brancha nie naprawia live site, jeśli user sprawdza publiczny URL GitHub Pages.
+- **Reguła:** Gdy zmiana ma być widoczna na publicznym GitHub Pages, po pushu brancha opublikuj zatwierdzony commit także na `master` i zweryfikuj live HTML pod kątem konkretnej poprawki.

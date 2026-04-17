@@ -35,10 +35,12 @@ description: Commit, push, and verify deployment on GitHub Pages
 7. Verify in browser:
    - Open `https://twojekrypto.github.io/btc-fear-greed/?v=TIMESTAMP`
    - Check hero / methodology panel renders correctly
+   - Confirm tooltip / helper copy is in English when the product is meant to stay English-first
    - Check both BTC and ETH charts load correctly
    - Confirm composite charts no longer present score values as `%` on the axis or legend
    - Confirm each chart header shows data-quality cards with source mode and latest available date
    - Confirm each chart header also shows the visible range / zoom context
+   - Confirm the sticky market snapshot and chart tabs render and switch correctly
    - Verify F&G tables render dynamic values instead of placeholders
    - Verify weekly score tables render, show coverage-aware labels and per-cell `n`
    - Verify both calibration snapshots render and that low-sample buckets are called out in the status copy

@@ -73,3 +73,8 @@
 - **Kontekst:** Some tooltip explanations and hero copy were left in Polish while the product itself is meant to be English-first.
 - **Wniosek:** Mixed UI language makes the dashboard feel inconsistent and less professional.
 - **Reguła:** Keep all user-facing page content in English by default, including tooltips, helper text, status copy, and metadata descriptions, unless the user explicitly asks for another language.
+
+### 2026-04-17 — GitHub Pages fixes are not live until `master` is updated
+- **Kontekst:** The working branch had the English UI, but the public GitHub Pages site still served the older Polish tooltip copy.
+- **Wniosek:** In this repo, pushing only the feature branch is not enough when the user is validating the public URL.
+- **Reguła:** If the task is meant to change the live GitHub Pages site, publish the reviewed commit to `master`, then verify the live URL for the exact copy that changed.

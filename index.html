@@ -414,6 +414,128 @@
             letter-spacing: 0.02em;
         }
 
+        .snapshot-strip {
+            width: 100%;
+            max-width: 1400px;
+            position: sticky;
+            top: 16px;
+            z-index: 14;
+            padding: 12px 14px;
+            border-radius: 24px;
+            border: 1px solid rgba(166, 185, 225, 0.10);
+            background:
+                linear-gradient(180deg, rgba(11, 18, 31, 0.92), rgba(7, 13, 24, 0.88)),
+                rgba(7, 13, 24, 0.88);
+            backdrop-filter: blur(18px);
+            box-shadow:
+                inset 0 1px 0 rgba(255, 255, 255, 0.04),
+                0 18px 46px rgba(0, 0, 0, 0.28);
+        }
+
+        .snapshot-head {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 12px;
+        }
+
+        .snapshot-title {
+            font-size: 12px;
+            font-weight: 700;
+            color: #e8edf7;
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
+        }
+
+        .snapshot-note {
+            color: #7f8ca6;
+            font-size: 11px;
+            line-height: 1.45;
+        }
+
+        .snapshot-grid {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 10px;
+        }
+
+        .snapshot-card {
+            position: relative;
+            padding: 14px 14px 14px 18px;
+            border-radius: 18px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            background:
+                linear-gradient(180deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.02)),
+                rgba(255, 255, 255, 0.02);
+            overflow: hidden;
+            min-height: 100px;
+        }
+
+        .snapshot-card::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 16px;
+            bottom: 16px;
+            width: 2px;
+            border-radius: 999px;
+            background: var(--snapshot-accent, linear-gradient(180deg, rgba(124, 140, 255, 0.92), rgba(211, 167, 112, 0.72)));
+        }
+
+        .snapshot-card::after {
+            content: '';
+            position: absolute;
+            inset: auto -18% -48% auto;
+            width: 140px;
+            height: 140px;
+            border-radius: 50%;
+            background: radial-gradient(circle, var(--snapshot-glow, rgba(124, 140, 255, 0.16)), transparent 72%);
+            pointer-events: none;
+        }
+
+        .snapshot-label {
+            display: block;
+            color: #7f8da7;
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+        }
+
+        .snapshot-value {
+            display: block;
+            color: #f4f8ff;
+            font-size: 24px;
+            font-weight: 700;
+            letter-spacing: -0.05em;
+            margin-bottom: 6px;
+        }
+
+        .snapshot-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 5px 9px;
+            border-radius: 999px;
+            background: var(--snapshot-badge-bg, rgba(124, 140, 255, 0.14));
+            color: var(--snapshot-badge-color, #dce5fa);
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+        }
+
+        .snapshot-meta {
+            display: block;
+            color: #8794ae;
+            font-size: 11px;
+            line-height: 1.45;
+            max-width: 24ch;
+        }
+
         .chart-stack {
             width: 100%;
             max-width: 1400px;
@@ -493,6 +615,72 @@
             flex-wrap: wrap;
             gap: 18px;
             margin-bottom: 22px;
+        }
+
+        .section-tabs {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 5px;
+            margin-bottom: 16px;
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            background:
+                linear-gradient(180deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.02)),
+                rgba(6, 12, 25, 0.68);
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+        }
+
+        .section-tab {
+            padding: 8px 12px;
+            border: 1px solid transparent;
+            border-radius: 11px;
+            background: transparent;
+            color: #90a0bd;
+            font-family: 'Inter', sans-serif;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition:
+                background 0.18s ease,
+                color 0.18s ease,
+                border-color 0.18s ease,
+                transform 0.18s ease;
+        }
+
+        .section-tab:hover {
+            color: #eef3ff;
+            background: rgba(124, 140, 255, 0.08);
+            transform: translateY(-1px);
+        }
+
+        .section-tab.active {
+            color: #fbfdff;
+            border-color: rgba(124, 140, 255, 0.30);
+            background:
+                linear-gradient(180deg, rgba(124, 140, 255, 0.24), rgba(124, 140, 255, 0.12));
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05);
+        }
+
+        .section-panel {
+            max-height: 0;
+            opacity: 0;
+            overflow: hidden;
+            pointer-events: none;
+            transform: translateY(6px);
+            transition:
+                opacity 0.24s ease,
+                transform 0.24s ease,
+                max-height 0.34s ease;
+        }
+
+        .section-panel.is-active {
+            max-height: 2600px;
+            opacity: 1;
+            pointer-events: auto;
+            transform: translateY(0);
         }
 
         .chart-title {
@@ -1493,10 +1681,53 @@
                 border-radius: 12px;
             }
 
+            .snapshot-strip {
+                top: 8px;
+                padding: 10px;
+                border-radius: 18px;
+            }
+
+            .snapshot-head {
+                align-items: flex-start;
+                flex-direction: column;
+                margin-bottom: 10px;
+            }
+
+            .snapshot-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+                gap: 8px;
+            }
+
+            .snapshot-card {
+                min-height: auto;
+                padding: 12px 11px 12px 15px;
+                border-radius: 14px;
+            }
+
+            .snapshot-value {
+                font-size: 20px;
+            }
+
+            .snapshot-badge {
+                font-size: 9px;
+                padding: 4px 8px;
+            }
+
             .chart-header {
                 flex-direction: column;
                 gap: 10px;
                 margin-bottom: 12px;
+            }
+
+            .section-tabs {
+                width: 100%;
+                overflow-x: auto;
+                scrollbar-width: none;
+            }
+
+            .section-tab {
+                white-space: nowrap;
+                flex: 0 0 auto;
             }
 
             .chart-title h1 {
@@ -1800,6 +2031,39 @@
         </div>
     </div>
 
+    <div class="snapshot-strip" id="market-snapshot">
+        <div class="snapshot-head">
+            <div class="snapshot-title">Live Market Snapshot</div>
+            <div class="snapshot-note">Four fast reads across official sentiment overlays and the weekly composite model.</div>
+        </div>
+        <div class="snapshot-grid">
+            <div class="snapshot-card" id="snapshot-btc-fng">
+                <span class="snapshot-label">BTC Official F&amp;G</span>
+                <strong class="snapshot-value">--</strong>
+                <span class="snapshot-badge">Loading</span>
+                <span class="snapshot-meta">Waiting for data.</span>
+            </div>
+            <div class="snapshot-card" id="snapshot-eth-fng">
+                <span class="snapshot-label">ETH Official Overlay</span>
+                <strong class="snapshot-value">--</strong>
+                <span class="snapshot-badge">Loading</span>
+                <span class="snapshot-meta">Waiting for data.</span>
+            </div>
+            <div class="snapshot-card" id="snapshot-btc-wp">
+                <span class="snapshot-label">BTC Composite</span>
+                <strong class="snapshot-value">--</strong>
+                <span class="snapshot-badge">Loading</span>
+                <span class="snapshot-meta">Waiting for data.</span>
+            </div>
+            <div class="snapshot-card" id="snapshot-eth-wp">
+                <span class="snapshot-label">ETH Composite</span>
+                <strong class="snapshot-value">--</strong>
+                <span class="snapshot-badge">Loading</span>
+                <span class="snapshot-meta">Waiting for data.</span>
+            </div>
+        </div>
+    </div>
+
     <div class="chart-stack">
     <!-- ═══ BTC Chart ═══ -->
     <div class="chart-container" id="btc-container">
@@ -1846,20 +2110,27 @@
                 </div>
             </div>
         </div>
-        <div class="chart-wrapper" id="btc-chartWrapper">
-            <canvas id="btc-fngChart"></canvas>
-            <div class="selection-overlay" id="btc-selectionOverlay"></div>
-            <div class="loading-overlay" id="btc-loadingOverlay">
-                <div class="spinner"></div>
-                <div class="loading-text" id="btc-loadingText">Loading BTC data...</div>
+        <div class="section-tabs" id="btc-sectionTabs">
+            <button class="section-tab active" data-panel="chart">Chart</button>
+            <button class="section-tab" data-panel="backtest">Backtest</button>
+        </div>
+        <div class="section-panel is-active" data-panel-group="btc" data-panel="chart">
+            <div class="chart-wrapper" id="btc-chartWrapper">
+                <canvas id="btc-fngChart"></canvas>
+                <div class="selection-overlay" id="btc-selectionOverlay"></div>
+                <div class="loading-overlay" id="btc-loadingOverlay">
+                    <div class="spinner"></div>
+                    <div class="loading-text" id="btc-loadingText">Loading BTC data...</div>
+                </div>
+            </div>
+            <div class="footer">
+                <span class="footer-text">Data: <a href="https://alternative.me/crypto/fear-and-greed-index/"
+                        target="_blank">Alternative.me</a> · <a href="https://www.binance.com/"
+                        target="_blank">Binance</a></span>
+                <span class="footer-text" id="btc-lastUpdate"></span>
             </div>
         </div>
-        <div class="footer">
-            <span class="footer-text">Data: <a href="https://alternative.me/crypto/fear-and-greed-index/"
-                    target="_blank">Alternative.me</a> · <a href="https://www.binance.com/"
-                    target="_blank">Binance</a></span>
-            <span class="footer-text" id="btc-lastUpdate"></span>
-        </div>
+        <div class="section-panel" data-panel-group="btc" data-panel="backtest">
         <div class="prob-section">
             <div class="prob-title">📊 Historical Win Rate by Fear & Greed Level (BTC)
                 <span class="info-tip">?
@@ -1894,6 +2165,7 @@
             <div class="prob-note">⚠️ Alternative.me describes the feed as bitcoin-focused market sentiment, so the
                 table tracks BTC directly against that source.
             </div>
+        </div>
         </div>
     </div>
 
@@ -1942,20 +2214,27 @@
                 </div>
             </div>
         </div>
-        <div class="chart-wrapper" id="eth-chartWrapper">
-            <canvas id="eth-fngChart"></canvas>
-            <div class="selection-overlay" id="eth-selectionOverlay"></div>
-            <div class="loading-overlay" id="eth-loadingOverlay">
-                <div class="spinner"></div>
-                <div class="loading-text" id="eth-loadingText">Loading ETH data...</div>
+        <div class="section-tabs" id="eth-sectionTabs">
+            <button class="section-tab active" data-panel="chart">Chart</button>
+            <button class="section-tab" data-panel="backtest">Backtest</button>
+        </div>
+        <div class="section-panel is-active" data-panel-group="eth" data-panel="chart">
+            <div class="chart-wrapper" id="eth-chartWrapper">
+                <canvas id="eth-fngChart"></canvas>
+                <div class="selection-overlay" id="eth-selectionOverlay"></div>
+                <div class="loading-overlay" id="eth-loadingOverlay">
+                    <div class="spinner"></div>
+                    <div class="loading-text" id="eth-loadingText">Loading ETH data...</div>
+                </div>
+            </div>
+            <div class="footer">
+                <span class="footer-text">Data: <a href="https://alternative.me/crypto/fear-and-greed-index/"
+                        target="_blank">Alternative.me</a> · <a href="https://www.binance.com/"
+                        target="_blank">Binance</a></span>
+                <span class="footer-text" id="eth-lastUpdate"></span>
             </div>
         </div>
-        <div class="footer">
-            <span class="footer-text">Data: <a href="https://alternative.me/crypto/fear-and-greed-index/"
-                    target="_blank">Alternative.me</a> · <a href="https://www.binance.com/"
-                    target="_blank">Binance</a></span>
-            <span class="footer-text" id="eth-lastUpdate"></span>
-        </div>
+        <div class="section-panel" data-panel-group="eth" data-panel="backtest">
         <div class="prob-section">
             <div class="prob-title">📊 Historical Win Rate by Fear & Greed Level (ETH)
                 <span class="info-tip">?
@@ -1990,6 +2269,7 @@
             <div class="prob-note">⚠️ For ETH this is a context overlay, not a source-native ETH fear &amp; greed
                 benchmark.
             </div>
+        </div>
         </div>
     </div>
 
@@ -2048,17 +2328,25 @@
                 </div>
             </div>
         </div>
-        <div class="chart-wrapper" id="btc-wp-chartWrapper">
-            <canvas id="btc-wp-chart"></canvas>
-            <div class="loading-overlay" id="btc-wp-loadingOverlay">
-                <div class="spinner"></div>
-                <div class="loading-text" id="btc-wp-loadingText">Computing BTC indicators...</div>
+        <div class="section-tabs" id="btc-wp-sectionTabs">
+            <button class="section-tab active" data-panel="chart">Chart</button>
+            <button class="section-tab" data-panel="backtest">Backtest</button>
+            <button class="section-tab" data-panel="calibration">Calibration</button>
+        </div>
+        <div class="section-panel is-active" data-panel-group="btc-wp" data-panel="chart">
+            <div class="chart-wrapper" id="btc-wp-chartWrapper">
+                <canvas id="btc-wp-chart"></canvas>
+                <div class="loading-overlay" id="btc-wp-loadingOverlay">
+                    <div class="spinner"></div>
+                    <div class="loading-text" id="btc-wp-loadingText">Computing BTC indicators...</div>
+                </div>
+            </div>
+            <div class="footer">
+                <span class="footer-text">Weekly composite with dynamic weights, cache-aware loading, no future-looking
+                    normalization and no zero-filled warm-up values</span>
             </div>
         </div>
-        <div class="footer">
-            <span class="footer-text">Weekly composite with dynamic weights, cache-aware loading, no future-looking
-                normalization and no zero-filled warm-up values</span>
-        </div>
+        <div class="section-panel" data-panel-group="btc-wp" data-panel="backtest">
         <div class="prob-section">
             <div class="prob-title">📊 Historical Hit Rate by Composite Score (BTC)
                 <span class="info-tip">?
@@ -2093,6 +2381,8 @@
             <div class="prob-note">⚠️ This remains a heuristic composite score. Past performance does not
                 guarantee future results.</div>
         </div>
+        </div>
+        <div class="section-panel" data-panel-group="btc-wp" data-panel="calibration">
         <div class="calibration-section">
             <div class="calibration-title">🧪 Calibration Snapshot (BTC)</div>
             <div class="calibration-subtitle">Full-history score deciles versus realized 13W hit rate. Bars show how
@@ -2102,6 +2392,7 @@
             </div>
             <div class="calibration-insights" id="btc-wp-calibrationInsights"></div>
             <div class="prob-status" id="btc-wp-calibrationStatus">Preparing BTC calibration snapshot...</div>
+        </div>
         </div>
     </div>
 
@@ -2159,17 +2450,25 @@
                 </div>
             </div>
         </div>
-        <div class="chart-wrapper" id="eth-wp-chartWrapper">
-            <canvas id="eth-wp-chart"></canvas>
-            <div class="loading-overlay" id="eth-wp-loadingOverlay">
-                <div class="spinner"></div>
-                <div class="loading-text" id="eth-wp-loadingText">Computing ETH indicators...</div>
+        <div class="section-tabs" id="eth-wp-sectionTabs">
+            <button class="section-tab active" data-panel="chart">Chart</button>
+            <button class="section-tab" data-panel="backtest">Backtest</button>
+            <button class="section-tab" data-panel="calibration">Calibration</button>
+        </div>
+        <div class="section-panel is-active" data-panel-group="eth-wp" data-panel="chart">
+            <div class="chart-wrapper" id="eth-wp-chartWrapper">
+                <canvas id="eth-wp-chart"></canvas>
+                <div class="loading-overlay" id="eth-wp-loadingOverlay">
+                    <div class="spinner"></div>
+                    <div class="loading-text" id="eth-wp-loadingText">Computing ETH indicators...</div>
+                </div>
+            </div>
+            <div class="footer">
+                <span class="footer-text">Weekly composite with dynamic weights, cache-aware loading, bounded transforms
+                    and market-wide sentiment overlay</span>
             </div>
         </div>
-        <div class="footer">
-            <span class="footer-text">Weekly composite with dynamic weights, cache-aware loading, bounded transforms
-                and market-wide sentiment overlay</span>
-        </div>
+        <div class="section-panel" data-panel-group="eth-wp" data-panel="backtest">
         <div class="prob-section">
             <div class="prob-title">📊 Historical Hit Rate by Composite Score (ETH)
                 <span class="info-tip">?
@@ -2203,6 +2502,8 @@
             <div class="prob-note">⚠️ Composite score, not guaranteed edge. Past performance does not guarantee future
                 results.</div>
         </div>
+        </div>
+        <div class="section-panel" data-panel-group="eth-wp" data-panel="calibration">
         <div class="calibration-section">
             <div class="calibration-title">🧪 Calibration Snapshot (ETH)</div>
             <div class="calibration-subtitle">Full-history score deciles versus realized 13W hit rate. Bars show where
@@ -2212,6 +2513,7 @@
             </div>
             <div class="calibration-insights" id="eth-wp-calibrationInsights"></div>
             <div class="prob-status" id="eth-wp-calibrationStatus">Preparing ETH calibration snapshot...</div>
+        </div>
         </div>
     </div>
     </div>
@@ -2450,6 +2752,49 @@
                         <span class="quality-meta">${item.details}</span>
                     </div>
                 `).join('');
+            }
+
+            function renderSnapshotCard(id, snapshot) {
+                const cardEl = document.getElementById(id);
+                if (!cardEl) return;
+                const accent = snapshot.accent || '#7c8cff';
+                const accentSoft = toRgba(accent, 0.16);
+                if (cardEl.style && typeof cardEl.style.setProperty === 'function') {
+                    cardEl.style.setProperty('--snapshot-accent', `linear-gradient(180deg, ${accent}, ${toRgba(accent, 0.56)})`);
+                    cardEl.style.setProperty('--snapshot-glow', toRgba(accent, 0.16));
+                    cardEl.style.setProperty('--snapshot-badge-bg', accentSoft);
+                    cardEl.style.setProperty('--snapshot-badge-color', accent);
+                }
+                cardEl.innerHTML = `
+                    <span class="snapshot-label">${snapshot.label}</span>
+                    <strong class="snapshot-value">${snapshot.value}</strong>
+                    <span class="snapshot-badge">${snapshot.badge}</span>
+                    <span class="snapshot-meta">${snapshot.details}</span>
+                `;
+            }
+
+            function setupSectionTabs(groupId, onChange) {
+                const tabsRoot = document.getElementById(`${groupId}-sectionTabs`);
+                if (!tabsRoot || tabsRoot.dataset.bound === 'true') return;
+                const tabs = Array.from(tabsRoot.querySelectorAll('.section-tab'));
+                const panels = Array.from(document.querySelectorAll(`[data-panel-group="${groupId}"]`));
+                if (!tabs.length || !panels.length) return;
+
+                const activate = (panelName) => {
+                    tabs.forEach(tab => tab.classList.toggle('active', tab.dataset.panel === panelName));
+                    panels.forEach(panel => panel.classList.toggle('is-active', panel.dataset.panel === panelName));
+                    if (typeof onChange === 'function') {
+                        onChange(panelName);
+                    }
+                };
+
+                tabs.forEach(tab => {
+                    tab.addEventListener('click', () => activate(tab.dataset.panel));
+                });
+
+                tabsRoot.dataset.bound = 'true';
+                const initial = tabs.find(tab => tab.classList.contains('active'))?.dataset.panel || tabs[0].dataset.panel;
+                activate(initial);
             }
 
             function describeRange(currentRange, customFrom, customTo, filteredCount) {
@@ -3433,7 +3778,17 @@
                     const filtered = filterByRange(combined, currentRange);
                     const last = filtered[filtered.length - 1];
                     const infoRow = el('infoRow');
-                    if (!last) { infoRow.innerHTML = ''; return; }
+                    if (!last) {
+                        infoRow.innerHTML = '';
+                        renderSnapshotCard(`snapshot-${prefix}-wp`, {
+                            label: `${symbol === 'BTCUSDT' ? 'BTC' : 'ETH'} Composite`,
+                            value: '--',
+                            badge: 'Unavailable',
+                            accent: '#6b7280',
+                            details: 'No composite score is available for the visible range.',
+                        });
+                        return;
+                    }
                     const price = last.price;
                     const wp = last.wp;
                     const color = wp ? getWpColor(wp.value) : '#6b7280';
@@ -3444,6 +3799,15 @@
                         <span class="current-price">$${price.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
                         <span class="sentiment-badge" style="background:${color}22;color:${color};">${wpVal} · ${label}${coverage}</span>
                     `;
+                    renderSnapshotCard(`snapshot-${prefix}-wp`, {
+                        label: `${symbol === 'BTCUSDT' ? 'BTC' : 'ETH'} Composite`,
+                        value: wp ? `Score ${wp.value}` : 'No score',
+                        badge: wp ? label : 'Unavailable',
+                        accent: color,
+                        details: wp
+                            ? `$${price.toLocaleString('en-US', { maximumFractionDigits: 0 })} · ${wp.coverage}% coverage · ${formatShortDate(last.date)}`
+                            : `No score available for ${formatShortDate(last.date)}.`,
+                    });
                 }
 
                 // Time selector
@@ -3527,6 +3891,16 @@
                     setupTimeSelector();
                     setupDatePicker();
                     setupWpSlider();
+                    setupSectionTabs(`${prefix}-wp`, (panelName) => {
+                        if (panelName === 'chart' && chart) {
+                            chart.resize();
+                            chart.update('none');
+                        }
+                        if (panelName === 'calibration' && calibrationChart) {
+                            calibrationChart.resize();
+                            calibrationChart.update('none');
+                        }
+                    });
 
                     try {
                         const loadingEl = el('loadingText');
@@ -3971,6 +4345,13 @@
 
                     el('lastUpdate').textContent =
                         'Updated: ' + latest.date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+                    renderSnapshotCard(`snapshot-${prefix}-fng`, {
+                        label: `${symbol === 'BTCUSDT' ? 'BTC' : 'ETH'} ${symbol === 'BTCUSDT' ? 'Official F&G' : 'Official Overlay'}`,
+                        value: latest.fngValue != null ? String(latest.fngValue) : 'No feed',
+                        badge: latest.fngValue != null ? latest.sentiment.label : 'Unavailable',
+                        accent: latest.sentiment?.color || '#7c8cff',
+                        details: `$${latest.price.toLocaleString('en-US', { maximumFractionDigits: 0 })} · ${formatShortDate(latest.date)}`,
+                    });
                 }
 
                 function renderQualitySummary() {
@@ -4088,6 +4469,12 @@
                     buildLegend();
                     setupDragSelection();
                     setupFngSlider();
+                    setupSectionTabs(prefix, (panelName) => {
+                        if (panelName === 'chart' && chart) {
+                            chart.resize();
+                            chart.update('none');
+                        }
+                    });
 
                     try {
                         const loadingEl = el('loadingText');
