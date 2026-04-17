@@ -128,3 +128,8 @@
 - **Context:** Once backtests gained more buckets, the user needed a faster way to compare best and worst horizons without reading every row manually.
 - **Takeaway:** Dense analytics tables feel much more usable when the columns sort directly in place and keep a clear active sort state.
 - **Rule:** For backtest tables with multiple horizons, make every header sortable, default to bucket order, and let horizon clicks start in descending order so the strongest hit rates surface first.
+
+### 2026-04-17 — Hit rate alone is not enough; add payoff context next to it
+- **Context:** A bucket can win often but still have a weak average payoff, or win less often but deliver much larger upside when it works.
+- **Takeaway:** Pairing hit rate with average forward return gives a more honest view of what a setup is worth.
+- **Rule:** Whenever you show historical hit rate for a setup bucket, consider adding a neighboring average-return view for the same horizons, with clear wording that it reflects payoff size rather than win frequency.

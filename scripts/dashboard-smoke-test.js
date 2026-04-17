@@ -294,6 +294,18 @@ async function main() {
     await flushAsync(2);
     const btcWpAfterSort = getElement('btc-wp-probBody').innerHTML;
 
+    const btcFngReturnBeforeSort = getElement('btc-fng-returnBody').innerHTML;
+    const btcFngReturnSortButton = getElement('btc-fng-return-sort-d30');
+    btcFngReturnSortButton.listeners.get('click')?.();
+    await flushAsync(2);
+    const btcFngReturnAfterSort = getElement('btc-fng-returnBody').innerHTML;
+
+    const btcWpReturnBeforeSort = getElement('btc-wp-returnBody').innerHTML;
+    const btcWpReturnSortButton = getElement('btc-wp-return-sort-w13');
+    btcWpReturnSortButton.listeners.get('click')?.();
+    await flushAsync(2);
+    const btcWpReturnAfterSort = getElement('btc-wp-returnBody').innerHTML;
+
     const checks = [
         {
             name: 'BTC F&G quality panel rendered',
@@ -337,6 +349,13 @@ async function main() {
                 !getElement('eth-wp-probBody').innerHTML.includes('Calculating'),
         },
         {
+            name: 'Return placeholders were replaced',
+            pass: !getElement('btc-fng-returnBody').innerHTML.includes('Calculating') &&
+                !getElement('eth-fng-returnBody').innerHTML.includes('Calculating') &&
+                !getElement('btc-wp-returnBody').innerHTML.includes('Calculating') &&
+                !getElement('eth-wp-returnBody').innerHTML.includes('Calculating'),
+        },
+        {
             name: 'All loading overlays were hidden after init',
             pass: getElement('btc-loadingOverlay').style.display === 'none' &&
                 getElement('eth-loadingOverlay').style.display === 'none' &&
@@ -354,6 +373,14 @@ async function main() {
         {
             name: 'BTC composite backtest sorts when a horizon header is clicked',
             pass: btcWpBeforeSort !== btcWpAfterSort,
+        },
+        {
+            name: 'BTC F&G return table sorts when a horizon header is clicked',
+            pass: btcFngReturnBeforeSort !== btcFngReturnAfterSort,
+        },
+        {
+            name: 'BTC composite return table sorts when a horizon header is clicked',
+            pass: btcWpReturnBeforeSort !== btcWpReturnAfterSort,
         },
     ];
 

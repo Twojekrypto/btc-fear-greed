@@ -144,3 +144,8 @@
 - **Kontekst:** Po przejściu na 10-point buckets tabele backtestu mają więcej wierszy i trudniej ręcznie wyłapać najlepsze lub najsłabsze zakresy.
 - **Błąd:** Bez sortowania user musi skanować cały grid wzrokiem, co obniża czytelność i premium feel analityki.
 - **Reguła:** W backtestach dawaj sortowanie po każdej kolumnie, utrzymuj domyślnie porządek bucketów, a po kliknięciu horizonu zaczynaj od malejącego hit rate.
+
+### 2026-04-17 — Hit rate should be paired with average forward return
+- **Kontekst:** Sama skuteczność kierunkowa nie mówi jeszcze, jak duży był przeciętny payoff po wejściu w danym bucketcie.
+- **Błąd:** User może przecenić bucket z wysokim hit rate, jeśli średni zwrot był mały, albo przeoczyć bucket z niższą skutecznością, ale lepszym payoff profile.
+- **Reguła:** Obok historical hit rate pokazuj także average forward return dla tych samych bucketów i horyzontów, jasno odróżniając częstotliwość sukcesu od średniej wielkości ruchu.

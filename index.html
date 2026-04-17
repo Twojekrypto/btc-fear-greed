@@ -1571,6 +1571,7 @@
         }
 
         .section-panel[data-panel="backtest"],
+        .section-panel[data-panel="returns"],
         .section-panel[data-panel="calibration"] {
             border-radius: 24px;
             border: 1px solid rgba(255, 255, 255, 0.07);
@@ -1786,6 +1787,21 @@
         .prob-table .prob-low {
             color: #ff1744;
             font-weight: 700;
+        }
+
+        .prob-table .return-positive {
+            color: #00e676;
+            font-weight: 700;
+        }
+
+        .prob-table .return-negative {
+            color: #ff6b81;
+            font-weight: 700;
+        }
+
+        .prob-table .return-flat {
+            color: #c9d2e6;
+            font-weight: 600;
         }
 
         .prob-table .zone-dot {
@@ -2494,6 +2510,7 @@
         <div class="section-tabs" id="btc-sectionTabs">
             <button class="section-tab active" data-panel="chart">Chart</button>
             <button class="section-tab" data-panel="backtest">Backtest</button>
+            <button class="section-tab" data-panel="returns">Returns</button>
         </div>
         <div class="section-panel is-active" data-panel-group="btc" data-panel="chart">
             <div class="chart-panel-top">
@@ -2593,6 +2610,46 @@
                 </div>
             </div>
         </div>
+        <div class="section-panel" data-panel-group="btc" data-panel="returns">
+            <div class="prob-section">
+                <div class="prob-title">📈 Average Forward Return by Fear & Greed Bucket (BTC)
+                    <span class="info-tip">?
+                        <div class="info-tip-content">
+                            <strong>How to read this table</strong><br>
+                            Rows use the same 10-point buckets derived from the official Alternative.me feed. Each cell
+                            shows the average percentage move from the signal-date close to the future close for that
+                            horizon.<br><br>
+                            Positive values mean BTC tended to trade higher on average after that setup; negative values
+                            mean it tended to trade lower.
+                        </div>
+                    </span>
+                </div>
+                <div class="prob-subtitle">Daily average forward returns recomputed from Binance closes and 10-point
+                    Fear &amp; Greed buckets.</div>
+                <div class="prob-table-shell">
+                    <table class="prob-table">
+                        <thead>
+                            <tr>
+                                <th><button class="prob-sort-btn" id="btc-fng-return-sort-bucket" data-sort-key="bucket" type="button">F&amp;G Bucket (10 pts)</button></th>
+                                <th><button class="prob-sort-btn" id="btc-fng-return-sort-d7" data-sort-key="d7" type="button">7 Days</button></th>
+                                <th><button class="prob-sort-btn" id="btc-fng-return-sort-d30" data-sort-key="d30" type="button">30 Days</button></th>
+                                <th><button class="prob-sort-btn" id="btc-fng-return-sort-d90" data-sort-key="d90" type="button">90 Days</button></th>
+                                <th><button class="prob-sort-btn" id="btc-fng-return-sort-d365" data-sort-key="d365" type="button">1 Year</button></th>
+                            </tr>
+                        </thead>
+                        <tbody id="btc-fng-returnBody">
+                            <tr>
+                                <td colspan="5" class="prob-empty">Calculating average BTC forward returns...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="prob-status" id="btc-fng-returnStatus">Preparing average BTC return view from the official
+                    F&amp;G feed.</div>
+                <div class="prob-note">⚠️ Average return can be skewed by outsized rallies or drawdowns, so read it
+                    together with hit rate and sample size.</div>
+            </div>
+        </div>
     </div>
 
     <!-- ═══ ETH Chart ═══ -->
@@ -2610,6 +2667,7 @@
         <div class="section-tabs" id="eth-sectionTabs">
             <button class="section-tab active" data-panel="chart">Chart</button>
             <button class="section-tab" data-panel="backtest">Backtest</button>
+            <button class="section-tab" data-panel="returns">Returns</button>
         </div>
         <div class="section-panel is-active" data-panel-group="eth" data-panel="chart">
             <div class="chart-panel-top">
@@ -2708,6 +2766,46 @@
                 </div>
             </div>
         </div>
+        <div class="section-panel" data-panel-group="eth" data-panel="returns">
+            <div class="prob-section">
+                <div class="prob-title">📈 Average Forward Return by Fear & Greed Bucket (ETH)
+                    <span class="info-tip">?
+                        <div class="info-tip-content">
+                            <strong>How to read this table</strong><br>
+                            This is the same market-wide Alternative.me feed, but paired with ETH history. Each cell
+                            shows the average percentage move from the signal-date close to the future close for that
+                            horizon.<br><br>
+                            Treat it as an ETH response to market sentiment, not as an ETH-native official fear &amp;
+                            greed series.
+                        </div>
+                    </span>
+                </div>
+                <div class="prob-subtitle">Daily average forward returns for ETH grouped into 10-point buckets from the
+                    same BTC-centric F&amp;G feed.</div>
+                <div class="prob-table-shell">
+                    <table class="prob-table">
+                        <thead>
+                            <tr>
+                                <th><button class="prob-sort-btn" id="eth-fng-return-sort-bucket" data-sort-key="bucket" type="button">F&amp;G Bucket (10 pts)</button></th>
+                                <th><button class="prob-sort-btn" id="eth-fng-return-sort-d7" data-sort-key="d7" type="button">7 Days</button></th>
+                                <th><button class="prob-sort-btn" id="eth-fng-return-sort-d30" data-sort-key="d30" type="button">30 Days</button></th>
+                                <th><button class="prob-sort-btn" id="eth-fng-return-sort-d90" data-sort-key="d90" type="button">90 Days</button></th>
+                                <th><button class="prob-sort-btn" id="eth-fng-return-sort-d365" data-sort-key="d365" type="button">1 Year</button></th>
+                            </tr>
+                        </thead>
+                        <tbody id="eth-fng-returnBody">
+                            <tr>
+                                <td colspan="5" class="prob-empty">Calculating average ETH forward returns...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="prob-status" id="eth-fng-returnStatus">Preparing average ETH return view from the shared
+                    market-wide F&amp;G feed.</div>
+                <div class="prob-note">⚠️ For ETH this is still a sentiment overlay study, not a source-native ETH
+                    benchmark.</div>
+            </div>
+        </div>
     </div>
 
 
@@ -2726,6 +2824,7 @@
         <div class="section-tabs" id="btc-wp-sectionTabs">
             <button class="section-tab active" data-panel="chart">Chart</button>
             <button class="section-tab" data-panel="backtest">Backtest</button>
+            <button class="section-tab" data-panel="returns">Returns</button>
             <button class="section-tab" data-panel="calibration">Calibration</button>
         </div>
         <div class="section-panel is-active" data-panel-group="btc-wp" data-panel="chart">
@@ -2827,6 +2926,45 @@
                     guarantee future results.</div>
             </div>
         </div>
+        <div class="section-panel" data-panel-group="btc-wp" data-panel="returns">
+            <div class="prob-section">
+                <div class="prob-title">📈 Average Forward Return by Composite Score Bucket (BTC)
+                    <span class="info-tip">?
+                        <div class="info-tip-content">
+                            The weekly composite score is grouped into the same 10-point buckets as the backtest table.
+                            Each cell shows the average percentage move from the signal-date close to the future weekly
+                            close at 1W, 4W, 13W, and 52W.<br><br>
+                            This complements hit rate by showing the typical payoff, not just how often the trade was
+                            directionally correct.
+                        </div>
+                    </span>
+                </div>
+                <div class="prob-subtitle">Weekly average forward returns grouped into 10-point score buckets from the
+                    fetched BTC history.</div>
+                <div class="prob-table-shell">
+                    <table class="prob-table">
+                        <thead>
+                            <tr>
+                                <th><button class="prob-sort-btn" id="btc-wp-return-sort-bucket" data-sort-key="bucket" type="button">Score Bucket</button></th>
+                                <th><button class="prob-sort-btn" id="btc-wp-return-sort-w1" data-sort-key="w1" type="button">1W</button></th>
+                                <th><button class="prob-sort-btn" id="btc-wp-return-sort-w4" data-sort-key="w4" type="button">4W</button></th>
+                                <th><button class="prob-sort-btn" id="btc-wp-return-sort-w13" data-sort-key="w13" type="button">13W</button></th>
+                                <th><button class="prob-sort-btn" id="btc-wp-return-sort-w52" data-sort-key="w52" type="button">52W</button></th>
+                            </tr>
+                        </thead>
+                        <tbody id="btc-wp-returnBody">
+                            <tr>
+                                <td colspan="5" class="prob-empty">Calculating average BTC score returns...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="prob-status" id="btc-wp-returnStatus">Preparing average BTC return view for the weekly
+                    composite score.</div>
+                <div class="prob-note">⚠️ Average return shows payoff shape, but it can be skewed by a few outsized
+                    cycles. Use it together with hit rate and sample depth.</div>
+            </div>
+        </div>
         <div class="section-panel" data-panel-group="btc-wp" data-panel="calibration">
             <div class="calibration-section">
                 <div class="calibration-title">🧪 Calibration Snapshot (BTC)</div>
@@ -2856,6 +2994,7 @@
         <div class="section-tabs" id="eth-wp-sectionTabs">
             <button class="section-tab active" data-panel="chart">Chart</button>
             <button class="section-tab" data-panel="backtest">Backtest</button>
+            <button class="section-tab" data-panel="returns">Returns</button>
             <button class="section-tab" data-panel="calibration">Calibration</button>
         </div>
         <div class="section-panel is-active" data-panel-group="eth-wp" data-panel="chart">
@@ -2955,6 +3094,45 @@
                     BTC and reports per-horizon sample counts for each 10-point bucket.</div>
                 <div class="prob-note">⚠️ Composite score, not guaranteed edge. Past performance does not guarantee future
                     results.</div>
+            </div>
+        </div>
+        <div class="section-panel" data-panel-group="eth-wp" data-panel="returns">
+            <div class="prob-section">
+                <div class="prob-title">📈 Average Forward Return by Composite Score Bucket (ETH)
+                    <span class="info-tip">?
+                        <div class="info-tip-content">
+                            The weekly ETH composite is grouped into the same 10-point buckets as the hit-rate table.
+                            Each cell shows the average percentage move from the signal-date close to the future weekly
+                            close for that horizon.<br><br>
+                            It helps estimate the typical payoff profile of each score range, not just directional hit
+                            frequency.
+                        </div>
+                    </span>
+                </div>
+                <div class="prob-subtitle">Weekly average forward returns grouped into 10-point ETH score buckets from
+                    the fetched history.</div>
+                <div class="prob-table-shell">
+                    <table class="prob-table">
+                        <thead>
+                            <tr>
+                                <th><button class="prob-sort-btn" id="eth-wp-return-sort-bucket" data-sort-key="bucket" type="button">Score Bucket</button></th>
+                                <th><button class="prob-sort-btn" id="eth-wp-return-sort-w1" data-sort-key="w1" type="button">1W</button></th>
+                                <th><button class="prob-sort-btn" id="eth-wp-return-sort-w4" data-sort-key="w4" type="button">4W</button></th>
+                                <th><button class="prob-sort-btn" id="eth-wp-return-sort-w13" data-sort-key="w13" type="button">13W</button></th>
+                                <th><button class="prob-sort-btn" id="eth-wp-return-sort-w52" data-sort-key="w52" type="button">52W</button></th>
+                            </tr>
+                        </thead>
+                        <tbody id="eth-wp-returnBody">
+                            <tr>
+                                <td colspan="5" class="prob-empty">Calculating average ETH score returns...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="prob-status" id="eth-wp-returnStatus">Preparing average ETH return view for the weekly
+                    composite score.</div>
+                <div class="prob-note">⚠️ Average return is helpful for payoff context, but it is still shaped by the
+                    same market-wide sentiment overlay used by the ETH composite.</div>
             </div>
         </div>
         <div class="section-panel" data-panel-group="eth-wp" data-panel="calibration">
@@ -3088,6 +3266,22 @@
 
             function formatProbability(rate) {
                 return rate == null ? '—' : `${Math.round(rate * 100)}%`;
+            }
+
+            function formatAverageReturn(rate) {
+                if (rate == null || !Number.isFinite(rate)) return '—';
+                const percentage = rate * 100;
+                const abs = Math.abs(percentage);
+                const decimals = abs >= 100 ? 0 : abs >= 10 ? 1 : 2;
+                const prefix = percentage > 0 ? '+' : '';
+                return `${prefix}${percentage.toFixed(decimals)}%`;
+            }
+
+            function getAverageReturnClass(rate) {
+                if (rate == null || !Number.isFinite(rate)) return '';
+                if (rate >= 0.01) return 'return-positive';
+                if (rate <= -0.01) return 'return-negative';
+                return 'return-flat';
             }
 
             function formatCacheAge(ageMs) {
@@ -3538,6 +3732,53 @@
                 };
             }
 
+            function computeForwardReturns(series, zones, valueAccessor, horizons) {
+                const rows = zones.map(zone => ({
+                    ...zone,
+                    matches: 0,
+                    returnSums: Object.fromEntries(horizons.map(h => [h.key, 0])),
+                    counts: Object.fromEntries(horizons.map(h => [h.key, 0])),
+                }));
+
+                let usableSignals = 0;
+
+                series.forEach((point, index) => {
+                    const value = valueAccessor(point, index);
+                    if (value == null || !Number.isFinite(value)) return;
+                    const zone = getZoneForValue(value, zones);
+                    if (!zone) return;
+
+                    const row = rows.find(item => item.key === zone.key);
+                    if (!row) return;
+
+                    row.matches += 1;
+                    usableSignals += 1;
+
+                    horizons.forEach(horizon => {
+                        const future = series[index + horizon.offset];
+                        if (!future) return;
+                        if (!Number.isFinite(point.price) || !Number.isFinite(future.price) || point.price <= 0) return;
+
+                        row.counts[horizon.key] += 1;
+                        row.returnSums[horizon.key] += (future.price / point.price) - 1;
+                    });
+                });
+
+                return {
+                    rows: rows.map(row => ({
+                        ...row,
+                        avgReturns: Object.fromEntries(
+                            horizons.map(horizon => [
+                                horizon.key,
+                                row.counts[horizon.key] ? row.returnSums[horizon.key] / row.counts[horizon.key] : null,
+                            ])
+                        ),
+                    })),
+                    usableSignals,
+                    candleCount: series.length,
+                };
+            }
+
             function getProbabilityTableSortState(tableKey) {
                 if (!PROBABILITY_TABLE_SORT_STATE.has(tableKey)) {
                     PROBABILITY_TABLE_SORT_STATE.set(tableKey, { key: 'bucket', direction: 'asc' });
@@ -3667,6 +3908,80 @@
 
                 updateProbabilitySortControls(tableKey, horizons);
                 statusEl.textContent = `${contextText} ${stats.usableSignals} signals across ${stats.candleCount} candles. Rates show how often the future close finished above the signal-date close. Row n = bucket matches; cell n = observations available for that exact horizon. Click any column header to sort.`;
+            }
+
+            function sortReturnRows(rows, sortState) {
+                const sortedRows = [...rows];
+
+                sortedRows.sort((left, right) => {
+                    if (sortState.key === 'bucket') {
+                        const leftMin = Number.isFinite(left.min) ? left.min : 0;
+                        const rightMin = Number.isFinite(right.min) ? right.min : 0;
+                        return sortState.direction === 'asc' ? leftMin - rightMin : rightMin - leftMin;
+                    }
+
+                    const leftReturn = left.avgReturns?.[sortState.key];
+                    const rightReturn = right.avgReturns?.[sortState.key];
+                    const leftMissing = leftReturn == null;
+                    const rightMissing = rightReturn == null;
+
+                    if (leftMissing && rightMissing) return (left.min ?? 0) - (right.min ?? 0);
+                    if (leftMissing) return 1;
+                    if (rightMissing) return -1;
+
+                    if (leftReturn !== rightReturn) {
+                        return sortState.direction === 'asc' ? leftReturn - rightReturn : rightReturn - leftReturn;
+                    }
+
+                    const leftCount = left.counts?.[sortState.key] || 0;
+                    const rightCount = right.counts?.[sortState.key] || 0;
+                    if (leftCount !== rightCount) {
+                        return sortState.direction === 'asc' ? leftCount - rightCount : rightCount - leftCount;
+                    }
+
+                    return (left.min ?? 0) - (right.min ?? 0);
+                });
+
+                return sortedRows;
+            }
+
+            function renderReturnTable(bodyId, statusId, stats, horizons, contextText, tableKey) {
+                const bodyEl = document.getElementById(bodyId);
+                const statusEl = document.getElementById(statusId);
+                if (!bodyEl || !statusEl) return;
+
+                const sortState = getProbabilityTableSortState(tableKey);
+                const sortedRows = sortReturnRows(stats.rows, sortState);
+
+                bodyEl.innerHTML = sortedRows.map(row => {
+                    const cells = horizons.map(horizon => {
+                        const avgReturn = row.avgReturns[horizon.key];
+                        const cellClass = getAverageReturnClass(avgReturn);
+                        const count = row.counts[horizon.key] || 0;
+                        return `
+                            <td class="${cellClass}">
+                                <span class="prob-value">${formatAverageReturn(avgReturn)}</span>
+                                <span class="prob-count">n=${count}</span>
+                            </td>
+                        `;
+                    }).join('');
+
+                    return `
+                        <tr>
+                            <td>
+                                <span class="prob-label">
+                                    <span class="zone-dot" style="background:${row.color}"></span>
+                                    ${row.fullLabel || row.label}
+                                </span>
+                                <span class="prob-sample">n=${row.matches}</span>
+                            </td>
+                            ${cells}
+                        </tr>
+                    `;
+                }).join('');
+
+                updateProbabilitySortControls(tableKey, horizons);
+                statusEl.textContent = `${contextText} ${stats.usableSignals} signals across ${stats.candleCount} candles. Values show the average percentage move from the signal-date close to the future close. Row n = bucket matches; cell n = observations available for that exact horizon. Click any column header to sort.`;
             }
 
             // ── Fetch Fear & Greed (shared between charts) ──
@@ -4096,6 +4411,25 @@
                     );
 
                     latestBacktestStats = stats;
+                }
+
+                function renderReturnsTable() {
+                    const combined = mergedData.map((d, i) => ({ ...d, wp: wpData[i] }));
+                    const stats = computeForwardReturns(
+                        combined,
+                        SCORE_BACKTEST_BUCKETS,
+                        point => point.wp?.value ?? null,
+                        WEEKLY_HORIZONS
+                    );
+
+                    renderReturnTable(
+                        `${prefix}-wp-returnBody`,
+                        `${prefix}-wp-returnStatus`,
+                        stats,
+                        WEEKLY_HORIZONS,
+                        `${symbol === 'BTCUSDT' ? 'BTC' : 'ETH'} weekly return profile with minimum 70% model coverage.`,
+                        `${prefix}-wp-return`
+                    );
                 }
 
                 function renderQualitySummary() {
@@ -4682,6 +5016,7 @@
                 async function init() {
                     setupWpSlider();
                     setupProbabilityTableSorting(`${prefix}-wp`, WEEKLY_HORIZONS, renderBacktestTable);
+                    setupProbabilityTableSorting(`${prefix}-wp-return`, WEEKLY_HORIZONS, renderReturnsTable);
                     setupSectionTabs(`${prefix}-wp`, (panelName) => {
                         if (panelName === 'chart' && chart) {
                             requestAnimationFrame(() => {
@@ -4713,6 +5048,7 @@
                         setDefaultNavigatorWindow(false);
 
                         renderBacktestTable();
+                        renderReturnsTable();
                         renderCalibrationChart();
                         createChart();
                         setupNavigatorInteractions();
@@ -4770,6 +5106,24 @@
                         DAILY_HORIZONS,
                         `${symbol === 'BTCUSDT' ? 'BTC' : 'ETH'} daily backtest.`,
                         `${prefix}-fng`
+                    );
+                }
+
+                function renderReturnsTable() {
+                    const stats = computeForwardReturns(
+                        mergedData,
+                        FNG_BACKTEST_BUCKETS,
+                        point => point.fngValue,
+                        DAILY_HORIZONS
+                    );
+
+                    renderReturnTable(
+                        `${prefix}-fng-returnBody`,
+                        `${prefix}-fng-returnStatus`,
+                        stats,
+                        DAILY_HORIZONS,
+                        `${symbol === 'BTCUSDT' ? 'BTC' : 'ETH'} daily return profile.`,
+                        `${prefix}-fng-return`
                     );
                 }
 
@@ -5274,6 +5628,7 @@
                     buildLegend();
                     setupFngSlider();
                     setupProbabilityTableSorting(`${prefix}-fng`, DAILY_HORIZONS, renderBacktestTable);
+                    setupProbabilityTableSorting(`${prefix}-fng-return`, DAILY_HORIZONS, renderReturnsTable);
                     setupSectionTabs(prefix, (panelName) => {
                         if (panelName === 'chart' && chart) {
                             requestAnimationFrame(() => {
@@ -5298,6 +5653,7 @@
                         setDefaultNavigatorWindow(false);
 
                         renderBacktestTable();
+                        renderReturnsTable();
                         createChart();
                         setupNavigatorInteractions();
                         renderNavigator();
