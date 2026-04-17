@@ -68,3 +68,8 @@
 - **Kontekst:** Runtime test w Safari utknął na ograniczeniu `Allow JavaScript from Apple Events`, mimo że sama strona się otwiera.
 - **Wniosek:** Dla single-file dashboardu nie można polegać wyłącznie na ręcznym browser checku ani na samym syntax checku.
 - **Reguła:** Trzymaj w repo lokalny smoke test z mockami DOM i fetch, który sprawdza render kluczowych paneli, tabel i chartów po każdej większej zmianie.
+
+### 2026-04-17 — User-facing UI copy must stay in English
+- **Kontekst:** Some tooltip explanations and hero copy were left in Polish while the product itself is meant to be English-first.
+- **Wniosek:** Mixed UI language makes the dashboard feel inconsistent and less professional.
+- **Reguła:** Keep all user-facing page content in English by default, including tooltips, helper text, status copy, and metadata descriptions, unless the user explicitly asks for another language.

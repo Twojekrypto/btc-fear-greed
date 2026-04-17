@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BTC Fear &amp; Greed Lab</title>
     <meta name="description"
-        content="Dashboard porównujący oficjalny Crypto Fear & Greed Index z ceną BTC/ETH oraz autorskim weekly composite score.">
+        content="Dashboard comparing the official Crypto Fear & Greed Index with BTC/ETH price action and a custom weekly composite score.">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
@@ -1750,10 +1750,10 @@
                 <span class="eyebrow">BTC Fear & Greed Lab</span>
                 <h1>Official sentiment. Refined signal desk.</h1>
                 <p>
-                    Dashboard rozdziela oficjalny Fear &amp; Greed od autorskiego score. Alternative.me zostaje źródłem
-                    sentymentu rynkowego, a lokalny composite jest liczony bez future leak, bez sztucznego wypełniania
-                    braków zerami i z tabelami backtestowymi liczonymi z pobranej historii zamiast z ręcznych
-                    przybliżeń.
+                    The dashboard separates the official Fear &amp; Greed feed from the custom composite score.
+                    Alternative.me remains the market sentiment source, while the local model runs without future leak,
+                    without zero-filled warm-up gaps, and with backtest tables computed from fetched history instead of
+                    manual estimates.
                 </p>
                 <div class="hero-meta-row">
                     <span class="hero-meta-pill">Official zones aligned to source</span>
@@ -1776,19 +1776,19 @@
                     <div class="hero-card">
                         <span class="hero-label">Official F&amp;G Feed</span>
                         <strong>Alternative.me API</strong>
-                        <p>Progi są wyrównane do oficjalnych stref 0-24 / 25-44 / 45-54 / 55-74 / 75-100.</p>
+                        <p>Thresholds are aligned to the documented source zones: 0-24 / 25-44 / 45-54 / 55-74 / 75-100.</p>
                     </div>
                     <div class="hero-card">
                         <span class="hero-label">Custom Composite</span>
                         <strong>Weekly heuristic score</strong>
-                        <p>Łączy momentum, trend, mean reversion i sentyment, ale pozostaje scorem pomocniczym, a nie
-                            dosłowną prognozą prawdopodobieństwa.</p>
+                        <p>It blends momentum, trend, mean reversion, and sentiment, but it remains a helper score,
+                            not a literal probability forecast.</p>
                     </div>
                     <div class="hero-card">
                         <span class="hero-label">Backtest Tables</span>
                         <strong>Computed live from history</strong>
-                        <p>Tabele są wyliczane po załadowaniu danych. ETH używa tego samego market-wide F&amp;G, bo feed
-                            Alternative.me nadal jest BTC-centric.</p>
+                        <p>Tables are recomputed after load. ETH uses the same market-wide F&amp;G overlay because the
+                            Alternative.me feed is still BTC-centric.</p>
                     </div>
                 </div>
             </div>
@@ -1864,10 +1864,10 @@
             <div class="prob-title">📊 Historical Win Rate by Fear & Greed Level (BTC)
                 <span class="info-tip">?
                     <div class="info-tip-content">
-                        <strong>Jak czytać tabelę?</strong><br>
-                        Wiersze odpowiadają oficjalnym strefom Alternative.me. Kolumny pokazują, jak często cena BTC
-                        była wyżej po danym horyzoncie od dnia sygnału.<br><br>
-                        Tabela liczy się dynamicznie po załadowaniu danych i nie używa już ręcznie wpisanych wartości.
+                        <strong>How to read this table</strong><br>
+                        Rows match the official Alternative.me zones. Columns show how often BTC closed higher after
+                        each forward horizon from the signal date.<br><br>
+                        The table is computed dynamically after load and no longer relies on manually entered values.
                     </div>
                 </span>
             </div>
@@ -1960,10 +1960,10 @@
             <div class="prob-title">📊 Historical Win Rate by Fear & Greed Level (ETH)
                 <span class="info-tip">?
                     <div class="info-tip-content">
-                        <strong>Jak czytać tabelę?</strong><br>
-                        To ten sam feed sentymentu z Alternative.me, ale zestawiony z historią ETH. Odczytuj go jako
-                        market-wide risk appetite, nie jako oficjalny indeks ETH.<br><br>
-                        Tabela liczy się automatycznie z historii pobranej po załadowaniu strony.
+                        <strong>How to read this table</strong><br>
+                        This is the same Alternative.me sentiment feed, but paired with ETH history. Read it as
+                        market-wide risk appetite, not as an official ETH-native index.<br><br>
+                        The table is computed automatically from the fetched history after load.
                     </div>
                 </span>
             </div>
@@ -2063,10 +2063,10 @@
             <div class="prob-title">📊 Historical Hit Rate by Composite Score (BTC)
                 <span class="info-tip">?
                     <div class="info-tip-content">
-                        Score łączy weekly momentum, trend, mean reversion i F&amp;G. Każdy składnik jest liczony tylko
-                        wtedy, gdy ma wystarczający warm-up, a końcowa średnia przelicza wagi wyłącznie dla dostępnych
-                        sygnałów.<br><br>
-                        Tabela pokazuje forward returns liczone na świecach tygodniowych: 1W, 4W, 13W i 52W.
+                        The score blends weekly momentum, trend, mean reversion, and F&amp;G. Each component is only
+                        calculated once it has enough warm-up data, and the final average reweights only the signals
+                        that are actually available.<br><br>
+                        The table shows forward returns measured on weekly candles: 1W, 4W, 13W, and 52W.
                     </div>
                 </span>
             </div>
@@ -2174,9 +2174,9 @@
             <div class="prob-title">📊 Historical Hit Rate by Composite Score (ETH)
                 <span class="info-tip">?
                     <div class="info-tip-content">
-                        Score jest liczony na świecach tygodniowych i nie używa już normalizacji po całej przyszłej
-                        próbce. Dzięki temu historyczny backtest nie patrzy naprzód.<br><br>
-                        Horyzonty 1W / 4W / 13W / 52W odnoszą się do kolejnych tygodniowych zamknięć.
+                        The score is calculated on weekly candles and no longer normalizes against the full future
+                        sample. That keeps the historical backtest free from look-ahead bias.<br><br>
+                        The 1W / 4W / 13W / 52W horizons refer to the following weekly closes.
                     </div>
                 </span>
             </div>
