@@ -833,7 +833,7 @@
 
         .quality-grid {
             display: grid;
-            grid-template-columns: repeat(5, minmax(0, 1fr));
+            grid-template-columns: repeat(3, minmax(0, 1fr));
             gap: 12px;
             width: 100%;
         }
@@ -846,7 +846,7 @@
                 linear-gradient(180deg, rgba(255, 255, 255, 0.045), rgba(255, 255, 255, 0.018)),
                 rgba(255, 255, 255, 0.018);
             border: 1px solid rgba(255, 255, 255, 0.08);
-            min-height: 86px;
+            min-height: 82px;
             box-shadow:
                 inset 0 1px 0 rgba(255, 255, 255, 0.03),
                 0 10px 22px rgba(0, 0, 0, 0.12);
@@ -1867,10 +1867,6 @@
                 padding-right: 0;
                 padding-bottom: 12px;
                 border-bottom: 1px solid rgba(255, 255, 255, 0.07);
-            }
-
-            .quality-grid {
-                grid-template-columns: repeat(3, minmax(0, 1fr));
             }
 
             .panel-toolbar {
@@ -3921,8 +3917,10 @@
                     const filtered = filterByRange(combined, currentRange);
                     const lastVisible = filtered[filtered.length - 1] || combined[combined.length - 1];
                     const latestWithScore = [...combined].reverse().find(point => point.wp);
-                    const priceMeta = buildSourceMeta(getPriceMeta(symbol, '1w'));
-                    const fngMeta = buildSourceMeta(DATA_META.fng);
+                    const rawPriceMeta = getPriceMeta(symbol, '1w');
+                    const rawFngMeta = DATA_META.fng;
+                    const priceMeta = buildSourceMeta(rawPriceMeta);
+                    const fngMeta = buildSourceMeta(rawFngMeta);
                     const usablePct = latestBacktestStats?.candleCount
                         ? Math.round((latestBacktestStats.usableSignals / latestBacktestStats.candleCount) * 100)
                         : null;
@@ -3935,19 +3933,18 @@
                             ? 'tone-warn'
                             : 'tone-alert';
                     const rangeMeta = describeRange(currentRange, customFrom, customTo, filtered.length);
+                    const feedTone = rawPriceMeta?.mode === 'live' && rawFngMeta?.mode === 'live'
+                        ? 'tone-good'
+                        : rawPriceMeta?.mode === 'cache_stale' || rawFngMeta?.mode === 'cache_stale'
+                            ? 'tone-alert'
+                            : 'tone-warn';
 
                     renderQualityPanel(`${prefix}-wp-qualityPanel`, [
                         {
-                            label: 'Weekly Price Feed',
-                            value: priceMeta.value,
-                            tone: priceMeta.tone,
-                            details: priceMeta.details,
-                        },
-                        {
-                            label: 'Sentiment Feed',
-                            value: fngMeta.value,
-                            tone: fngMeta.tone,
-                            details: fngMeta.details,
+                            label: 'Feeds',
+                            value: `${priceMeta.value} / ${fngMeta.value}`,
+                            tone: feedTone,
+                            details: `Weekly price: ${priceMeta.details} · Sentiment: ${fngMeta.details}`,
                         },
                         {
                             label: 'Latest Score',
@@ -3958,18 +3955,12 @@
                                 : 'No score in the visible range yet.',
                         },
                         {
-                            label: 'Visible Range',
+                            label: 'Range Health',
                             value: rangeMeta.value,
-                            tone: '',
-                            details: rangeMeta.details,
-                        },
-                        {
-                            label: 'Usable History',
-                            value: usablePct != null ? `${usablePct}%` : '—',
                             tone: usablePct >= 70 ? 'tone-good' : usablePct >= 50 ? 'tone-warn' : 'tone-alert',
                             details: latestBacktestStats
-                                ? `${latestBacktestStats.usableSignals}/${latestBacktestStats.candleCount} weekly candles produced a score${scoreLagDays ? ` · latest visible gap ${scoreLagDays}d` : ''}`
-                                : 'Waiting for backtest stats.',
+                                ? `${usablePct}% usable weekly history · ${latestBacktestStats.usableSignals}/${latestBacktestStats.candleCount} scored candles${scoreLagDays ? ` · latest visible gap ${scoreLagDays}d` : ''}`
+                                : rangeMeta.details,
                         },
                     ]);
                 }
@@ -5048,49 +5039,44 @@
                     const lastVisible = filtered[filtered.length - 1] || mergedData[mergedData.length - 1];
                     const lastMatched = [...filtered].reverse().find(point => point.fngValue != null)
                         || [...mergedData].reverse().find(point => point.fngValue != null);
-                    const priceMeta = buildSourceMeta(getPriceMeta(symbol, '1d'));
-                    const fngMeta = buildSourceMeta(DATA_META.fng);
+                    const rawPriceMeta = getPriceMeta(symbol, '1d');
+                    const rawFngMeta = DATA_META.fng;
+                    const priceMeta = buildSourceMeta(rawPriceMeta);
+                    const fngMeta = buildSourceMeta(rawFngMeta);
                     const matchedCount = mergedData.filter(point => point.fngValue != null).length;
                     const matchRate = mergedData.length ? Math.round((matchedCount / mergedData.length) * 100) : null;
                     const lagDays = lastVisible && lastMatched
                         ? Math.max(0, Math.round((lastVisible.date - lastMatched.date) / DAY_MS))
                         : null;
                     const rangeMeta = describeRange(currentRange, customFrom, customTo, filtered.length);
+                    const feedTone = rawPriceMeta?.mode === 'live' && rawFngMeta?.mode === 'live'
+                        ? 'tone-good'
+                        : rawPriceMeta?.mode === 'cache_stale' || rawFngMeta?.mode === 'cache_stale'
+                            ? 'tone-alert'
+                            : 'tone-warn';
 
                     renderQualityPanel(`${prefix}-qualityPanel`, [
                         {
-                            label: 'Price Feed',
-                            value: priceMeta.value,
-                            tone: priceMeta.tone,
-                            details: priceMeta.details,
+                            label: 'Feeds',
+                            value: `${priceMeta.value} / ${fngMeta.value}`,
+                            tone: feedTone,
+                            details: `Price: ${priceMeta.details} · Sentiment: ${fngMeta.details}`,
                         },
                         {
-                            label: 'Sentiment Feed',
-                            value: fngMeta.value,
-                            tone: fngMeta.tone,
-                            details: fngMeta.details,
-                        },
-                        {
-                            label: 'Matched History',
+                            label: 'Join Quality',
                             value: matchRate != null ? `${matchRate}%` : '—',
                             tone: matchRate >= 95 ? 'tone-good' : matchRate >= 80 ? 'tone-warn' : 'tone-alert',
-                            details: `${matchedCount}/${mergedData.length} price candles have an aligned F&G value`,
+                            details: `${matchedCount}/${mergedData.length} candles align price with F&G history`,
                         },
                         {
-                            label: 'Visible Range',
+                            label: 'Range Sync',
                             value: rangeMeta.value,
-                            tone: '',
-                            details: rangeMeta.details,
-                        },
-                        {
-                            label: 'Latest Join',
-                            value: lastMatched ? formatShortDate(lastMatched.date) : 'Missing',
                             tone: !lastMatched ? 'tone-alert' : lagDays === 0 ? 'tone-good' : lagDays <= 3 ? 'tone-warn' : 'tone-alert',
                             details: !lastMatched
                                 ? 'No aligned sentiment point in the visible range.'
                                 : lagDays === 0
-                                    ? 'Visible price and sentiment are aligned on the same date.'
-                                    : `Latest visible price is ahead of the last matched sentiment by ${lagDays}d.`,
+                                    ? `${rangeMeta.details} · visible price and sentiment are aligned on the same date.`
+                                    : `${rangeMeta.details} · latest visible price is ahead of the matched sentiment by ${lagDays}d.`,
                         },
                     ]);
                 }

@@ -167,6 +167,7 @@ async function main() {
 
     const cardWidths = layout.cards.map(card => card.width);
     const cardHeights = layout.cards.map(card => card.height);
+    assertMetric(layout.cards.length <= 3, 'Chart header should keep the quality strip concise (max 3 cards).', failures);
     assertMetric(Math.max(...cardWidths) - Math.min(...cardWidths) <= 1, 'Quality cards should keep a uniform width.', failures);
     assertMetric(Math.max(...cardHeights) - Math.min(...cardHeights) <= 4, 'Quality cards should keep a near-uniform height.', failures);
     assertMetric(layout.compositeLegendTexts.every(text => !/\(\d/.test(text)), 'Composite legend labels should stay compact and avoid always-visible numeric ranges.', failures);

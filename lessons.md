@@ -124,3 +124,8 @@
 - **Kontekst:** Chipy typu `Strong Buy (70-100)` zabierały cenne miejsce w control row i pogarszały rytm całego toolbara.
 - **Błąd:** Stałe dopisywanie zakresu do każdej etykiety osłabia czytelność i robi zwięzłą legendę zbyt ciężką wizualnie.
 - **Reguła:** W premium legendzie trzymaj krótki label w chipie, a pełny zakres pokazuj dopiero na hoverze lub focusie.
+
+### 2026-04-17 — Nad premium chartem lepiej zostawić 3 mocne statusy niż szeroką siatkę diagnostyczną
+- **Kontekst:** Nawet dobrze wyrównane karty jakości mogą przytłoczyć chart, jeśli jest ich zbyt dużo i wszystkie siedzą nad wykresem.
+- **Błąd:** Rozbudowany status strip odbiera wykresowi rolę głównego elementu i psuje spokojny rytm premium dashboardu.
+- **Reguła:** W premium chart headerze ogranicz top-of-chart quality strip do trzech najważniejszych kart, a resztę informacji przenoś do tooltipów, footerów albo dalszych sekcji.

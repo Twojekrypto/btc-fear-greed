@@ -108,3 +108,8 @@
 - **Context:** Showing ranges like `(70-100)` directly inside every legend chip made the control row wider and noisier than necessary.
 - **Takeaway:** Compact labels scan faster when the numeric range appears only on hover or focus.
 - **Rule:** In premium dashboard legends, keep the visible chip text short and reveal the exact numeric range through tooltip/focus help instead of printing it permanently in the row.
+
+### 2026-04-17 — Premium charts should cap top-of-chart status density
+- **Context:** Even well-aligned cards can make the chart feel secondary when too many status blocks stack above it.
+- **Takeaway:** Three strong quality signals above the chart read better than five smaller cards competing with the visual.
+- **Rule:** Keep the status strip above a premium chart to the minimum viable set, and prefer three compact quality cards over broader diagnostic grids unless the user explicitly asks for more detail.

@@ -285,25 +285,27 @@ async function main() {
     const checks = [
         {
             name: 'BTC F&G quality panel rendered',
-            pass: getElement('btc-qualityPanel').innerHTML.includes('Price Feed') &&
-                getElement('btc-qualityPanel').innerHTML.includes('Sentiment Feed') &&
-                getElement('btc-qualityPanel').innerHTML.includes('Visible Range'),
+            pass: getElement('btc-qualityPanel').innerHTML.includes('Feeds') &&
+                getElement('btc-qualityPanel').innerHTML.includes('Join Quality') &&
+                getElement('btc-qualityPanel').innerHTML.includes('Range Sync'),
         },
         {
             name: 'ETH F&G quality panel rendered',
-            pass: getElement('eth-qualityPanel').innerHTML.includes('Matched History') &&
-                getElement('eth-qualityPanel').innerHTML.includes('Visible Range'),
+            pass: getElement('eth-qualityPanel').innerHTML.includes('Feeds') &&
+                getElement('eth-qualityPanel').innerHTML.includes('Join Quality') &&
+                getElement('eth-qualityPanel').innerHTML.includes('Range Sync'),
         },
         {
             name: 'BTC composite quality panel rendered',
             pass: getElement('btc-wp-qualityPanel').innerHTML.includes('Latest Score') &&
-                getElement('btc-wp-qualityPanel').innerHTML.includes('Visible Range') &&
-                getElement('btc-wp-qualityPanel').innerHTML.includes('Usable History'),
+                getElement('btc-wp-qualityPanel').innerHTML.includes('Feeds') &&
+                getElement('btc-wp-qualityPanel').innerHTML.includes('Range Health'),
         },
         {
             name: 'ETH composite quality panel rendered',
             pass: getElement('eth-wp-qualityPanel').innerHTML.includes('Latest Score') &&
-                getElement('eth-wp-qualityPanel').innerHTML.includes('Visible Range'),
+                getElement('eth-wp-qualityPanel').innerHTML.includes('Feeds') &&
+                getElement('eth-wp-qualityPanel').innerHTML.includes('Range Health'),
         },
         {
             name: 'Calibration statuses were populated',
