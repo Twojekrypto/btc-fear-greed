@@ -373,120 +373,217 @@
             display: flex;
             flex-direction: column;
             align-items: flex-end;
-            gap: 10px;
+            gap: 12px;
         }
 
         .time-selector {
             display: flex;
-            gap: 2px;
-            background: rgba(255, 255, 255, 0.04);
-            border-radius: 8px;
-            padding: 3px;
+            gap: 4px;
+            padding: 5px;
+            border-radius: 16px;
+            border: 1px solid rgba(148, 163, 184, 0.12);
+            background:
+                linear-gradient(180deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.02)),
+                rgba(5, 11, 24, 0.82);
+            box-shadow:
+                inset 0 1px 0 rgba(255, 255, 255, 0.05),
+                0 14px 30px rgba(0, 0, 0, 0.20);
+            position: relative;
         }
 
         .time-btn {
-            padding: 5px 12px;
-            border: none;
-            border-radius: 6px;
+            padding: 8px 14px;
+            border: 1px solid transparent;
+            border-radius: 12px;
             background: transparent;
-            color: #8b92a5;
+            color: #93a2bf;
             font-family: 'Inter', sans-serif;
             font-size: 12px;
-            font-weight: 500;
+            font-weight: 700;
+            letter-spacing: 0.04em;
             cursor: pointer;
-            transition: all 0.2s ease;
+            transition:
+                transform 0.18s ease,
+                color 0.18s ease,
+                background 0.18s ease,
+                border-color 0.18s ease,
+                box-shadow 0.18s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .time-btn::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: inherit;
+            background: linear-gradient(135deg, rgba(124, 140, 255, 0.18), transparent 70%);
+            opacity: 0;
+            transition: opacity 0.18s ease;
         }
 
         .time-btn:hover {
-            color: #c0c6d6;
+            color: #eef2ff;
+            border-color: rgba(124, 140, 255, 0.22);
+            background: rgba(124, 140, 255, 0.08);
+            transform: translateY(-1px);
         }
 
         .time-btn.active {
-            background: rgba(99, 102, 241, 0.2);
-            color: #a5b4fc;
+            color: #f8fbff;
+            border-color: rgba(124, 140, 255, 0.34);
+            background:
+                linear-gradient(180deg, rgba(124, 140, 255, 0.30), rgba(124, 140, 255, 0.16));
+            box-shadow:
+                inset 0 1px 0 rgba(255, 255, 255, 0.08),
+                0 12px 24px rgba(76, 92, 255, 0.22);
+        }
+
+        .time-btn:hover::before,
+        .time-btn.active::before {
+            opacity: 1;
+        }
+
+        .time-btn:focus-visible,
+        .reset-zoom-btn:focus-visible,
+        .legend-item:focus-visible,
+        .date-range-picker input[type="date"]:focus-visible,
+        .fng-slider-track-wrapper input[type="range"]:focus-visible::-webkit-slider-thumb,
+        .fng-slider-track-wrapper input[type="range"]:focus-visible::-moz-range-thumb {
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(124, 140, 255, 0.18);
         }
 
         .date-range-picker {
             display: flex;
             align-items: center;
-            gap: 6px;
+            gap: 8px;
+            padding: 8px 10px;
+            border-radius: 16px;
+            border: 1px solid rgba(148, 163, 184, 0.10);
+            background:
+                linear-gradient(180deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.02)),
+                rgba(6, 12, 25, 0.74);
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.03);
         }
 
         .date-range-picker label {
-            font-size: 11px;
-            color: #6b7280;
-            font-weight: 500;
+            font-size: 10px;
+            color: #76839e;
+            font-weight: 700;
+            letter-spacing: 0.10em;
+            text-transform: uppercase;
         }
 
         .date-range-picker input[type="date"] {
             background: rgba(255, 255, 255, 0.04);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 6px;
-            color: #c0c6d6;
+            border: 1px solid rgba(255, 255, 255, 0.09);
+            border-radius: 10px;
+            color: #dbe4f7;
             font-family: 'Inter', sans-serif;
             font-size: 11px;
-            padding: 4px 8px;
+            font-weight: 600;
+            padding: 7px 10px;
             outline: none;
-            transition: border-color 0.2s ease;
+            transition:
+                border-color 0.18s ease,
+                background 0.18s ease,
+                transform 0.18s ease;
             cursor: pointer;
             color-scheme: dark;
         }
 
         .date-range-picker input[type="date"]:hover {
-            border-color: rgba(99, 102, 241, 0.3);
+            border-color: rgba(124, 140, 255, 0.32);
+            background: rgba(124, 140, 255, 0.08);
         }
 
         .date-range-picker input[type="date"]:focus {
-            border-color: rgba(99, 102, 241, 0.5);
+            border-color: rgba(124, 140, 255, 0.46);
+            background: rgba(124, 140, 255, 0.10);
+            transform: translateY(-1px);
         }
 
         .date-range-picker .separator {
-            color: #4b5268;
-            font-size: 11px;
+            color: #55607a;
+            font-size: 12px;
+            font-weight: 700;
         }
 
         .legend {
             display: flex;
-            gap: 4px;
+            gap: 6px;
             flex-wrap: wrap;
+            padding: 5px;
+            border-radius: 16px;
+            border: 1px solid rgba(148, 163, 184, 0.10);
+            background:
+                linear-gradient(180deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.02)),
+                rgba(6, 12, 24, 0.72);
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.03);
         }
 
         .legend-item {
             display: flex;
             align-items: center;
-            gap: 6px;
-            padding: 4px 10px;
-            border-radius: 6px;
+            gap: 8px;
+            padding: 8px 12px;
+            border-radius: 12px;
             cursor: pointer;
-            transition: all 0.2s ease;
+            transition:
+                transform 0.18s ease,
+                background 0.18s ease,
+                border-color 0.18s ease,
+                opacity 0.18s ease,
+                color 0.18s ease;
             user-select: none;
             font-size: 11px;
-            font-weight: 500;
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(255, 255, 255, 0.06);
+            font-weight: 700;
+            letter-spacing: 0.02em;
+            color: #dde6f6;
+            background: rgba(255, 255, 255, 0.035);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
         }
 
         .legend-item:hover {
-            background: rgba(255, 255, 255, 0.06);
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(255, 255, 255, 0.14);
+            transform: translateY(-1px);
         }
 
         .legend-item.disabled {
-            opacity: 0.35;
+            opacity: 0.42;
+            color: #72809a;
+            background: rgba(255, 255, 255, 0.02);
+            border-color: rgba(255, 255, 255, 0.04);
+        }
+
+        .legend-item.static {
+            cursor: default;
+        }
+
+        .legend-item.static:hover {
+            transform: none;
+            background: rgba(255, 255, 255, 0.035);
+            border-color: rgba(255, 255, 255, 0.08);
         }
 
         .legend-item .swatch {
-            width: 10px;
-            height: 10px;
-            border-radius: 3px;
+            width: 12px;
+            height: 12px;
+            border-radius: 4px;
             flex-shrink: 0;
+            box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.04);
         }
 
         .legend-color {
-            width: 10px;
-            height: 10px;
+            width: 12px;
+            height: 12px;
             border-radius: 999px;
             flex-shrink: 0;
             display: inline-block;
+            box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.04);
         }
 
         /* F&G Range Slider */
@@ -496,21 +593,34 @@
             gap: 10px;
             width: 100%;
             max-width: 420px;
+            padding: 9px 12px;
+            border-radius: 18px;
+            border: 1px solid rgba(148, 163, 184, 0.10);
+            background:
+                linear-gradient(180deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.02)),
+                rgba(6, 12, 25, 0.78);
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.03);
         }
 
         .fng-slider-label {
-            font-size: 11px;
-            color: #6b7280;
-            font-weight: 500;
+            font-size: 10px;
+            color: #7a879f;
+            font-weight: 700;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
             white-space: nowrap;
         }
 
         .fng-slider-value {
             font-size: 12px;
-            font-weight: 600;
-            color: #e0e4f0;
-            min-width: 28px;
+            font-weight: 700;
+            color: #f5f8ff;
+            min-width: 34px;
             text-align: center;
+            padding: 6px 0;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.06);
         }
 
         .fng-slider-track-wrapper {
@@ -600,21 +710,33 @@
 
         .reset-zoom-btn {
             display: none;
-            padding: 4px 12px;
-            border: 1px solid rgba(99, 102, 241, 0.3);
-            border-radius: 6px;
-            background: rgba(99, 102, 241, 0.1);
-            color: #a5b4fc;
+            padding: 8px 13px;
+            border: 1px solid rgba(124, 140, 255, 0.28);
+            border-radius: 12px;
+            background:
+                linear-gradient(180deg, rgba(124, 140, 255, 0.18), rgba(124, 140, 255, 0.08)),
+                rgba(8, 15, 31, 0.88);
+            color: #d4ddff;
             font-family: 'Inter', sans-serif;
             font-size: 11px;
-            font-weight: 500;
+            font-weight: 700;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
             cursor: pointer;
-            transition: all 0.2s ease;
+            transition:
+                transform 0.18s ease,
+                border-color 0.18s ease,
+                background 0.18s ease,
+                box-shadow 0.18s ease;
         }
 
         .reset-zoom-btn:hover {
-            background: rgba(99, 102, 241, 0.2);
-            border-color: rgba(99, 102, 241, 0.5);
+            background:
+                linear-gradient(180deg, rgba(124, 140, 255, 0.26), rgba(124, 140, 255, 0.12)),
+                rgba(8, 15, 31, 0.96);
+            border-color: rgba(124, 140, 255, 0.42);
+            box-shadow: 0 12px 24px rgba(76, 92, 255, 0.18);
+            transform: translateY(-1px);
         }
 
         .reset-zoom-btn.visible {
@@ -1006,20 +1128,26 @@
 
             .time-selector {
                 width: 100%;
-                justify-content: space-between;
+                justify-content: flex-start;
+                overflow-x: auto;
+                padding: 4px;
+                gap: 4px;
+                scrollbar-width: none;
             }
 
             .time-btn {
-                padding: 5px 8px;
+                padding: 7px 10px;
                 font-size: 11px;
-                flex: 1;
+                flex: 0 0 auto;
                 text-align: center;
+                white-space: nowrap;
             }
 
             .date-range-picker {
                 flex-wrap: wrap;
                 gap: 4px;
                 width: 100%;
+                padding: 8px;
             }
 
             .date-range-picker input[type="date"] {
@@ -1030,11 +1158,13 @@
             }
 
             .legend {
-                gap: 3px;
+                gap: 4px;
+                padding: 4px;
+                width: 100%;
             }
 
             .legend-item {
-                padding: 3px 7px;
+                padding: 6px 9px;
                 font-size: 10px;
                 gap: 4px;
             }
@@ -1047,6 +1177,7 @@
             .fng-slider-container {
                 max-width: 100%;
                 gap: 6px;
+                padding: 8px 9px;
             }
 
             .fng-slider-label {
@@ -1275,7 +1406,7 @@
                     <span class="separator">—</span>
                     <label>To</label>
                     <input type="date" id="btc-dateTo">
-                    <button class="reset-zoom-btn" id="btc-resetZoom">✕ Reset</button>
+                    <button class="reset-zoom-btn" id="btc-resetZoom">↺ Reset Zoom</button>
                 </div>
                 <div class="legend" id="btc-legend"></div>
                 <div class="fng-slider-container">
@@ -1371,7 +1502,7 @@
                     <span class="separator">—</span>
                     <label>To</label>
                     <input type="date" id="eth-dateTo">
-                    <button class="reset-zoom-btn" id="eth-resetZoom">✕ Reset</button>
+                    <button class="reset-zoom-btn" id="eth-resetZoom">↺ Reset Zoom</button>
                 </div>
                 <div class="legend" id="eth-legend"></div>
                 <div class="fng-slider-container">
@@ -1468,16 +1599,16 @@
                     <span class="separator">—</span>
                     <label>To</label>
                     <input type="date" id="btc-wp-dateTo">
-                    <button class="reset-zoom-btn" id="btc-wp-resetZoom">✕ Reset</button>
+                    <button class="reset-zoom-btn" id="btc-wp-resetZoom">↺ Reset Zoom</button>
                 </div>
                 <div class="legend">
-                    <div class="legend-item"><span class="legend-color" style="background:#00e676;"></span>Strong Buy
+                    <div class="legend-item static"><span class="legend-color" style="background:#00e676;"></span>Strong Buy
                         (70-100)</div>
-                    <div class="legend-item"><span class="legend-color" style="background:#ffeb3b;"></span>Bullish
+                    <div class="legend-item static"><span class="legend-color" style="background:#ffeb3b;"></span>Bullish
                         (50-69)</div>
-                    <div class="legend-item"><span class="legend-color" style="background:#ff9800;"></span>Cautious
+                    <div class="legend-item static"><span class="legend-color" style="background:#ff9800;"></span>Cautious
                         (30-49)</div>
-                    <div class="legend-item"><span class="legend-color" style="background:#ff1744;"></span>Bearish
+                    <div class="legend-item static"><span class="legend-color" style="background:#ff1744;"></span>Bearish
                         (0-29)</div>
                 </div>
                 <div class="fng-slider-container">
@@ -1579,16 +1710,16 @@
                     <span class="separator">—</span>
                     <label>To</label>
                     <input type="date" id="eth-wp-dateTo">
-                    <button class="reset-zoom-btn" id="eth-wp-resetZoom">✕ Reset</button>
+                    <button class="reset-zoom-btn" id="eth-wp-resetZoom">↺ Reset Zoom</button>
                 </div>
                 <div class="legend">
-                    <div class="legend-item"><span class="legend-color" style="background:#00e676;"></span>Strong Buy
+                    <div class="legend-item static"><span class="legend-color" style="background:#00e676;"></span>Strong Buy
                         (70-100)</div>
-                    <div class="legend-item"><span class="legend-color" style="background:#ffeb3b;"></span>Bullish
+                    <div class="legend-item static"><span class="legend-color" style="background:#ffeb3b;"></span>Bullish
                         (50-69)</div>
-                    <div class="legend-item"><span class="legend-color" style="background:#ff9800;"></span>Cautious
+                    <div class="legend-item static"><span class="legend-color" style="background:#ff9800;"></span>Cautious
                         (30-49)</div>
-                    <div class="legend-item"><span class="legend-color" style="background:#ff1744;"></span>Bearish
+                    <div class="legend-item static"><span class="legend-color" style="background:#ff1744;"></span>Bearish
                         (0-29)</div>
                 </div>
                 <div class="fng-slider-container">
