@@ -715,6 +715,16 @@
             font-variant-numeric: tabular-nums;
         }
 
+        .prob-table .prob-count {
+            display: block;
+            margin-top: 3px;
+            color: #5f6d88;
+            font-size: 10px;
+            font-weight: 500;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+        }
+
         .prob-table tr:last-child td {
             border-bottom: none;
         }
@@ -1272,13 +1282,13 @@
     </div>
 
 
-    <!-- ═══ BTC Win Probability Chart ═══ -->
+    <!-- ═══ BTC Composite Score Chart ═══ -->
     <div class="chart-container" id="btc-wp-container">
         <div class="chart-header">
             <div class="header-left">
                 <div class="chart-title">
                     <span class="dot dot-btc"></span>
-                    <h1>BTC Win Probability</h1>
+                    <h1>BTC Composite Score</h1>
                 </div>
                 <p class="chart-subtitle">Autorski weekly composite score. It is a ranking heuristic for setup quality,
                     not a literal calibrated probability.</p>
@@ -1304,16 +1314,16 @@
                 </div>
                 <div class="legend">
                     <div class="legend-item"><span class="legend-color" style="background:#00e676;"></span>Strong Buy
-                        (70-100%)</div>
+                        (70-100)</div>
                     <div class="legend-item"><span class="legend-color" style="background:#ffeb3b;"></span>Bullish
-                        (50-70%)</div>
+                        (50-69)</div>
                     <div class="legend-item"><span class="legend-color" style="background:#ff9800;"></span>Cautious
-                        (30-50%)</div>
+                        (30-49)</div>
                     <div class="legend-item"><span class="legend-color" style="background:#ff1744;"></span>Bearish
-                        (0-30%)</div>
+                        (0-29)</div>
                 </div>
                 <div class="fng-slider-container">
-                    <span class="fng-slider-label">Win% Range:</span>
+                    <span class="fng-slider-label">Score Range:</span>
                     <span class="fng-slider-value" id="btc-wp-wpMinVal">0</span>
                     <div class="fng-slider-track-wrapper">
                         <div class="fng-slider-track"></div>
@@ -1333,11 +1343,11 @@
             </div>
         </div>
         <div class="footer">
-            <span class="footer-text">Weekly composite with dynamic weights, no future-looking normalization and no
-                zero-filled warm-up values</span>
+            <span class="footer-text">Weekly composite with dynamic weights, cache-aware loading, no future-looking
+                normalization and no zero-filled warm-up values</span>
         </div>
         <div class="prob-section">
-            <div class="prob-title">📊 Historical Win Rate by Composite Score (BTC)
+            <div class="prob-title">📊 Historical Hit Rate by Composite Score (BTC)
                 <span class="info-tip">?
                     <div class="info-tip-content">
                         Score łączy weekly momentum, trend, mean reversion i F&amp;G. Każdy składnik jest liczony tylko
@@ -1366,19 +1376,19 @@
                 </tbody>
             </table>
             <div class="prob-status" id="btc-wp-probStatus">Weekly score uses only the indicators available at each
-                timestamp.</div>
+                timestamp and reports per-horizon sample counts.</div>
             <div class="prob-note">⚠️ This remains a heuristic composite score. Past performance does not
                 guarantee future results.</div>
         </div>
     </div>
 
-    <!-- ═══ ETH Win Probability Chart ═══ -->
+    <!-- ═══ ETH Composite Score Chart ═══ -->
     <div class="chart-container" id="eth-wp-container">
         <div class="chart-header">
             <div class="header-left">
                 <div class="chart-title">
                     <span class="dot dot-eth"></span>
-                    <h1>ETH Win Probability</h1>
+                    <h1>ETH Composite Score</h1>
                 </div>
                 <p class="chart-subtitle">The same weekly composite logic applied to ETH. Sentiment input still comes
                     from the market-wide Alternative.me feed.</p>
@@ -1404,16 +1414,16 @@
                 </div>
                 <div class="legend">
                     <div class="legend-item"><span class="legend-color" style="background:#00e676;"></span>Strong Buy
-                        (70-100%)</div>
+                        (70-100)</div>
                     <div class="legend-item"><span class="legend-color" style="background:#ffeb3b;"></span>Bullish
-                        (50-70%)</div>
+                        (50-69)</div>
                     <div class="legend-item"><span class="legend-color" style="background:#ff9800;"></span>Cautious
-                        (30-50%)</div>
+                        (30-49)</div>
                     <div class="legend-item"><span class="legend-color" style="background:#ff1744;"></span>Bearish
-                        (0-30%)</div>
+                        (0-29)</div>
                 </div>
                 <div class="fng-slider-container">
-                    <span class="fng-slider-label">Win% Range:</span>
+                    <span class="fng-slider-label">Score Range:</span>
                     <span class="fng-slider-value" id="eth-wp-wpMinVal">0</span>
                     <div class="fng-slider-track-wrapper">
                         <div class="fng-slider-track"></div>
@@ -1433,11 +1443,11 @@
             </div>
         </div>
         <div class="footer">
-            <span class="footer-text">Weekly composite with dynamic weights, bounded transforms and market-wide
-                sentiment overlay</span>
+            <span class="footer-text">Weekly composite with dynamic weights, cache-aware loading, bounded transforms
+                and market-wide sentiment overlay</span>
         </div>
         <div class="prob-section">
-            <div class="prob-title">📊 Historical Win Rate by Composite Score (ETH)
+            <div class="prob-title">📊 Historical Hit Rate by Composite Score (ETH)
                 <span class="info-tip">?
                     <div class="info-tip-content">
                         Score jest liczony na świecach tygodniowych i nie używa już normalizacji po całej przyszłej
@@ -1465,7 +1475,7 @@
                 </tbody>
             </table>
             <div class="prob-status" id="eth-wp-probStatus">ETH score shares the same market-wide sentiment input as
-                BTC.</div>
+                BTC and reports per-horizon sample counts.</div>
             <div class="prob-note">⚠️ Composite score, not guaranteed edge. Past performance does not guarantee future
                 results.</div>
         </div>
@@ -1514,6 +1524,10 @@
                 ma: 0.15,
             };
 
+            const CACHE_VERSION = 'v2';
+            const FNG_CACHE_TTL_MS = 6 * 60 * 60 * 1000;
+            const PRICE_CACHE_TTL_MS = 4 * 60 * 60 * 1000;
+
             const DIM_COLOR = '#ffffff';
 
             function getSentiment(value) {
@@ -1551,6 +1565,83 @@
 
             function formatProbability(rate) {
                 return rate == null ? '—' : `${Math.round(rate * 100)}%`;
+            }
+
+            function formatCacheAge(ageMs) {
+                const totalMinutes = Math.max(1, Math.round(ageMs / 60000));
+                if (totalMinutes < 60) return `${totalMinutes}m old`;
+                const hours = Math.round(totalMinutes / 60);
+                return `${hours}h old`;
+            }
+
+            function readCache(key, maxAgeMs) {
+                try {
+                    const raw = window.localStorage.getItem(key);
+                    if (!raw) return null;
+                    const parsed = JSON.parse(raw);
+                    if (!parsed || typeof parsed !== 'object' || !parsed.savedAt) return null;
+                    const ageMs = Date.now() - parsed.savedAt;
+                    return {
+                        value: parsed.value,
+                        ageMs,
+                        isFresh: ageMs <= maxAgeMs,
+                    };
+                } catch (error) {
+                    console.warn(`Cache read failed for ${key}:`, error);
+                    return null;
+                }
+            }
+
+            function writeCache(key, value) {
+                try {
+                    window.localStorage.setItem(key, JSON.stringify({
+                        savedAt: Date.now(),
+                        value,
+                    }));
+                } catch (error) {
+                    console.warn(`Cache write failed for ${key}:`, error);
+                }
+            }
+
+            function serializeFngRows(rows) {
+                return rows.map(row => ({
+                    timestamp: row.timestamp,
+                    value: row.value,
+                    classification: row.classification,
+                }));
+            }
+
+            function buildFearAndGreedMap(rows) {
+                const map = new Map();
+                rows.forEach(row => {
+                    const date = new Date(row.timestamp * 1000);
+                    const key = date.toISOString().slice(0, 10);
+                    map.set(key, {
+                        value: parseInt(row.value, 10),
+                        classification: row.classification,
+                    });
+                });
+                return map;
+            }
+
+            function serializeCandles(candles) {
+                return candles.map(candle => ({
+                    ts: candle.date.getTime(),
+                    open: candle.open,
+                    high: candle.high,
+                    low: candle.low,
+                    price: candle.price,
+                }));
+            }
+
+            function deserializeCandles(rows) {
+                return rows.map(row => ({
+                    date: new Date(row.ts),
+                    open: row.open,
+                    high: row.high,
+                    low: row.low,
+                    price: row.price,
+                }));
             }
 
             function computeForwardStats(series, zones, valueAccessor, horizons) {
@@ -1611,7 +1702,13 @@
                     const cells = horizons.map(horizon => {
                         const rate = row.rates[horizon.key];
                         const cellClass = getProbabilityClass(rate);
-                        return `<td class="${cellClass}"><span class="prob-value">${formatProbability(rate)}</span></td>`;
+                        const count = row.counts[horizon.key] || 0;
+                        return `
+                            <td class="${cellClass}">
+                                <span class="prob-value">${formatProbability(rate)}</span>
+                                <span class="prob-count">n=${count}</span>
+                            </td>
+                        `;
                     }).join('');
 
                     return `
@@ -1628,31 +1725,55 @@
                     `;
                 }).join('');
 
-                statusEl.textContent = `${contextText} ${stats.usableSignals} signals across ${stats.candleCount} candles. n = bucket matches; each horizon excludes the latest rows without forward data.`;
+                statusEl.textContent = `${contextText} ${stats.usableSignals} signals across ${stats.candleCount} candles. Row n = bucket matches; cell n = observations available for that exact horizon.`;
             }
 
             // ── Fetch Fear & Greed (shared between charts) ──
             async function fetchFearAndGreed() {
-                const res = await fetch('https://api.alternative.me/fng/?limit=0&format=json');
-                const json = await res.json();
-                const map = new Map();
-                json.data.forEach(d => {
-                    const date = new Date(parseInt(d.timestamp) * 1000);
-                    const key = date.toISOString().slice(0, 10);
-                    map.set(key, {
-                        value: parseInt(d.value),
-                        classification: d.value_classification,
-                    });
-                });
-                return map;
+                const cacheKey = `btc-fear-greed:${CACHE_VERSION}:fng`;
+                const cached = readCache(cacheKey, FNG_CACHE_TTL_MS);
+                if (cached?.isFresh) {
+                    return buildFearAndGreedMap(cached.value);
+                }
+
+                try {
+                    const res = await fetch('https://api.alternative.me/fng/?limit=0&format=json');
+                    if (!res.ok) throw new Error(`F&G request failed with status ${res.status}`);
+                    const json = await res.json();
+                    const rows = serializeFngRows(
+                        json.data.map(d => ({
+                            timestamp: parseInt(d.timestamp, 10),
+                            value: parseInt(d.value, 10),
+                            classification: d.value_classification,
+                        }))
+                    );
+                    writeCache(cacheKey, rows);
+                    return buildFearAndGreedMap(rows);
+                } catch (error) {
+                    if (cached?.value) {
+                        console.warn(`Falling back to cached Fear & Greed data (${formatCacheAge(cached.ageMs)}).`, error);
+                        return buildFearAndGreedMap(cached.value);
+                    }
+                    throw error;
+                }
             }
 
             // ── Fetch price from Binance ──
             async function fetchPrice(symbol, loadingTextEl, interval) {
                 interval = interval || '1d';
+                const cacheKey = `btc-fear-greed:${CACHE_VERSION}:price:${symbol}:${interval}`;
+                const cached = readCache(cacheKey, PRICE_CACHE_TTL_MS);
+                if (cached?.isFresh) {
+                    if (loadingTextEl) {
+                        loadingTextEl.textContent = `Loading ${symbol} price from cache (${formatCacheAge(cached.ageMs)})...`;
+                    }
+                    return deserializeCandles(cached.value).sort((a, b) => a.date - b.date);
+                }
+
                 const allCandles = [];
                 const startTime = new Date('2018-01-01').getTime();
                 const now = Date.now();
+                let networkFailed = false;
 
                 let cursor = startTime;
                 let batch = 0;
@@ -1665,7 +1786,9 @@
                         const res = await fetch(
                             `https://api.binance.com/api/v3/klines?symbol=${symbol}&interval=${interval}&limit=1000&startTime=${cursor}`
                         );
-                        if (!res.ok) break;
+                        if (!res.ok) {
+                            throw new Error(`Price request failed with status ${res.status}`);
+                        }
                         const data = await res.json();
                         if (!data.length) break;
 
@@ -1687,8 +1810,16 @@
                         }
                     } catch (e) {
                         console.warn(`${symbol} fetch error:`, e);
+                        networkFailed = true;
                         break;
                     }
+                }
+
+                if (networkFailed && cached?.value) {
+                    if (loadingTextEl) {
+                        loadingTextEl.textContent = `Using cached ${symbol} price (${formatCacheAge(cached.ageMs)}) after network error...`;
+                    }
+                    return deserializeCandles(cached.value).sort((a, b) => a.date - b.date);
                 }
 
                 const byDay = new Map();
@@ -1697,7 +1828,12 @@
                     byDay.set(key, c);
                 });
 
-                return Array.from(byDay.values()).sort((a, b) => a.date - b.date);
+                const normalized = Array.from(byDay.values()).sort((a, b) => a.date - b.date);
+                if (!normalized.length && cached?.value) {
+                    return deserializeCandles(cached.value).sort((a, b) => a.date - b.date);
+                }
+                writeCache(cacheKey, serializeCandles(normalized));
+                return normalized;
             }
 
             function mergeData(prices, fngMap) {
@@ -1909,7 +2045,7 @@
             }
 
             // ══════════════════════════════════════════════════
-            // ═══ Win Probability Chart Factory ═══
+            // ═══ Composite Score Chart Factory ═══
             // ══════════════════════════════════════════════════
             function createWinProbChart(prefix, symbol, fngMapPromise) {
                 const el = (id) => document.getElementById(`${prefix}-wp-${id}`);
@@ -1994,9 +2130,9 @@
                             },
                             borderColor: WP_DIM_COLOR,
                         },
-                        // Hidden WP line for right axis scaling
+                        // Hidden score line for right axis scaling
                         {
-                            label: 'Win %',
+                            label: 'Score',
                             data: filtered.map(d => ({ x: d.date, y: d.wp ? d.wp.value : null })),
                             borderWidth: 0,
                             pointRadius: 0,
@@ -2144,7 +2280,7 @@
                                         color: '#4b5268',
                                         font: { size: 11 },
                                         stepSize: 20,
-                                        callback: v => v + '%',
+                                        callback: v => String(v),
                                     },
                                 },
                             },
@@ -2269,7 +2405,7 @@
                             fetchPrice(symbol, loadingEl, '1w'),
                         ]);
 
-                        loadingEl.textContent = 'Computing Win Probability...';
+                        loadingEl.textContent = 'Computing composite score...';
                         mergedData = mergeData(prices, fngMap);
                         wpData = calcWinProbability(mergedData);
 

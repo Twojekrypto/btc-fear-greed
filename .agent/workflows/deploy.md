@@ -33,6 +33,8 @@ description: Commit, push, and verify deployment on GitHub Pages
    - Open `https://twojekrypto.github.io/btc-fear-greed/?v=TIMESTAMP`
    - Check hero / methodology panel renders correctly
    - Check both BTC and ETH charts load correctly
+   - Confirm composite charts no longer present score values as `%` on the axis or legend
    - Verify F&G tables render dynamic values instead of placeholders
-   - Verify weekly score tables render and show coverage-aware labels
+   - Verify weekly score tables render, show coverage-aware labels and per-cell `n`
+   - Reload once and confirm cache-aware loading does not break data integrity
    - Confirm ETH copy still describes F&G as market-wide / BTC-centric context

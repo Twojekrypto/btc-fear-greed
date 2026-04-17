@@ -54,3 +54,18 @@
 - **Kontekst:** W repo są równolegle notatki i pliki robocze, które łatwo przypadkiem dorzucić do commita.
 - **Błąd:** `git add -A` może wciągnąć niepowiązane zmiany użytkownika.
 - **Reguła:** Stage'uj tylko konkretne pliki związane z bieżącą zmianą i dopiero potem commit / push.
+
+### 2026-04-17 — Cache must prefer correctness over partial refresh
+- **Kontekst:** Dashboard działa bez backendu i pobiera długą historię z zewnętrznych API.
+- **Błąd:** Przy błędzie sieci łatwo skończyć z uciętą historią albo nadpisanym cache'em.
+- **Reguła:** Używaj cache z TTL i fallbackiem do ostatniej poprawnej wersji; nie zapisuj częściowych danych jako nowego źródła prawdy.
+
+### 2026-04-17 — Composite score should not be displayed as a percent probability
+- **Kontekst:** Weekly score jest heurystycznym rankingiem setupu.
+- **Błąd:** Etykiety z `%` na osi i w legendzie sugerują skalibrowane prawdopodobieństwo, którego model nie gwarantuje.
+- **Reguła:** Dla heurystycznego modelu używaj nazwy `Composite Score`; procenty zostaw tylko dla historycznych hit rate'ów i coverage.
+
+### 2026-04-17 — Show sample size per horizon, not only per bucket
+- **Kontekst:** Dalsze horyzonty mają mniej obserwacji niż krótsze.
+- **Błąd:** Jedno `n` na wiersz ukrywa różnicę między liczebnością dla 1W i 52W.
+- **Reguła:** W tabelach backtestowych pokazuj `n` także dla każdej komórki / horyzontu.

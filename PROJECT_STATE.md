@@ -31,9 +31,11 @@
 - **Win% Range Slider** (0-100) — dims non-matching data in white
 - Display format: `Score 71 · Strong Buy · 100% coverage`
 - Historical Win Rate statistics tables are computed dynamically from weekly history (1W, 4W, 13W, 52W)
+- Historical tables show row-level and per-horizon sample sizes (`n`) for transparency
 - Composite score reweights only the indicators available at a given timestamp
 - Minimum model coverage threshold: `70%` of total weights before a weekly score is considered valid
 - No future-looking normalization in MACD / WaveTrend transforms
+- Browser-side cache stores fetched F&G and price history with network-fallback behavior
 - **(?)** info tooltips on all tables explaining time horizons
 
 ### 3. Indicator Weights (Win Probability Composite)
@@ -53,6 +55,7 @@
 - Mobile responsive (breakpoints: 640px, 380px)
 - `overflow-x: hidden` prevents horizontal scroll
 - Official-vs-custom methodology is explained directly in the UI
+- Composite score UI no longer uses `%` on axis or legend ranges to avoid implying calibrated probability
 - X-axis: shows years on ALL range, months on 2Y-5Y, weeks on 6M-1Y, days on 1M-3M
 
 ---
@@ -64,6 +67,7 @@
 - **Libraries**: Chart.js 4.4.4, chartjs-adapter-date-fns 3.0.0
 - **Factory pattern**: `createFngChart(prefix, symbol, fngMapPromise)` and `createWinProbChart(prefix, symbol, fngMapPromise)`
 - **Shared functions**: `fetchPrice(symbol, loadingEl, interval)`, `fetchFearAndGreed()`, indicator calculators, dynamic backtest table builders
+- **Client-side caching**: `localStorage` cache with TTL and stale-cache fallback on fetch failure
 - **Project notes**: `lesson.md` (quick running notes), `lessons.md` (session memory), `.agent/workflows/deploy.md` (safe deploy checklist)
 - **Deployment**: GitHub Pages (auto from master)
 
@@ -91,11 +95,14 @@
 18. ✅ Added score coverage reporting and 70% minimum model-coverage gate for weekly signals
 19. ✅ Clarified that ETH uses a market-wide BTC-centric sentiment overlay rather than an official ETH-native F&G feed
 20. ✅ Added local note files and safer deploy workflow docs
+21. ✅ Added browser cache for fetched history with stale-cache fallback on network errors
+22. ✅ Renamed user-facing “Win Probability” surfaces to “Composite Score” where the model is heuristic rather than calibrated
+23. ✅ Added per-horizon sample counts inside historical backtest tables
 
 ---
 
 ## 🔮 Possible Next Steps
 - Add rolling / walk-forward backtest view instead of only aggregate bucket stats
 - Add calibration view for the composite score (score bucket vs realized forward return hit rate)
-- Add local caching layer or precomputed JSON snapshots to reduce browser-side recomputation
+- Consider precomputed JSON snapshots if browser-side cache still feels too heavy on first load
 - Add browser smoke-test checklist after deploy for BTC/ETH data load and table integrity
