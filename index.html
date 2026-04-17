@@ -609,12 +609,7 @@
         }
 
         .chart-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            flex-wrap: wrap;
-            gap: 18px;
-            margin-bottom: 22px;
+            margin-bottom: 14px;
         }
 
         .section-tabs {
@@ -731,13 +726,29 @@
             font-size: 12px;
             line-height: 1.65;
             color: #75849f;
-            max-width: 58ch;
+            max-width: 68ch;
         }
 
         .header-left {
             display: flex;
             flex-direction: column;
-            gap: 10px;
+            gap: 8px;
+            width: 100%;
+        }
+
+        .chart-panel-top {
+            display: grid;
+            grid-template-columns: minmax(0, 1.35fr) minmax(320px, 0.95fr);
+            gap: 18px;
+            align-items: start;
+            margin-bottom: 18px;
+        }
+
+        .panel-insights {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            min-width: 0;
         }
 
         .info-row {
@@ -789,21 +800,20 @@
 
         .quality-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(128px, 1fr));
             gap: 10px;
             width: 100%;
-            margin-top: 10px;
         }
 
         .quality-card {
             position: relative;
-            padding: 14px 14px 14px 17px;
+            padding: 12px 13px 12px 16px;
             border-radius: 16px;
             background:
                 linear-gradient(180deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.02)),
                 rgba(255, 255, 255, 0.02);
             border: 1px solid rgba(255, 255, 255, 0.07);
-            min-height: 84px;
+            min-height: 76px;
             box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.03);
             overflow: hidden;
         }
@@ -860,25 +870,33 @@
         .controls {
             display: flex;
             flex-direction: column;
-            align-items: flex-end;
-            gap: 12px;
+            align-items: stretch;
+            gap: 10px;
         }
 
         .panel-toolbar {
-            display: flex;
-            justify-content: flex-end;
-            margin-bottom: 18px;
+            width: 100%;
+            max-width: 520px;
+            margin-left: auto;
+            padding: 14px;
+            border-radius: 22px;
+            border: 1px solid rgba(148, 163, 184, 0.10);
+            background:
+                linear-gradient(180deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.02)),
+                rgba(7, 13, 26, 0.76);
+            box-shadow:
+                inset 0 1px 0 rgba(255, 255, 255, 0.04),
+                0 14px 28px rgba(0, 0, 0, 0.18);
         }
 
         .panel-toolbar .controls {
             width: 100%;
-            align-items: flex-end;
         }
 
         .time-selector {
             display: flex;
             gap: 4px;
-            padding: 5px;
+            padding: 4px;
             border-radius: 16px;
             border: 1px solid rgba(148, 163, 184, 0.12);
             background:
@@ -891,13 +909,13 @@
         }
 
         .time-btn {
-            padding: 8px 14px;
+            padding: 7px 12px;
             border: 1px solid transparent;
             border-radius: 12px;
             background: transparent;
             color: #93a2bf;
             font-family: 'Inter', sans-serif;
-            font-size: 12px;
+            font-size: 11px;
             font-weight: 700;
             letter-spacing: 0.04em;
             cursor: pointer;
@@ -956,8 +974,8 @@
         .date-range-picker {
             display: flex;
             align-items: center;
-            gap: 8px;
-            padding: 8px 10px;
+            gap: 6px;
+            padding: 7px 9px;
             border-radius: 16px;
             border: 1px solid rgba(148, 163, 184, 0.10);
             background:
@@ -967,7 +985,7 @@
         }
 
         .date-range-picker label {
-            font-size: 10px;
+            font-size: 9px;
             color: #76839e;
             font-weight: 700;
             letter-spacing: 0.10em;
@@ -980,9 +998,9 @@
             border-radius: 10px;
             color: #dbe4f7;
             font-family: 'Inter', sans-serif;
-            font-size: 11px;
+            font-size: 10px;
             font-weight: 600;
-            padding: 7px 10px;
+            padding: 6px 9px;
             outline: none;
             transition:
                 border-color 0.18s ease,
@@ -1011,9 +1029,9 @@
 
         .legend {
             display: flex;
-            gap: 6px;
+            gap: 5px;
             flex-wrap: wrap;
-            padding: 5px;
+            padding: 4px;
             border-radius: 16px;
             border: 1px solid rgba(148, 163, 184, 0.10);
             background:
@@ -1025,8 +1043,8 @@
         .legend-item {
             display: flex;
             align-items: center;
-            gap: 8px;
-            padding: 8px 12px;
+            gap: 7px;
+            padding: 7px 10px;
             border-radius: 12px;
             cursor: pointer;
             transition:
@@ -1036,7 +1054,7 @@
                 opacity 0.18s ease,
                 color 0.18s ease;
             user-select: none;
-            font-size: 11px;
+            font-size: 10px;
             font-weight: 700;
             letter-spacing: 0.02em;
             color: #dde6f6;
@@ -1069,16 +1087,16 @@
         }
 
         .legend-item .swatch {
-            width: 12px;
-            height: 12px;
+            width: 10px;
+            height: 10px;
             border-radius: 4px;
             flex-shrink: 0;
             box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.04);
         }
 
         .legend-color {
-            width: 12px;
-            height: 12px;
+            width: 10px;
+            height: 10px;
             border-radius: 999px;
             flex-shrink: 0;
             display: inline-block;
@@ -1089,10 +1107,10 @@
         .fng-slider-container {
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 8px;
             width: 100%;
-            max-width: 420px;
-            padding: 9px 12px;
+            max-width: none;
+            padding: 8px 10px;
             border-radius: 18px;
             border: 1px solid rgba(148, 163, 184, 0.10);
             background:
@@ -1102,7 +1120,7 @@
         }
 
         .fng-slider-label {
-            font-size: 10px;
+            font-size: 9px;
             color: #7a879f;
             font-weight: 700;
             letter-spacing: 0.12em;
@@ -1111,12 +1129,12 @@
         }
 
         .fng-slider-value {
-            font-size: 12px;
+            font-size: 11px;
             font-weight: 700;
             color: #f5f8ff;
-            min-width: 34px;
+            min-width: 30px;
             text-align: center;
-            padding: 6px 0;
+            padding: 5px 0;
             border-radius: 10px;
             background: rgba(255, 255, 255, 0.04);
             border: 1px solid rgba(255, 255, 255, 0.06);
@@ -1747,8 +1765,6 @@
             }
 
             .chart-header {
-                flex-direction: column;
-                gap: 10px;
                 margin-bottom: 12px;
             }
 
@@ -1776,6 +1792,16 @@
                 gap: 8px;
             }
 
+            .chart-panel-top {
+                grid-template-columns: 1fr;
+                gap: 12px;
+                margin-bottom: 14px;
+            }
+
+            .panel-insights {
+                gap: 10px;
+            }
+
             .quality-card {
                 min-height: auto;
                 padding: 11px 10px;
@@ -1791,13 +1817,14 @@
             }
 
             .controls {
-                align-items: flex-start;
                 width: 100%;
                 gap: 8px;
             }
 
             .panel-toolbar {
-                margin-bottom: 14px;
+                max-width: none;
+                margin-left: 0;
+                padding: 12px 11px;
             }
 
             .time-selector {
@@ -2117,8 +2144,6 @@
                 </div>
                 <p class="chart-subtitle">Official Alternative.me sentiment painted over daily BTC price. Thresholds
                     below match the source methodology.</p>
-                <div class="info-row" id="btc-infoRow"></div>
-                <div class="quality-grid" id="btc-qualityPanel"></div>
             </div>
         </div>
         <div class="section-tabs" id="btc-sectionTabs">
@@ -2126,36 +2151,42 @@
             <button class="section-tab" data-panel="backtest">Backtest</button>
         </div>
         <div class="section-panel is-active" data-panel-group="btc" data-panel="chart">
-            <div class="panel-toolbar">
-                <div class="controls">
-                    <div class="time-selector" id="btc-timeSelector">
-                        <button class="time-btn" data-range="30">1M</button>
-                        <button class="time-btn" data-range="90">3M</button>
-                        <button class="time-btn" data-range="180">6M</button>
-                        <button class="time-btn active" data-range="365">1Y</button>
-                        <button class="time-btn" data-range="730">2Y</button>
-                        <button class="time-btn" data-range="1825">5Y</button>
-                        <button class="time-btn" data-range="0">ALL</button>
-                    </div>
-                    <div class="date-range-picker">
-                        <label>From</label>
-                        <input type="date" id="btc-dateFrom">
-                        <span class="separator">—</span>
-                        <label>To</label>
-                        <input type="date" id="btc-dateTo">
-                        <button class="reset-zoom-btn" id="btc-resetZoom">↺ Reset Zoom</button>
-                    </div>
-                    <div class="legend" id="btc-legend"></div>
-                    <div class="fng-slider-container">
-                        <span class="fng-slider-label">F&G Range:</span>
-                        <span class="fng-slider-value" id="btc-fngMinVal">0</span>
-                        <div class="fng-slider-track-wrapper">
-                            <div class="fng-slider-track"></div>
-                            <div class="fng-slider-track-active" id="btc-fngTrackActive"></div>
-                            <input type="range" id="btc-fngMin" min="0" max="100" value="0">
-                            <input type="range" id="btc-fngMax" min="0" max="100" value="100">
+            <div class="chart-panel-top">
+                <div class="panel-insights">
+                    <div class="info-row" id="btc-infoRow"></div>
+                    <div class="quality-grid" id="btc-qualityPanel"></div>
+                </div>
+                <div class="panel-toolbar">
+                    <div class="controls">
+                        <div class="time-selector" id="btc-timeSelector">
+                            <button class="time-btn" data-range="30">1M</button>
+                            <button class="time-btn" data-range="90">3M</button>
+                            <button class="time-btn" data-range="180">6M</button>
+                            <button class="time-btn active" data-range="365">1Y</button>
+                            <button class="time-btn" data-range="730">2Y</button>
+                            <button class="time-btn" data-range="1825">5Y</button>
+                            <button class="time-btn" data-range="0">ALL</button>
                         </div>
-                        <span class="fng-slider-value" id="btc-fngMaxVal">100</span>
+                        <div class="date-range-picker">
+                            <label>From</label>
+                            <input type="date" id="btc-dateFrom">
+                            <span class="separator">—</span>
+                            <label>To</label>
+                            <input type="date" id="btc-dateTo">
+                            <button class="reset-zoom-btn" id="btc-resetZoom">↺ Reset Zoom</button>
+                        </div>
+                        <div class="legend" id="btc-legend"></div>
+                        <div class="fng-slider-container">
+                            <span class="fng-slider-label">F&G Range:</span>
+                            <span class="fng-slider-value" id="btc-fngMinVal">0</span>
+                            <div class="fng-slider-track-wrapper">
+                                <div class="fng-slider-track"></div>
+                                <div class="fng-slider-track-active" id="btc-fngTrackActive"></div>
+                                <input type="range" id="btc-fngMin" min="0" max="100" value="0">
+                                <input type="range" id="btc-fngMax" min="0" max="100" value="100">
+                            </div>
+                            <span class="fng-slider-value" id="btc-fngMaxVal">100</span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -2225,8 +2256,6 @@
                 </div>
                 <p class="chart-subtitle">ETH price overlaid with the same market-wide Fear &amp; Greed feed. Useful as
                     context, but still not an ETH-native official index.</p>
-                <div class="info-row" id="eth-infoRow"></div>
-                <div class="quality-grid" id="eth-qualityPanel"></div>
             </div>
         </div>
         <div class="section-tabs" id="eth-sectionTabs">
@@ -2234,36 +2263,42 @@
             <button class="section-tab" data-panel="backtest">Backtest</button>
         </div>
         <div class="section-panel is-active" data-panel-group="eth" data-panel="chart">
-            <div class="panel-toolbar">
-                <div class="controls">
-                    <div class="time-selector" id="eth-timeSelector">
-                        <button class="time-btn" data-range="30">1M</button>
-                        <button class="time-btn" data-range="90">3M</button>
-                        <button class="time-btn" data-range="180">6M</button>
-                        <button class="time-btn active" data-range="365">1Y</button>
-                        <button class="time-btn" data-range="730">2Y</button>
-                        <button class="time-btn" data-range="1825">5Y</button>
-                        <button class="time-btn" data-range="0">ALL</button>
-                    </div>
-                    <div class="date-range-picker">
-                        <label>From</label>
-                        <input type="date" id="eth-dateFrom">
-                        <span class="separator">—</span>
-                        <label>To</label>
-                        <input type="date" id="eth-dateTo">
-                        <button class="reset-zoom-btn" id="eth-resetZoom">↺ Reset Zoom</button>
-                    </div>
-                    <div class="legend" id="eth-legend"></div>
-                    <div class="fng-slider-container">
-                        <span class="fng-slider-label">F&G Range:</span>
-                        <span class="fng-slider-value" id="eth-fngMinVal">0</span>
-                        <div class="fng-slider-track-wrapper">
-                            <div class="fng-slider-track"></div>
-                            <div class="fng-slider-track-active" id="eth-fngTrackActive"></div>
-                            <input type="range" id="eth-fngMin" min="0" max="100" value="0">
-                            <input type="range" id="eth-fngMax" min="0" max="100" value="100">
+            <div class="chart-panel-top">
+                <div class="panel-insights">
+                    <div class="info-row" id="eth-infoRow"></div>
+                    <div class="quality-grid" id="eth-qualityPanel"></div>
+                </div>
+                <div class="panel-toolbar">
+                    <div class="controls">
+                        <div class="time-selector" id="eth-timeSelector">
+                            <button class="time-btn" data-range="30">1M</button>
+                            <button class="time-btn" data-range="90">3M</button>
+                            <button class="time-btn" data-range="180">6M</button>
+                            <button class="time-btn active" data-range="365">1Y</button>
+                            <button class="time-btn" data-range="730">2Y</button>
+                            <button class="time-btn" data-range="1825">5Y</button>
+                            <button class="time-btn" data-range="0">ALL</button>
                         </div>
-                        <span class="fng-slider-value" id="eth-fngMaxVal">100</span>
+                        <div class="date-range-picker">
+                            <label>From</label>
+                            <input type="date" id="eth-dateFrom">
+                            <span class="separator">—</span>
+                            <label>To</label>
+                            <input type="date" id="eth-dateTo">
+                            <button class="reset-zoom-btn" id="eth-resetZoom">↺ Reset Zoom</button>
+                        </div>
+                        <div class="legend" id="eth-legend"></div>
+                        <div class="fng-slider-container">
+                            <span class="fng-slider-label">F&G Range:</span>
+                            <span class="fng-slider-value" id="eth-fngMinVal">0</span>
+                            <div class="fng-slider-track-wrapper">
+                                <div class="fng-slider-track"></div>
+                                <div class="fng-slider-track-active" id="eth-fngTrackActive"></div>
+                                <input type="range" id="eth-fngMin" min="0" max="100" value="0">
+                                <input type="range" id="eth-fngMax" min="0" max="100" value="100">
+                            </div>
+                            <span class="fng-slider-value" id="eth-fngMaxVal">100</span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -2334,8 +2369,6 @@
                 </div>
                 <p class="chart-subtitle">Custom weekly composite score. It is a ranking heuristic for setup quality,
                     not a literal calibrated probability.</p>
-                <div class="info-row" id="btc-wp-infoRow"></div>
-                <div class="quality-grid" id="btc-wp-qualityPanel"></div>
             </div>
         </div>
         <div class="section-tabs" id="btc-wp-sectionTabs">
@@ -2344,45 +2377,51 @@
             <button class="section-tab" data-panel="calibration">Calibration</button>
         </div>
         <div class="section-panel is-active" data-panel-group="btc-wp" data-panel="chart">
-            <div class="panel-toolbar">
-                <div class="controls">
-                    <div class="time-selector" id="btc-wp-timeSelector">
-                        <button class="time-btn" data-range="30">1M</button>
-                        <button class="time-btn" data-range="90">3M</button>
-                        <button class="time-btn" data-range="180">6M</button>
-                        <button class="time-btn active" data-range="365">1Y</button>
-                        <button class="time-btn" data-range="730">2Y</button>
-                        <button class="time-btn" data-range="1825">5Y</button>
-                        <button class="time-btn" data-range="0">ALL</button>
-                    </div>
-                    <div class="date-range-picker">
-                        <label>From</label>
-                        <input type="date" id="btc-wp-dateFrom">
-                        <span class="separator">—</span>
-                        <label>To</label>
-                        <input type="date" id="btc-wp-dateTo">
-                        <button class="reset-zoom-btn" id="btc-wp-resetZoom">↺ Reset Zoom</button>
-                    </div>
-                    <div class="legend">
-                        <div class="legend-item static"><span class="legend-color" style="background:#00e676;"></span>Strong Buy
-                            (70-100)</div>
-                        <div class="legend-item static"><span class="legend-color" style="background:#ffeb3b;"></span>Bullish
-                            (50-69)</div>
-                        <div class="legend-item static"><span class="legend-color" style="background:#ff9800;"></span>Cautious
-                            (30-49)</div>
-                        <div class="legend-item static"><span class="legend-color" style="background:#ff1744;"></span>Bearish
-                            (0-29)</div>
-                    </div>
-                    <div class="fng-slider-container">
-                        <span class="fng-slider-label">Score Range:</span>
-                        <span class="fng-slider-value" id="btc-wp-wpMinVal">0</span>
-                        <div class="fng-slider-track-wrapper">
-                            <div class="fng-slider-track"></div>
-                            <div class="fng-slider-track-active" id="btc-wp-wpTrackActive"></div>
-                            <input type="range" id="btc-wp-wpMin" min="0" max="100" value="0">
-                            <input type="range" id="btc-wp-wpMax" min="0" max="100" value="100">
+            <div class="chart-panel-top">
+                <div class="panel-insights">
+                    <div class="info-row" id="btc-wp-infoRow"></div>
+                    <div class="quality-grid" id="btc-wp-qualityPanel"></div>
+                </div>
+                <div class="panel-toolbar">
+                    <div class="controls">
+                        <div class="time-selector" id="btc-wp-timeSelector">
+                            <button class="time-btn" data-range="30">1M</button>
+                            <button class="time-btn" data-range="90">3M</button>
+                            <button class="time-btn" data-range="180">6M</button>
+                            <button class="time-btn active" data-range="365">1Y</button>
+                            <button class="time-btn" data-range="730">2Y</button>
+                            <button class="time-btn" data-range="1825">5Y</button>
+                            <button class="time-btn" data-range="0">ALL</button>
                         </div>
-                        <span class="fng-slider-value" id="btc-wp-wpMaxVal">100</span>
+                        <div class="date-range-picker">
+                            <label>From</label>
+                            <input type="date" id="btc-wp-dateFrom">
+                            <span class="separator">—</span>
+                            <label>To</label>
+                            <input type="date" id="btc-wp-dateTo">
+                            <button class="reset-zoom-btn" id="btc-wp-resetZoom">↺ Reset Zoom</button>
+                        </div>
+                        <div class="legend">
+                            <div class="legend-item static"><span class="legend-color" style="background:#00e676;"></span>Strong Buy
+                                (70-100)</div>
+                            <div class="legend-item static"><span class="legend-color" style="background:#ffeb3b;"></span>Bullish
+                                (50-69)</div>
+                            <div class="legend-item static"><span class="legend-color" style="background:#ff9800;"></span>Cautious
+                                (30-49)</div>
+                            <div class="legend-item static"><span class="legend-color" style="background:#ff1744;"></span>Bearish
+                                (0-29)</div>
+                        </div>
+                        <div class="fng-slider-container">
+                            <span class="fng-slider-label">Score Range:</span>
+                            <span class="fng-slider-value" id="btc-wp-wpMinVal">0</span>
+                            <div class="fng-slider-track-wrapper">
+                                <div class="fng-slider-track"></div>
+                                <div class="fng-slider-track-active" id="btc-wp-wpTrackActive"></div>
+                                <input type="range" id="btc-wp-wpMin" min="0" max="100" value="0">
+                                <input type="range" id="btc-wp-wpMax" min="0" max="100" value="100">
+                            </div>
+                            <span class="fng-slider-value" id="btc-wp-wpMaxVal">100</span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -2460,8 +2499,6 @@
                 </div>
                 <p class="chart-subtitle">The same weekly composite logic applied to ETH. Sentiment input still comes
                     from the market-wide Alternative.me feed.</p>
-                <div class="info-row" id="eth-wp-infoRow"></div>
-                <div class="quality-grid" id="eth-wp-qualityPanel"></div>
             </div>
         </div>
         <div class="section-tabs" id="eth-wp-sectionTabs">
@@ -2470,45 +2507,51 @@
             <button class="section-tab" data-panel="calibration">Calibration</button>
         </div>
         <div class="section-panel is-active" data-panel-group="eth-wp" data-panel="chart">
-            <div class="panel-toolbar">
-                <div class="controls">
-                    <div class="time-selector" id="eth-wp-timeSelector">
-                        <button class="time-btn" data-range="30">1M</button>
-                        <button class="time-btn" data-range="90">3M</button>
-                        <button class="time-btn" data-range="180">6M</button>
-                        <button class="time-btn active" data-range="365">1Y</button>
-                        <button class="time-btn" data-range="730">2Y</button>
-                        <button class="time-btn" data-range="1825">5Y</button>
-                        <button class="time-btn" data-range="0">ALL</button>
-                    </div>
-                    <div class="date-range-picker">
-                        <label>From</label>
-                        <input type="date" id="eth-wp-dateFrom">
-                        <span class="separator">—</span>
-                        <label>To</label>
-                        <input type="date" id="eth-wp-dateTo">
-                        <button class="reset-zoom-btn" id="eth-wp-resetZoom">↺ Reset Zoom</button>
-                    </div>
-                    <div class="legend">
-                        <div class="legend-item static"><span class="legend-color" style="background:#00e676;"></span>Strong Buy
-                            (70-100)</div>
-                        <div class="legend-item static"><span class="legend-color" style="background:#ffeb3b;"></span>Bullish
-                            (50-69)</div>
-                        <div class="legend-item static"><span class="legend-color" style="background:#ff9800;"></span>Cautious
-                            (30-49)</div>
-                        <div class="legend-item static"><span class="legend-color" style="background:#ff1744;"></span>Bearish
-                            (0-29)</div>
-                    </div>
-                    <div class="fng-slider-container">
-                        <span class="fng-slider-label">Score Range:</span>
-                        <span class="fng-slider-value" id="eth-wp-wpMinVal">0</span>
-                        <div class="fng-slider-track-wrapper">
-                            <div class="fng-slider-track"></div>
-                            <div class="fng-slider-track-active" id="eth-wp-wpTrackActive"></div>
-                            <input type="range" id="eth-wp-wpMin" min="0" max="100" value="0">
-                            <input type="range" id="eth-wp-wpMax" min="0" max="100" value="100">
+            <div class="chart-panel-top">
+                <div class="panel-insights">
+                    <div class="info-row" id="eth-wp-infoRow"></div>
+                    <div class="quality-grid" id="eth-wp-qualityPanel"></div>
+                </div>
+                <div class="panel-toolbar">
+                    <div class="controls">
+                        <div class="time-selector" id="eth-wp-timeSelector">
+                            <button class="time-btn" data-range="30">1M</button>
+                            <button class="time-btn" data-range="90">3M</button>
+                            <button class="time-btn" data-range="180">6M</button>
+                            <button class="time-btn active" data-range="365">1Y</button>
+                            <button class="time-btn" data-range="730">2Y</button>
+                            <button class="time-btn" data-range="1825">5Y</button>
+                            <button class="time-btn" data-range="0">ALL</button>
                         </div>
-                        <span class="fng-slider-value" id="eth-wp-wpMaxVal">100</span>
+                        <div class="date-range-picker">
+                            <label>From</label>
+                            <input type="date" id="eth-wp-dateFrom">
+                            <span class="separator">—</span>
+                            <label>To</label>
+                            <input type="date" id="eth-wp-dateTo">
+                            <button class="reset-zoom-btn" id="eth-wp-resetZoom">↺ Reset Zoom</button>
+                        </div>
+                        <div class="legend">
+                            <div class="legend-item static"><span class="legend-color" style="background:#00e676;"></span>Strong Buy
+                                (70-100)</div>
+                            <div class="legend-item static"><span class="legend-color" style="background:#ffeb3b;"></span>Bullish
+                                (50-69)</div>
+                            <div class="legend-item static"><span class="legend-color" style="background:#ff9800;"></span>Cautious
+                                (30-49)</div>
+                            <div class="legend-item static"><span class="legend-color" style="background:#ff1744;"></span>Bearish
+                                (0-29)</div>
+                        </div>
+                        <div class="fng-slider-container">
+                            <span class="fng-slider-label">Score Range:</span>
+                            <span class="fng-slider-value" id="eth-wp-wpMinVal">0</span>
+                            <div class="fng-slider-track-wrapper">
+                                <div class="fng-slider-track"></div>
+                                <div class="fng-slider-track-active" id="eth-wp-wpTrackActive"></div>
+                                <input type="range" id="eth-wp-wpMin" min="0" max="100" value="0">
+                                <input type="range" id="eth-wp-wpMax" min="0" max="100" value="100">
+                            </div>
+                            <span class="fng-slider-value" id="eth-wp-wpMaxVal">100</span>
+                        </div>
                     </div>
                 </div>
             </div>

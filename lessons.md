@@ -99,3 +99,8 @@
 - **Kontekst:** Po dodaniu zakładek `Chart / Backtest / Calibration` chartowe kontrolki nadal wisiały nad tabelami i kalibracją.
 - **Błąd:** Wspólny toolbar dla wszystkich zakładek sprawia wrażenie rozjechanego layoutu i miesza kontekst użytkownika.
 - **Reguła:** Range presets, date pickers, legends i sliders trzymaj tylko w panelu `Chart`; `Backtest` i `Calibration` renderuj jako osobne surface’y z własnym spacingiem i wrapperem dla tabel.
+
+### 2026-04-17 — Summary metrics and filters should share one compact chart workspace
+- **Kontekst:** Dane po lewej i filtry po prawej były rozdzielone na tyle mocno, że środek chartu zostawał pusty mimo dużej ilości informacji.
+- **Błąd:** Rozbijanie summary i controls na osobne poziome pasy tworzy martwą przestrzeń i osłabia premium feel.
+- **Reguła:** W desktopowym widoku chartu układaj live metrics i filtry w jednej górnej siatce nad wykresem; najpierw kompresuj chrome filtrów, dopiero potem dodawaj kolejne rzędy.

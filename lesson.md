@@ -83,3 +83,8 @@
 - **Kontekst:** After adding `Chart / Backtest / Calibration` tabs, the chart controls still stayed visible on non-chart tabs, making the layout feel broken.
 - **Wniosek:** A tabbed analytics workspace only feels coherent when each tab owns the controls that matter to that view.
 - **Reguła:** Keep range pickers, legends, and sliders inside the `Chart` panel, and render `Backtest` / `Calibration` as their own clean surfaces with dedicated spacing and table wrappers.
+
+### 2026-04-17 — Dense chart surfaces should use one shared top grid
+- **Kontekst:** The chart views had the summary data on the far left and filters on the far right, leaving a large dead zone in the middle.
+- **Wniosek:** Premium analytics layouts feel tighter when live stats and filters share the same top workspace instead of floating in separate bands.
+- **Reguła:** In desktop chart views, place summary metrics and filter controls inside one compact top grid above the chart; shrink legend/filter chrome before adding more vertical stacks.
